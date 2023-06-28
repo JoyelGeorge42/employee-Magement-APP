@@ -1,0 +1,55 @@
+<div class="attendance">
+    <div class="attendance-top">
+        <div class="attendance-top-left">
+            <h2>Attendance</h2>
+        </div>
+        <div class="attendance-top-right">
+            <div class="input">
+                <div class="input-head">
+                    Search
+                </div>
+                <div class="input-area">
+                    <input type="text" placeholder="Joyel George">
+                    <span class="search-icon">
+                        <i class="fa-solid fa-caret-down"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="input">
+                <div class="input-head">
+                    Date Range
+                </div>
+                <div class="input-area">
+                    <input type="date" placeholder="Joyel George">
+                    <span class="search-icon">
+                        <i class="fa-solid fa-calendar"></i>
+                    </span>
+                </div>
+            </div>
+            <div>
+                <img src="/assets/excel.svg" class="download-image">
+            </div>
+        </div>
+    </div>
+    <div class="attendance-table">
+        <table class="attendance-table">
+                <thead>
+                    <th>Date</th>
+                    <th>First In Time</th>
+                    <th>Last Out Time</th>
+                    <th>Gross Working Hours</th>
+                    <th>Net Working Hours</th>
+                    <th>Timesheet Submitted Hours</th>
+                </thead>
+                <br>
+                <tr *ngFor="let item of attendance">
+                    <td>{{item.Date}}</td>
+                    <td>{{item.FirstInTime}}</td>
+                    <td>{{item.LastOutTime}}</td>
+                    <td>{{item.GrossWorkingHours}}</td>
+                    <td>{{item.NetWorkingHours}}</td>
+                    <td>{{item.timesheet_total_working_hours}}</td>
+                </tr>
+        </table>
+    </div>
+</div>

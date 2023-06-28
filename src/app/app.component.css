@@ -1,0 +1,36 @@
+.dashboard{
+    display: grid;
+    grid-template-areas: 
+    "sidebar header"
+    "sidebar main"
+    "sidebar footer";
+    grid-template-columns: var(--sidebarWidth) calc(99.1vw - var(--sidebarWidth)) ;
+    grid-template-rows: var(--headerHeight) auto var(--footerHeight);
+}
+
+app-header{
+    grid-area: header;
+    background-color: #111111;
+    /* width: calc(100vw -  var(--sidebar-width)) ; */
+}
+
+app-sidebar{
+    grid-area: sidebar;
+    position: fixed;    
+    background-color: #161616;
+    height: 100%;
+    width: var(--sidebarWidth);
+}
+
+main{
+    grid-area: main;
+    background-color: black;
+    color: white;
+    /* width: calc(100vw -  var(--sidebar-width)) ; */
+}
+
+app-footer{
+    grid-area: footer;
+    background-color: #161616;
+    height: var(--footerHeight);
+}

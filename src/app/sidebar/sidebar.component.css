@@ -1,0 +1,61 @@
+.sidebar{
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    font-size: .9rem;
+    background-color: #161616;
+}
+
+.sidebar-head{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;    
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.profile-photo{
+    height: 6.5rem;
+    width: 6.5rem;
+    border-radius: 5rem;
+    background-color: rgb(255, 255, 255);
+}
+
+.profile-name{
+    color: white;
+}
+
+.sidebar-bottom{
+    padding: 1rem;
+    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.main-buttons{
+    border-left: 5px solid white;
+    color: rgb(170, 170, 170);
+    border-top-left-radius: .1rem;
+    border-bottom-left-radius: .1rem;
+    padding: .5rem 0 .5rem 2rem;
+}
+
+.sub-buttons{
+    color: rgb(61, 61, 61);
+}
+
+.sub-buttons:hover{
+    color:white;
+}
+
+ul{
+    list-style: none;
+    padding-left: 3.5rem;
+    margin: .3rem 0;
+}
+
+li{
+    padding: .8rem 0; 
+}

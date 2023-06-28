@@ -1,0 +1,116 @@
+.attendance{
+    padding: 1.5rem 5.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.attendance-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.attendance-top-left h2{
+ margin: 0;
+ color: #139b48;
+}
+
+.attendance-top-right{
+    display: flex;
+    /* flex-direction: row; */
+    gap: 2rem;
+    align-items: flex-end;
+}
+
+/* .attendance-table{
+} */
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead{
+    width: 100%;
+    height: 4rem;
+    background-color: #292929;
+    word-wrap: break-word;
+    color: #9b9b9b;
+    position: sticky;
+    top: 0;
+}
+
+tr{
+    width: 100%;
+    height: 4rem;
+    color: #c3c3c3;
+    background-color: #111111;
+}
+
+td {
+    text-align: center;
+}
+
+.input-head{
+    font-size: small;
+    padding-left: 2px;
+}
+
+.input{
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+    color:gray;
+}
+
+input{
+    width:13rem ;
+    background-color: inherit;
+    border: 0;
+    padding-bottom: 5px;
+    border-bottom: 2px solid gray;
+    appearance: none;
+    box-sizing: unset;
+    color: white;
+    font-size: medium;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background: transparent;
+    bottom: 0;
+    color: transparent;
+    cursor: pointer;
+    height: auto;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto;
+}
+
+input:focus{
+    outline: none;
+    border-bottom: 2px solid green;
+    caret-color: green;
+}
+
+::placeholder{
+    color: white;
+}
+
+.input-area{
+    position: relative;
+}
+
+.search-icon{
+    position: absolute;
+    right: 5px;
+    color: white;
+    z-index: 0;
+}
+
+.download-image{
+    height: 2rem;
+    width: 2rem;
+}
