@@ -20,10 +20,15 @@ export class ApiService {
 
   attendanceApi:string ="http://172.16.120.39:8000/api/attendance/"
 
-  param:any  = new HttpParams().set("from","2023-05-29").set("to","2023-06-27").set("emp_id",2068)
+  param:any  = new HttpParams().set("from","2023-05-29").set("to","2023-06-27").set("emp_id",2068);
+
+
+  changeparam(data:any){
+    this.param = data;
+  }
 
   attendancedetails():Observable<any>{
-    return this.http.get<any>(this.attendanceApi,{params:this.param})
+    return this.http.get(this.attendanceApi,{params:this.param});
   }
 
 }
