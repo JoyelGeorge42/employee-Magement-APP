@@ -12,10 +12,14 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatInputModule} from '@angular/material/input';
-import {MatNativeDateModule} from '@angular/material/core';
+import { HolidaysComponent } from './holidays/holidays.component';
+import { ReportComponent } from './report/report.component';
+import { EnrtyComponent } from './enrty/enrty.component';
+import { RejectedTimesheetComponent } from './rejected-timesheet/rejected-timesheet.component';
+import { LeaveComponent } from './leave/leave.component';
+import { PolicyComponent } from './policy/policy.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -25,17 +29,20 @@ import {MatNativeDateModule} from '@angular/material/core';
     FooterComponent,
     LoginComponent,
     AttendanceComponent,
+    HolidaysComponent,
+    ReportComponent,
+    EnrtyComponent,
+    RejectedTimesheetComponent,
+    LeaveComponent,
+    PolicyComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule,  
-    MatFormFieldModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatInputModule,
+    FormsModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS,

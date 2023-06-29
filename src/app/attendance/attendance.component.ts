@@ -8,7 +8,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
   selector: 'app-attendance',
   templateUrl: './attendance.component.html',
   styleUrls: ['./attendance.component.css']
-  
 })
 export class AttendanceComponent {
 
@@ -16,6 +15,8 @@ export class AttendanceComponent {
     start: new FormControl<Date | null>(null),
     end: new FormControl<Date | null>(null),
   });
+
+  
 
 attendance:any[] = [];
 
