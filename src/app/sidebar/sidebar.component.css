@@ -40,10 +40,13 @@
     border-top-left-radius: .1rem;
     border-bottom-left-radius: .1rem;
     padding: .5rem 0 .5rem 2rem;
+    cursor: pointer;
 }
 
 .sub-buttons{
     color: rgb(61, 61, 61);
+    cursor: pointer;
+
 }
 
 .sub-buttons:hover{

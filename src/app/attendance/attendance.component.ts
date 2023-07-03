@@ -1,53 +1,80 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ApiService } from '../api.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
-
 @Component({
   selector: 'app-attendance',
   templateUrl: './attendance.component.html',
-  styleUrls: ['./attendance.component.css']
+  styleUrls: ['./attendance.component.scss'],
 })
 export class AttendanceComponent {
+  title = 'Attendance';
 
-  range = new FormGroup({
+  constructor(private apiService: ApiService, private http: HttpClient) {
+    this.apiService.reportingDetails().subscribe((res) => {
+      this.empid = res.results.emp_id;
+      this.empName = res.results.emp_name;
+    });
+    this.apiService.attendancedetails().subscribe((res) => {
+      this.attendance = res.results;
+    });
+  }
+
+  empName:string ="";
+  empid!: number;
+  param: any;
+
+  @ViewChild('myTestDiv') table!: ElementRef;
+
+  daterange = new FormGroup({
     start: new FormControl<Date | null>(null),
     end: new FormControl<Date | null>(null),
   });
 
+
+  fileName = 'Attendance.xlsx';
+
+  convertToCustomFormat(date: Date): string {
+    const year = date.getFullYear();
+    const day = this.padZero(date.getDate());
+    const month = this.padZero(date.getMonth() + 1); // Month is zero-based
+
+    return `${year}-${month}-${day}`;
+  }
+
+  getAttendanceByDate() {
+    const c = this.convertToCustomFormat(this.daterange.value.start!);
+    const d = this.convertToCustomFormat(this.daterange.value.end!);
+    this.param = new HttpParams()
+      .set('from', c)
+      .set('to', d)
+      .set('emp_id', this.empid);
+    this.apiService.changeparam(this.param);
+    this.apiService.attendancedetails().subscribe((res) => {
+      this.attendance = res.results;
+    });
+  }
+
+  downloadAttendance(){
+    this.apiService.attendanceDownload().subscribe((res =>{
+      let myBlob:Blob = res.body as Blob;
+      let downloadUrl = URL.createObjectURL(myBlob);
   
+      let a = document.createElement('a');
+      a.href = downloadUrl;
+      a.download = ''+this.empName+' AttendanceReport.xlsx';
+  
+      a.click();
+  setTimeout( ()=> {
+          URL.revokeObjectURL(downloadUrl);
+      }, 100);    
+    }))
+  }
 
-attendance:any[] = [];
+  padZero(value: number): string {
+    return value < 10 ? `0${value}` : `${value}`;
+  }
 
-dateform= new FormGroup({
-  from :new FormControl('2023-05-29'),
-  to : new FormControl('2023-06-27')
-})
-
-constructor(private apiService:ApiService, private http:HttpClient){ 
-  this.apiService.reportingDetails().subscribe((res =>{
-    console.log(res);
-  }))
-  this.apiService.attendancedetails().subscribe((res=>{
-    this.attendance = res.results;
-
-  }))
+  attendance: any[] = [];
 }
-
-parameter:any  = new HttpParams().set("from","2023-05-29").set("to","2023-06-27").set("emp_id",2068);
-param:any;
-
-getattendance(){
-  const fromvalue = this.dateform.get('from')?.value;
-  const a :string = fromvalue!;
-  const tovalue =this.dateform.get('to')?.value;
-  const b = tovalue!
-  this.param = new HttpParams().set("from",a).set("to",b).set("emp_id",2068);
-  this.apiService.changeparam(this.param);
-  this.apiService.attendancedetails().subscribe((res=>{
-    this.attendance = res.results;
-  }))
-}
-}
-

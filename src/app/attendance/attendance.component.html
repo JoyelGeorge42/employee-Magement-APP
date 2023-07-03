@@ -1,71 +1,89 @@
-<div class="attendance">
-    <div class="attendance-top">
-        <div class="attendance-top-left">
-            <h2>Attendance</h2>
-        </div>
-        <div class="attendance-top-right">
-            <div class="input">
-                <div class="input-head">
-                    Search
-                </div>
-                <div class="input-area">
-                    <input type="text" placeholder="Joyel George">
-                    <span class="search-icon">
-                        <i class="fa-solid fa-caret-down"></i>
-                    </span>
-                </div>
-            </div>
-        <div class="mycaldner">
-      
-          
-        </div>
 
-            <!-- <div class="input">
-                <div class="input-head">
-                    Start Date
-                </div>
-                <div class="input-area" [formGroup]="dateform">
-                    <input type="date" formControlName=from>
-                    <span class="search-icon">
-                        <i class="fa-solid fa-calendar"></i>
-                    </span>
-                </div>
+<ng-container *ngTemplateOutlet="basicTemplate;context:{title:title ,attendance:attendance}">
+</ng-container>
+
+<ng-template #basicTemplate let-title="title">
+    <div class="attendance">
+        <div class="attendance-top">
+            <div class="attendance-top-left">
+                <h2>{{title}}</h2>
             </div>
-            <div class="input">
-                <div class="input-head">
-                    End Date
+            <div class="attendance-top-right">
+                <div class="input">
+                    <div class="input-head">
+                        Search
+                    </div>
+                    <div class="input-area">
+                        <input type="text" placeholder="Joyel George">
+                        <span class="search-icon">
+                            <i class="fa-solid fa-caret-down"></i>
+                        </span>
+                    </div>
                 </div>
-                <div class="input-area" [formGroup]="dateform">
-                    <input type="date" formControlName=to (change)="getattendance()">
-                    <span class="search-icon">
-                        <i class="fa-solid fa-calendar"></i>
-                    </span>
+                <div class="input">    
+                    <div class="input-head" id="datehead">
+                        Date Range
+                    </div>        
+                    <mat-form-field>
+                    <mat-date-range-input [formGroup]="daterange" [rangePicker]="picker">
+                      <input matStartDate formControlName="start" placeholder="Start date">
+                      <input matEndDate formControlName="end" placeholder="End date" (dateInput)=getAttendanceByDate();>
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                
+                  </mat-form-field>
+                  </div>
+              
+            <!-- </div> -->
+    
+                <!-- <div class="input">
+                    <div class="input-head">
+                        Start Date
+                    </div>
+                    <div class="input-area" [formGroup]="dateform">
+                        <input type="date" formControlName=from>
+                        <span class="search-icon">
+                            <i class="fa-solid fa-calendar"></i>
+                        </span>
+                    </div>
                 </div>
-            </div> -->
-            <div>
-                <img src="/assets/excel.svg" class="download-image">
+                <div class="input">
+                    <div class="input-head">
+                        End Date
+                    </div>
+                    <div class="input-area" [formGroup]="dateform">
+                        <input type="date" formControlName=to (change)="getattendance()">
+                        <span class="search-icon">
+                            <i class="fa-solid fa-calendar"></i>
+                        </span>
+                    </div>
+                </div> -->
+                <div>
+                    <img src="/assets/excel.svg" class="download-image" (click)="downloadAttendance();">
+                </div>
             </div>
         </div>
+        <div class="attendance-table">
+            <table class="attendance-table"  #myTestDiv>
+                    <thead class="table-head">
+                        <th>Date</th>
+                        <th>First In Time</th>
+                        <th>Last Out Time</th>
+                        <th>Gross Working Hours</th>
+                        <th>Net Working Hours</th>
+                        <th>Timesheet Submitted Hours</th>
+                    </thead>
+                    <br>
+                    <tr *ngFor="let item of attendance">
+                        <td>{{item.Date}}</td>
+                        <td>{{item.FirstInTime}}</td>
+                        <td>{{item.LastOutTime}}</td>
+                        <td>{{item.GrossWorkingHours}}</td>
+                        <td>{{item.NetWorkingHours}}</td>
+                        <td>{{item.timesheet_total_working_hours}}</td>
+                    </tr>
+            </table>
+        </div>
     </div>
-    <div class="attendance-table">
-        <table class="attendance-table">
-                <thead>
-                    <th>Date</th>
-                    <th>First In Time</th>
-                    <th>Last Out Time</th>
-                    <th>Gross Working Hours</th>
-                    <th>Net Working Hours</th>
-                    <th>Timesheet Submitted Hours</th>
-                </thead>
-                <br>
-                <tr *ngFor="let item of attendance">
-                    <td>{{item.Date}}</td>
-                    <td>{{item.FirstInTime}}</td>
-                    <td>{{item.LastOutTime}}</td>
-                    <td>{{item.GrossWorkingHours}}</td>
-                    <td>{{item.NetWorkingHours}}</td>
-                    <td>{{item.timesheet_total_working_hours}}</td>
-                </tr>
-        </table>
-    </div>
-</div>
+</ng-template>

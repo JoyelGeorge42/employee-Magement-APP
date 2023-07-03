@@ -9,6 +9,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginComponent {
 
+  serverresponse:string='';
+
 constructor(private loginService:LoginService){}
 
 loginForm = new FormGroup({
@@ -27,14 +29,18 @@ get password(){
   submit(){
     this.loginService.authenticateUser(this.loginForm.value).subscribe((res)=>{
       if(res.success == true){
-        this.loginService.isUserAuthenticated = true;
+        this.loginService.changeflag();
         console.log("Logged In");
         localStorage.setItem("token",res.results.token)
       }
       else{
         console.log("incorrect details");
       }
+    },
+    error =>{
+      this.serverresponse = error.statusText;
     })
+
   }
 
 }

@@ -8,18 +8,29 @@ import { Observable } from 'rxjs';
 export class LoginService {
 
   constructor(private httpClient:HttpClient) {
-    this.jwt_token = localStorage.getItem("key");
-    if((this.jwt_token?.length) == 0){
-      this.isUserAuthenticated = false;
+    this.jwt_token = localStorage.getItem("token");
+    console.log(this.jwt_token?.length);   
+    if(this.jwt_token?.length == undefined){
+      this.isUserAuthenticated = false;    
+      this.isUserLogined();
     }
     else{
       this.isUserAuthenticated = true;
+      this.isUserLogined();
     }
    }
 
   jwt_token:string|null = '';
+
   isUserAuthenticated:boolean =false;
 
+   changeflag(){
+    this.isUserAuthenticated = !this.isUserAuthenticated
+   }
+
+  isUserLogined(){
+    return this.isUserAuthenticated;
+   }
 
   loginApi:string = "http://172.16.120.39:8000/api/login/";
 

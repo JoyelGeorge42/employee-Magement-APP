@@ -1,9 +1,9 @@
-<app-login *ngIf="!loginService.isUserAuthenticated"></app-login>
+<router-outlet *ngIf="!loginService.isUserAuthenticated"></router-outlet>
 <div class="dashboard" *ngIf="loginService.isUserAuthenticated">
 <app-sidebar></app-sidebar>
 <app-header></app-header>
 <main>
-    <app-attendance></app-attendance>
+    <router-outlet> </router-outlet>
 </main>
 <app-footer></app-footer>
 </div>

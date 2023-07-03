@@ -1,1 +1,51 @@
-<p>report works!</p>
+<div class="report">
+    <div class="report-top">
+        <div class="report-top-left">
+            <h2>Report</h2>
+        </div>
+        <div class="report-top-right">
+            <div class="input">
+                <div class="input-head">
+                    Search
+                </div>
+                <div class="input-area">
+                    <input type="text" placeholder="Joyel George">
+                    <span class="search-icon">
+                        <i class="fa-solid fa-caret-down"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="input">    
+                <div class="input-head" id="datehead">
+                    Date Range
+                </div>           
+                <mat-form-field>
+                <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                  <input matStartDate formControlName="start" placeholder="Start date">
+                  <input matEndDate formControlName="end" placeholder="End date">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            
+              </mat-form-field>
+              </div>
+          
+            <div>
+                <img src="/assets/excel.svg" class="download-image" (click)="downloadreport()">
+            </div>
+        </div>
+    </div>
+    <div class="report-details">
+        <div>
+            <img src="/assets/report.png">
+        </div>
+        <div>
+            <h2>
+                Download the report
+            </h2>
+        </div>
+        <div>
+            <p style="margin: 0; display: flex; align-items: center; gap: 1rem;"><img src="/assets/info.svg">{{data}}</p>
+        </div>
+    </div>
+</div>

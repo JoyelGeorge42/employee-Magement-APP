@@ -4,31 +4,96 @@ import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http:HttpClient) { }
+  reportingAPi: string = 'http://172.16.120.39:8000/api/mgr-reporters/';
 
-  reportingAPi:string = "http://172.16.120.39:8000/api/mgr-reporters/"
+  reportingparams: any = new HttpParams().set('indirect', 'true');
 
-  params:any = new HttpParams().set("indirect","true")
-
-  reportingDetails():Observable<any>{
-    return this.http.get(this.reportingAPi,{params:this.params})
+  reportingDetails(): Observable<any> {
+    return this.http.get(this.reportingAPi, { params: this.reportingparams });
   }
 
-  attendanceApi:string ="http://172.16.120.39:8000/api/attendance/"
+  attendanceApi: string = 'http://172.16.120.39:8000/api/attendance/';
 
-  param:any  = new HttpParams().set("from","2023-05-29").set("to","2023-06-27").set("emp_id",2068);
+  attendanceparam: any = new HttpParams()
+    .set('from', '2023-05-29')
+    .set('to', '2023-06-27')
+    .set('emp_id', 2068);
 
-
-  changeparam(data:any){
-    this.param = data;
+  changeparam(data: any) {
+    this.attendanceparam = data;
   }
 
-  attendancedetails():Observable<any>{
-    return this.http.get(this.attendanceApi,{params:this.param});
+  attendancedetails(): Observable<any> {
+    return this.http.get(this.attendanceApi, { params: this.attendanceparam });
   }
 
+  attendanceDownload(): Observable<any> {
+    let attendanceDownloadParam = this.attendanceparam;
+    attendanceDownloadParam.set('download', true);
+    return this.http.get(this.reportDownloadUrl, {
+      params: attendanceDownloadParam,
+      observe: 'response',
+      responseType: 'blob',
+    });
+  }
+
+  reportMsgUrl: string =
+    'http://172.16.120.39:8000/api/reportdatesavailability/';
+
+  unavailableReportDate(): Observable<any> {
+    return this.http.get(this.reportMsgUrl);
+  }
+
+  reportDownloadUrl: string = 'http://172.16.120.39:8000/api/report/';
+
+  reportDownload(parameters:any): Observable<any> {
+
+    return this.http.get(this.reportDownloadUrl, {
+      params: parameters,
+      observe: 'response',
+      responseType: 'blob',
+    });
+  }
+
+
+  leaveHistoryUrl:string = "http://172.16.120.39:8000/api/leave/request/";
+
+  leavehistoryparams = new HttpParams().set("filter","history");
+
+  changeleavehistoryparam(data: any) {
+    this.leavehistoryparams = data;
+  }
+
+  getleaveHistory():Observable<any>{
+    return this.http.get(this.leaveHistoryUrl,{params:this.leavehistoryparams});
+  }
+
+  leaveBallanceUrl:string = "http://172.16.120.39:8000/api/leave/balance/";
+
+  getleavebalance():Observable<any>{
+    return this.http.get(this.leaveBallanceUrl);
+  }
+
+  leavependingparams = new HttpParams().set("filter","pending");
+
+  changeleavependingparam(data: any) {
+    this.leavehistoryparams = data;
+  }
+
+  getpendingleave():Observable<any>{
+    return this.http.get(this.leaveHistoryUrl,{params:this.leavependingparams});
+  }
+
+  downloadLeaveHistoryUrl = "http://172.16.120.39:8000/api/leave/export-resolved/";
+
+  downloadLeaveHistory(parameters:any){
+    return this.http.get(this.downloadLeaveHistoryUrl,{params:parameters,
+      observe:'response',
+      responseType: 'blob'})
+  }
 }

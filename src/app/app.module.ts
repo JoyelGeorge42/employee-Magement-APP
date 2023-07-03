@@ -19,6 +19,12 @@ import { RejectedTimesheetComponent } from './rejected-timesheet/rejected-timesh
 import { LeaveComponent } from './leave/leave.component';
 import { PolicyComponent } from './policy/policy.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {JsonPipe} from '@angular/common';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatNativeDateModule} from '@angular/material/core';
+import { LoginService } from './login.service';
+
 
 
 @NgModule({
@@ -43,8 +49,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    JsonPipe,
+    MatNativeDateModule,
   ],
   providers: [
+    LoginService,
     { provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true },

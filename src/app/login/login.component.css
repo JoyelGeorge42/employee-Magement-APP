@@ -109,8 +109,8 @@ form{
 
 .forgot-pass{
     display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
+    align-items: center;
+    justify-content:space-between;
     width: 100%;
     font-size: smaller;
     font-weight: 100;

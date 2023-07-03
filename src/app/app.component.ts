@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { LoginService } from './login.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
-export class AppComponent{
+export class AppComponent {
   title = 'atwork';
-  isLogedIn:boolean=false;
-  a:string|null="";
 
-  constructor(public loginService:LoginService){}
+  constructor(public loginService: LoginService) {
+    loginService.isUserLogined();
+}
+
 
 }

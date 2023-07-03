@@ -1,0 +1,183 @@
+.report {
+    padding: 1.5rem 5.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    height: auto;
+}
+
+.report-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.report-top-left h2 {
+    margin: 0;
+    color: #139b48;
+    font-weight: normal;
+}
+
+.report-top-right {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-end;
+}
+
+.report-details {
+    width: 100%;
+    // background-color: red;
+    color: #545454;
+    min-height: 35rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.input-head {
+    font-size: small;
+    padding-left: 2px;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+    color: gray;
+}
+
+input {
+    width: 13rem;
+    background-color: inherit;
+    border: 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid gray;
+    appearance: none;
+    box-sizing: unset;
+    color: white;
+    font-size: medium;
+}
+
+
+input:focus {
+    outline: none;
+    border-bottom: 2px solid green;
+    caret-color: green;
+}
+
+::placeholder {
+    color: white;
+}
+
+.input-area {
+    position: relative;
+}
+
+.search-icon {
+    position: absolute;
+    right: 5px;
+    color: white;
+    z-index: 0;
+}
+
+.download-image {
+    height: 2rem;
+    width: 2rem;
+}
+
+#datehead{
+    position: absolute;
+}
+
+::ng-deep {
+    .mat-mdc-form-field {
+        border-bottom: 2px solid;
+    }
+
+    .mdc-text-field--no-label:not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mat-mdc-form-field-infix {
+        padding: 24px 0 0 0;
+    }
+
+    .mat-mdc-icon-button.mat-mdc-button-base {
+        color: white;
+    }
+
+    .mat-mdc-form-field-flex {
+        align-items: center !important;
+    }
+
+    .mat-mdc-form-field-subscript-wrapper {
+        display: none;
+    }
+
+    .mat-calendar {
+        border: 1px solid white;
+        background-color: black;
+    }
+
+    .mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
+        color: white;
+    }
+
+    .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+        background-color: transparent;
+    }
+
+    .mat-datepicker-content {
+        background-color: rgb(129, 129, 129);
+        color: white !important;
+    }
+
+    .mat-calendar-body-selected {
+        background-color: #139B48;
+    }
+
+    .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover>.mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical):hover {
+        color: rgb(250, 250, 250);
+        background-color: #424242;
+    }
+
+    .mat-calendar-body-cell-content,
+    .mat-date-range-input-separator {
+        color: rgb(255, 255, 255);
+    }
+
+    .mat-calendar-table-header,
+    .mat-calendar-body-label {
+        color: #139B48;
+    }
+
+    .mat-mdc-button:not(:disabled) {
+        color: white !important;
+    }
+
+    .mat-calendar-arrow {
+        fill: white;
+    }
+
+    .mat-calendar-next-button,
+    .mat-datepicker-content .mat-calendar-previous-button {
+        color: #139B48;
+    }
+
+    .mat-datepicker-content .mat-calendar-next-button {
+        color: #139B48;
+    }
+
+    .mat-date-range-input-inner {
+        color: white !important;
+    }
+
+    .mat-datepicker-content .mat-calendar {
+        width: 20rem !important;
+        height: 24rem !important;
+        position: relative;
+        font-size: xx-small;
+    }
+
+    .mat-mdc-raised-button:not(:disabled) {
+        background-color: black !important;
+    }
+
+}

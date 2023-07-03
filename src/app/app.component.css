@@ -4,8 +4,9 @@
     "sidebar header"
     "sidebar main"
     "sidebar footer";
-    grid-template-columns: var(--sidebarWidth) calc(99.1vw - var(--sidebarWidth)) ;
+    grid-template-columns: var(--sidebarWidth) calc(100vw - var(--sidebarWidth)) ;
     grid-template-rows: var(--headerHeight) auto var(--footerHeight);
+    overflow: hidden;
 }
 
 app-header{
@@ -16,6 +17,7 @@ app-header{
 
 app-sidebar{
     grid-area: sidebar;
+    overflow: auto;
     position: fixed;    
     background-color: #161616;
     height: 100%;
@@ -26,7 +28,7 @@ main{
     grid-area: main;
     background-color: black;
     color: white;
-    /* width: calc(100vw -  var(--sidebar-width)) ; */
+    min-height: calc(100vh -  var(--footerHeight) - var(--headerHeight)) ;
 }
 
 app-footer{
