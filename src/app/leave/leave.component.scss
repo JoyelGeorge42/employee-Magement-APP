@@ -5,6 +5,7 @@
     height: 78.5vh;
     padding: 2rem 5.2rem;
     justify-content: space-between;
+    overflow: auto;
 }
 
 .bubble {
@@ -26,7 +27,7 @@
 }
 
 .leave-btn {
-    padding: 1rem 2.5rem;
+    padding: 1.5rem 2.5rem;
     background: transparent;
     border: 2px solid #034003;
     color: white;
@@ -135,11 +136,18 @@ td {
 }
 
 ::ng-deep {
-
-    .mat-mdc-form-field {
-        border-bottom: 2px solid;
+    .mat-mdc-form-field{
+        border: 0;
     }
-
+    .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::before{
+        border-bottom-color:gray ;
+    }
+    .mdc-text-field--filled:not(.mdc-text-field--disabled):hover .mdc-line-ripple::before{
+        border-bottom-color:gray ;
+    }
+    .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::after{
+        border-bottom-color:#139B48 ;
+    }
     .mdc-text-field--no-label:not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mat-mdc-form-field-infix {
         padding: 24px 0 0 0;
     }

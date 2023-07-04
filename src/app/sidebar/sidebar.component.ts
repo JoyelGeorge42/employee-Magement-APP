@@ -13,7 +13,7 @@ username?:string;
   constructor(private apiService:ApiService){
     this.apiService.reportingDetails().subscribe((res =>{
       this.username = res.results.emp_name;
-      console.log("Reporting Details",res.results.emp_name);
+      console.log("Reporting Details of",res.results.emp_name);
     }))
   }
 

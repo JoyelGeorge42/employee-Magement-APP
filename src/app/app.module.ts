@@ -24,8 +24,14 @@ import {JsonPipe} from '@angular/common';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatNativeDateModule} from '@angular/material/core';
 import { LoginService } from './login.service';
-
-
+import { ApplyLeaveComponent } from './apply-leave/apply-leave.component';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {MatButtonModule} from '@angular/material/button';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {NgFor} from '@angular/common';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -41,6 +47,7 @@ import { LoginService } from './login.service';
     RejectedTimesheetComponent,
     LeaveComponent,
     PolicyComponent,
+    ApplyLeaveComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,6 +60,13 @@ import { LoginService } from './login.service';
     MatFormFieldModule,
     JsonPipe,
     MatNativeDateModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatTabsModule,
+    MatInputModule,
+    MatButtonToggleModule,
+    NgFor,
+    MatSelectModule
   ],
   providers: [
     LoginService,

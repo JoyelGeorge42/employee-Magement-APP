@@ -38,7 +38,7 @@ export class AttendanceComponent {
   convertToCustomFormat(date: Date): string {
     const year = date.getFullYear();
     const day = this.padZero(date.getDate());
-    const month = this.padZero(date.getMonth() + 1); // Month is zero-based
+    const month = this.padZero(date.getMonth() + 1); 
 
     return `${year}-${month}-${day}`;
   }

@@ -70,7 +70,7 @@ td {
 ::ng-deep {
 
     .mat-mdc-form-field {
-    border-bottom: 2px solid;
+    border-bottom: 1px solid;
     }
 
     .mdc-text-field--no-label:not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mat-mdc-form-field-infix {
@@ -157,6 +157,24 @@ td {
     .mat-mdc-raised-button:not(:disabled) {
         background-color: black !important;
     }
+    .mdc-text-field .mdc-text-field__input{
+        caret-color: #139b48;
+    }
+    .mdc-text-field--filled .mdc-line-ripple::after{
+        border-bottom-color: #139B48;
+    }
+    .mat-mdc-form-field{
+        border: 0;
+    }
+    .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::before{
+        border-bottom-color:gray ;
+    }
+    .mdc-text-field--filled:not(.mdc-text-field--disabled):hover .mdc-line-ripple::before{
+        border-bottom-color:gray ;
+    }
+    .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::after{
+        border-bottom-color:#139B48 ;
+    }
 }
 
 .input {
@@ -175,8 +193,8 @@ input {
     width: 13rem;
     background-color: inherit;
     border: 0;
-    padding-bottom: 10px;
     border-bottom: 2px solid gray;
+    padding-bottom: 10px;
     appearance: none;
     box-sizing: unset;
     color: white;

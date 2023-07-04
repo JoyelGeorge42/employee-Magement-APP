@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 import { LoginService } from '../login.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -11,7 +12,7 @@ export class LoginComponent {
 
   serverresponse:string='';
 
-constructor(private loginService:LoginService){}
+constructor(private loginService:LoginService ,private router:Router){}
 
 loginForm = new FormGroup({
   email: new FormControl("",[Validators.email, Validators.required]),
@@ -31,7 +32,8 @@ get password(){
       if(res.success == true){
         this.loginService.changeflag();
         console.log("Logged In");
-        localStorage.setItem("token",res.results.token)
+        localStorage.setItem("token",res.results.token);
+        this.router.navigate(["/entry"]);
       }
       else{
         console.log("incorrect details");

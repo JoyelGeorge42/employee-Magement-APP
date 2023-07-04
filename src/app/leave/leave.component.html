@@ -1,7 +1,7 @@
 <div class="leave-container">
     <div class="apply-leave">
         <div class="available-leaves">
-            <span class="bubble" [style.color]="leavebalance<=0? 'red':'green'">
+            <span class="bubble" [style.color]="leavebalance<0? 'red':'green'">
                 {{leavebalance}}
             </span>
             <span>
@@ -10,7 +10,7 @@
             </span>
         </div>
         <div class="apply-leave-btn">
-            <button class="leave-btn">Apply Leave</button>
+            <button class="leave-btn" mat-button (click)="opendialouge()">Apply Leave</button>
         </div>
     </div>
     <div class="leave-requests">

@@ -9,7 +9,6 @@ export class LoginService {
 
   constructor(private httpClient:HttpClient) {
     this.jwt_token = localStorage.getItem("token");
-    console.log(this.jwt_token?.length);   
     if(this.jwt_token?.length == undefined){
       this.isUserAuthenticated = false;    
       this.isUserLogined();

@@ -96,4 +96,22 @@ export class ApiService {
       observe:'response',
       responseType: 'blob'})
   }
+
+  leaveTypesUrl:string="http://172.16.120.39:8000/api/leave/config/category/";
+
+  getLeaveTypes(parameters:any):Observable<any>{  
+    return this.http.get(this.leaveTypesUrl,{params:parameters});
+  }
+
+  holidayUrl:string ="http://172.16.120.39:8000/api/holiday/";
+
+  getHolidays(param:any):Observable<any>{
+    return this.http.get(this.holidayUrl,{params:param});
+  }
+
+  postLeaveUrl:string = "http://172.16.120.39:8000/api/leave/request/";
+
+  postleave(body:any):Observable<any>{
+    return this.http.post(this.postLeaveUrl,body)
+  }
 }
