@@ -2,9 +2,9 @@ import { ApiService } from './../api.service';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import jwt_decode from 'jwt-decode';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpParams } from '@angular/common/http';
 import { MatStartDate } from '@angular/material/datepicker';
 
@@ -42,16 +42,13 @@ export class ApplyLeaveComponent {
     });
   }
 
-  closeall() {
-    this.dialog.closeAll();
-  }
-
-
-  selctedButton:string='firsthalf';
+  selctedButton: string = 'firsthalf';
   holidays: any[] = [];
   currentleavebalance!: number;
   empGender: string = '';
-  fontStyleControl = new FormControl('firsthalf');
+  halfdayformcontrol = new FormControl('firsthalf');
+  multipledayssecondhalfformcontrol = new FormControl('');
+  multipledaysfirsthalfformcontrol = new FormControl('');
   fontStyle?: string;
   selectedIndex = 1;
   leavetytpes: any[] = [];
@@ -59,8 +56,15 @@ export class ApplyLeaveComponent {
   parameters: any;
   sotredTypes: any[] = [];
   selectedType!: string;
-  selectnumberofleaves:number=0;
-  
+  selectnumberofleaves: number = 0;
+  diffrence: any;
+  startDate: any;
+  endate: any;
+  count!: number;
+  start: any;
+  halfdays: number = 0;
+  firsthalf: number = 0;
+  secondhalf: number = 0;
 
   daterange = new FormGroup({
     start: new FormControl(),
@@ -73,6 +77,37 @@ export class ApplyLeaveComponent {
     { value: 'travel-2', viewValue: 'Travel' },
     { value: 'other-3', viewValue: 'Other' },
   ];
+
+  halfday = new FormGroup({
+    halfstart: new FormControl<Date | null>(null, [Validators.required]),
+  });
+
+  singleday = new FormGroup({
+    start: new FormControl<Date | null>(null, [Validators.required]),
+  });
+
+  multipledays = new FormGroup({
+    startdate: new FormControl<Date | null>(null, [Validators.required]),
+    enddate: new FormControl<Date | null>(null, [Validators.required]),
+  });
+
+  // applyleaveform = new FormGroup({
+  //   halfday: new FormGroup({
+  //     halfstart: new FormControl(),
+  //   }),
+  //   singleday: new FormGroup({
+  //     start: new FormControl(),
+  //   }),
+  //   multipledays: new FormGroup({
+  //     startdate: new FormControl(),
+  //     enddate: new FormControl(),
+  //   }),
+  //   submitbtn: new FormControl(),
+  // });
+
+  closeall() {
+    this.dialog.closeAll();
+  }
 
   filterTypes() {
     if (this.empGender == 'Male') {
@@ -89,7 +124,7 @@ export class ApplyLeaveComponent {
     if (this.selectedType != 'Maternity') {
       const date = d || new Date();
       const dayNo = date.getDay();
-      const dateformat = date.toLocaleDateString();      
+      const dateformat = date.toLocaleDateString();
       return (
         dayNo !== 0 &&
         dayNo !== 6 &&
@@ -100,35 +135,100 @@ export class ApplyLeaveComponent {
     }
   };
 
+  multipledayscount() {
+    if (this.multipledays.value.enddate != null) {
+      this.endate = this.multipledays.value.enddate;
+      this.startDate = this.multipledays.value.startdate;
+      this.diffrence = this.endate - this.startDate;
+      console.log('diffrence ...........', this.startDate);
 
-  singleday = new FormGroup({
-    start: new FormControl()
-  })
-
-  multipledays = new FormGroup({
-    startdate : new FormControl(),
-    enddate : new FormControl()
-  })
-
-  multipledayscount(){
-    var diffrence = this.multipledays.value.enddate - this.multipledays.value.startdate;
-    var count = (diffrence / (1000 * 3600 * 24)) + 1;
-    let start = this.multipledays.value.startdate
-    while (start <= this.multipledays.value.enddate) {
-      var b = this.filterDays(start);
-      if(b == false){
-        count = count - 1; 
+      this.count = this.diffrence / (1000 * 3600 * 24) + 1;
+      this.start = this.multipledays.value.startdate;
+      if (this.selectedType != 'Maternity') {
+        while (this.start <= this.multipledays.value.enddate!) {
+          var b = this.filterDays(this.start);
+          if (b == false) {
+            this.count = this.count - 1;
+          }
+          this.start.setDate(this.start.getDate() + 1);
+          console.log('Count .....', this.count);
+        }
       }
-      start.setDate(start.getDate() + 1);
+      this.selectnumberofleaves = this.count;
+      if (this.firsthalf != 0 || this.secondhalf != 0) {
+        console.log('working');
+        this.selectnumberofleaves =
+          this.count - (this.firsthalf + this.secondhalf);
+      }
     }
-    this.selectnumberofleaves = count;
-    this.multipledays.value.enddate =  "";
-    this.multipledays.value.startdate =  "";
   }
 
-  applyleave(){
-    console.log(this.selectedType);
+  updatefirsthalF() {
+    if (this.firsthalf == 0) {
+      this.firsthalf = 0.5;
+      if (this.endate != null) {
+        this.selectnumberofleaves = this.selectnumberofleaves - this.firsthalf;
+      }
+    } else {
+      this.firsthalf = 0;
+      if (this.endate != null) {
+        this.selectnumberofleaves = this.selectnumberofleaves + 0.5;
+      }
+    }
+  }
 
-    
+  updatesecondhalf() {
+    if (this.secondhalf == 0) {
+      this.secondhalf = 0.5;
+      if (this.endate != null) {
+        this.selectnumberofleaves = this.selectnumberofleaves - this.secondhalf;
+      }
+    } else {
+      this.secondhalf = 0;
+      if (this.endate != null) {
+        this.selectnumberofleaves = this.selectnumberofleaves + 0.5;
+      }
+    }
+  }
+
+  autoupdatedate() {
+    console.log(this.selectedType);
+    let start = this.multipledays.value.startdate;
+    this.multipledays.get('startdate')?.setValue(new Date(start!));
+    console.log('start .......', start);
+
+    if (this.selectedType == 'Maternity' || this.selectedType == 'Paternity') {
+      console.log('maternity leave', this.leavetytpes[2].leave_credits);
+      let latestdate = start!.setDate(
+        start!.getDate() + this.leavetytpes[2].leave_credits - 1
+      );
+      this.multipledays.get('enddate')?.setValue(new Date(latestdate));
+      this.multipledayscount();
+    } else if (this.selectedType === 'Marriage') {
+      console.log(this.leavetytpes[1].leave_credits);
+      let latestdate = start!.setDate(
+        start!.getDate() + this.leavetytpes[1].leave_credits - 1
+      );
+      this.multipledays.get('enddate')?.setValue(new Date(latestdate));
+      this.multipledayscount();
+    } else {
+    }
+  }
+
+  applyleave() {
+    if (this.selectedIndex == 1) {
+      console.log(this.halfday.value.halfstart);
+      console.log(this.selectedIndex);
+      console.log(this.selectedType);
+      this.closeall();
+    } else if (this.selectedIndex == 2) {
+      console.log(this.selectedIndex);
+      console.log(this.selectedType);
+      this.closeall();
+    } else {
+      console.log(this.selectedIndex);
+      console.log(this.selectedType);
+      this.closeall();
+    }
   }
 }
