@@ -114,4 +114,16 @@ export class ApiService {
   postleave(body:any):Observable<any>{
     return this.http.post(this.postLeaveUrl,body)
   }
+
+  deleteRequestUrl:string = "http://172.16.120.39:8000/api/leave/request/"
+
+  deleteRequest(id:number):Observable<any>{
+    return this.http.delete(this.deleteRequestUrl+id);
+  }
+
+  viewleavedetailsparams = new HttpParams().set("is_manager","false").set("leaves_in_last_n_days",60)
+
+  viewleavedetails(id:number):Observable<any>{
+    return this.http.get(this.deleteRequestUrl+id,{params:this.viewleavedetailsparams})
+  }
 }

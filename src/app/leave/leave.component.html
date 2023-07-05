@@ -35,13 +35,19 @@
                 <br>
                 <tr *ngFor="let item of pending let i = index">
                     <td>{{i+1}}</td>
+
                     <td>{{item.startdate | date: 'dd-MM-yyyy'}}</td>
                     <td>{{item.enddate | date: 'dd-MM-yyyy'}}</td>
                     <td>{{item.day_count}}</td>
                     <td>{{item.leave_type_name == "Paid" ? "General":item.leave_type_name}}</td>
                     <td>{{item.req_status}}</td>
-                    <td>{{item.discrepancy_status}}</td>
-                    <td></td>
+                    <td>
+                        <span style="display: flex; justify-content: center; gap: .4rem; position: relative;">
+                            <img src="/assets/leaveInfo.svg" (click)="viewleaverequests(item.id);">
+                            <img src="/assets/close.png" *ngIf="item.req_status == 'Pending'" style="position: absolute; right: 2rem;" 
+                            (click)="deleteLeaveRequest(item.id)">
+                        </span>
+                    </td>
                     </tr>
             </table>
         </div>
@@ -95,7 +101,7 @@
                         <td>{{item.leave_type_name == "Paid" ? "General":item.leave_type_name}}</td>
                         <td> {{item.req_status}}</td>
                         <td>{{item.discrepancy_status != "pending" ? '---':item.discrepancy_status}}</td>
-                        <td></td>
+                        <td><img src="/assets/leaveInfo.svg"></td>
                     </tr>
             </table>
         </div>

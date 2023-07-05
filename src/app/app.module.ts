@@ -66,7 +66,7 @@ import {MatSelectModule} from '@angular/material/select';
     MatInputModule,
     MatButtonToggleModule,
     NgFor,
-    MatSelectModule
+    MatSelectModule,
   ],
   providers: [
     LoginService,

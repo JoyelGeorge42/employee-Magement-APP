@@ -2,11 +2,15 @@ import { ApiService } from './../api.service';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import jwt_decode from 'jwt-decode';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import {
+  MAT_BUTTON_TOGGLE_GROUP_VALUE_ACCESSOR,
+  MatButtonToggleModule,
+} from '@angular/material/button-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpParams } from '@angular/common/http';
 import { MatStartDate } from '@angular/material/datepicker';
+import { MatInput } from '@angular/material/input';
 
 @Component({
   selector: 'app-apply-leave',
@@ -42,11 +46,26 @@ export class ApplyLeaveComponent {
     });
   }
 
-  selctedButton: string = 'firsthalf';
+  @ViewChild('fromInput', {
+    read: MatInput,
+  })
+  fromInput!: MatInput;
+
+  @ViewChild('toInput', {
+    read: MatInput,
+  })
+  toInput!: MatInput;
+
+  resetForm() {
+    this.fromInput.value = null;
+    this.toInput.value = null;
+    this.multipledayscount();
+  }
+
   holidays: any[] = [];
   currentleavebalance!: number;
   empGender: string = '';
-  halfdayformcontrol = new FormControl('firsthalf');
+  halfdayformcontrol = new FormControl('FIRST');
   multipledayssecondhalfformcontrol = new FormControl('');
   multipledaysfirsthalfformcontrol = new FormControl('');
   fontStyle?: string;
@@ -65,6 +84,10 @@ export class ApplyLeaveComponent {
   halfdays: number = 0;
   firsthalf: number = 0;
   secondhalf: number = 0;
+  btnvalue!: string;
+  halfdayreasontextarea = new FormControl();
+  singledaytextarea = new FormControl();
+  multipledaytextarea = new FormControl();
 
   daterange = new FormGroup({
     start: new FormControl(),
@@ -90,20 +113,6 @@ export class ApplyLeaveComponent {
     startdate: new FormControl<Date | null>(null, [Validators.required]),
     enddate: new FormControl<Date | null>(null, [Validators.required]),
   });
-
-  // applyleaveform = new FormGroup({
-  //   halfday: new FormGroup({
-  //     halfstart: new FormControl(),
-  //   }),
-  //   singleday: new FormGroup({
-  //     start: new FormControl(),
-  //   }),
-  //   multipledays: new FormGroup({
-  //     startdate: new FormControl(),
-  //     enddate: new FormControl(),
-  //   }),
-  //   submitbtn: new FormControl(),
-  // });
 
   closeall() {
     this.dialog.closeAll();
@@ -136,6 +145,10 @@ export class ApplyLeaveComponent {
   };
 
   multipledayscount() {
+    this.endate = null;
+    this.startDate = null;
+    this.diffrence = null;
+    this.count = 0;
     if (this.multipledays.value.enddate != null) {
       this.endate = this.multipledays.value.enddate;
       this.startDate = this.multipledays.value.startdate;
@@ -166,25 +179,32 @@ export class ApplyLeaveComponent {
   updatefirsthalF() {
     if (this.firsthalf == 0) {
       this.firsthalf = 0.5;
+      this.firsthalfvalue = 'true';
       if (this.endate != null) {
         this.selectnumberofleaves = this.selectnumberofleaves - this.firsthalf;
       }
     } else {
       this.firsthalf = 0;
+      this.firsthalfvalue = 'false';
       if (this.endate != null) {
         this.selectnumberofleaves = this.selectnumberofleaves + 0.5;
       }
     }
   }
 
+  firsthalfvalue: string = 'false';
+  secondhalfvalue: string = 'false';
+
   updatesecondhalf() {
     if (this.secondhalf == 0) {
       this.secondhalf = 0.5;
+      this.secondhalfvalue = 'true';
       if (this.endate != null) {
         this.selectnumberofleaves = this.selectnumberofleaves - this.secondhalf;
       }
     } else {
       this.secondhalf = 0;
+      this.secondhalfvalue = 'false';
       if (this.endate != null) {
         this.selectnumberofleaves = this.selectnumberofleaves + 0.5;
       }
@@ -215,20 +235,79 @@ export class ApplyLeaveComponent {
     }
   }
 
+  checkbutton(param: string) {
+    if (param == 'first') {
+      this.btnvalue = 'FIRST';
+    } else {
+      this.btnvalue = 'SECOND';
+    }
+  }
+
+  body = new FormData();
+  invitaionfile!:File;
+  onFileChange(event:any) {
+    this.invitaionfile = event.target.files[0];
+  }
+
   applyleave() {
     if (this.selectedIndex == 1) {
-      console.log(this.halfday.value.halfstart);
-      console.log(this.selectedIndex);
-      console.log(this.selectedType);
-      this.closeall();
+      const c = this.convertToCustomFormat(this.singleday.value.start!);
+      this.body.append('day_leave_type', 'Single Day');
+      this.body.append('hour', '');
+      this.body.append('emp_comments', this.singledaytextarea.value);
+      this.body.append('startdate', c + 'T00:00:00');
+      this.body.append('enddate', c + 'T00:00:00');
+      this.body.append('start_date_second_half', '');
+      this.body.append('end_date_first_half', '');
     } else if (this.selectedIndex == 2) {
-      console.log(this.selectedIndex);
-      console.log(this.selectedType);
-      this.closeall();
+      const c = this.convertToCustomFormat(this.multipledays.value.startdate!);
+      const d = this.convertToCustomFormat(this.multipledays.value.enddate!);
+      this.body.append('day_leave_type', 'Multiple Day');
+      this.body.append('hour', '');
+      this.body.append('emp_comments', this.multipledaytextarea.value);
+      this.body.append('startdate', c + 'T00:00:00');
+      this.body.append('enddate', d + 'T00:00:00');
+      this.body.append('start_date_second_half', this.firsthalfvalue);
+      this.body.append('end_date_first_half', this.secondhalfvalue);
+      if(this.selectedType == "Marriage"){
+      this.body.append('invitation_files', this.invitaionfile);
+      } 
     } else {
-      console.log(this.selectedIndex);
-      console.log(this.selectedType);
-      this.closeall();
+      const c = this.convertToCustomFormat(this.halfday.value.halfstart!);
+      this.body.append('day_leave_type', 'Half Day');
+      this.body.append('hour', this.halfdayformcontrol.value!);
+      this.body.append('emp_comments', this.halfdayreasontextarea.value);
+      this.body.append('startdate', c + 'T00:00:00');
+      this.body.append('enddate', c + 'T00:00:00');
+      this.body.append('start_date_second_half', '');
+      this.body.append('end_date_first_half', '');
     }
+    this.body.append('leave_reason', 'null');
+    if(this.selectedType == "Marriage"){
+      this.body.append('invitation_files', this.invitaionfile);
+      this.body.append('leave_type', '3');
+      } 
+      else if(this.selectedType == "Maternity"){
+        this.body.append('leave_type', '5');
+      }
+      else{
+        this.body.append('leave_type', '1');
+      }
+    this.apiService.postleave(this.body).subscribe((res) => {
+      console.log(res);
+    });
+    this.closeall();
+  }
+
+  convertToCustomFormat(date: Date): string {
+    const year = date.getFullYear();
+    const day = this.padZero(date.getDate());
+    const month = this.padZero(date.getMonth() + 1);
+
+    return `${year}-${month}-${day}`;
+  }
+
+  padZero(value: number): string {
+    return value < 10 ? `0${value}` : `${value}`;
   }
 }

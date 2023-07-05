@@ -8,12 +8,12 @@
         <div class="leave-types">
             <div class="input">
                 <div class="input-area">
-                    <mat-form-field>
+                    <mat-form-field >
                         <mat-label>Type</mat-label>
                         <mat-select [(value)]="selectedType"
-                            (selectionChange)="selectedType == 'Marriage' || 'Paternity'?selectedIndex = 2:selectedIndex=1"
-                            (selectionChange)="selectedType == 'Paid'||null ? selectedIndex = 1:selectedIndex">
-                            <mat-option *ngFor="let type of leavetytpes" [value]="type.leave_type_name">
+                            (selectionChange)="selectedType == 'Marriage' || 'Paternity' || 'Maternity'?selectedIndex = 2:selectedIndex=1"
+                            (selectionChange)="selectedType == 'Paid'||null ? selectedIndex = 1:selectedIndex" >
+                            <mat-option *ngFor="let type of leavetytpes" [value]="type.leave_type_name" (onSelectionChange)="resetForm();">
                                 {{type.leave_type_name == "Paid" ? "General":type.leave_type_name}}
                             </mat-option>
                         </mat-select>
@@ -49,9 +49,9 @@
                                 </mat-form-field>
                                 <div class="which-half">
                                     <section>
-                                        <mat-button-toggle-group [formControl]="halfdayformcontrol" value="firsthalf" >
-                                            <mat-button-toggle value="firsthalf" >First Half</mat-button-toggle>
-                                            <mat-button-toggle value="secondhalf">Second Half</mat-button-toggle>
+                                        <mat-button-toggle-group [formControl]="halfdayformcontrol" >
+                                            <mat-button-toggle value="FIRST" >First Half</mat-button-toggle>
+                                            <mat-button-toggle value="SECOND">Second Half</mat-button-toggle>
                                         </mat-button-toggle-group>
                                         <!-- <p>Chosen value is {{fontStyleControl.value}}</p> -->
                                     </section>
@@ -61,7 +61,7 @@
                     </div>
 
                     <div class="leave-reason">
-                        <textarea placeholder="Purpouse of leave"></textarea>
+                        <textarea placeholder="Purpouse of leave" [formControl]="halfdayreasontextarea"></textarea>
                     </div>
                 </mat-tab>
                 <mat-tab label="Single Day" class="leave-details"
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                     <div class="leave-reason">
-                        <textarea placeholder="Purpouse of leave"></textarea>
+                        <textarea placeholder="Purpouse of leave" [formControl]="singledaytextarea"></textarea>
                     </div>
                 </mat-tab>
                 <mat-tab label="Multiple Days">
@@ -88,11 +88,11 @@
                             <div class="input-area">
                                 <mat-form-field [formGroup]="multipledays">
                                     <mat-label>Select Start date </mat-label>
-                                    <input matInput [matDatepicker]="picker2" [matDatepickerFilter]="filterDays" formControlName="startdate" (dateChange)="autoupdatedate()" (dateInput)="multipledayscount()">
+                                    <input #fromInput matInput [matDatepicker]="picker2" [matDatepickerFilter]="filterDays" formControlName="startdate" (dateChange)="autoupdatedate()" (dateInput)="multipledayscount()">
                                     <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                                     <mat-datepicker #picker2></mat-datepicker>
                                 </mat-form-field>
-                                <div class="which-half">
+                                <div class="which-half" *ngIf="selectedType == 'Paid'|| selectedType == null">
                                     <section>
                                         <mat-button-toggle-group [formControl]="multipledayssecondhalfformcontrol"
                                             aria-label="Font Style" multiple>
@@ -105,11 +105,11 @@
                             <div class="input-area">
                                 <mat-form-field [formGroup]="multipledays">
                                     <mat-label>Select Start date </mat-label>
-                                    <input matInput [matDatepicker]="picker3" [min]="multipledays.value.startdate!" [matDatepickerFilter]="filterDays" formControlName="enddate" (dateChange)="multipledayscount()" isRequired>
+                                    <input #toInput matInput [matDatepicker]="picker3" [min]="multipledays.value.startdate!" [matDatepickerFilter]="filterDays" formControlName="enddate" (dateChange)="multipledayscount()" isRequired>
                                     <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker3></mat-datepicker>
+                                    <mat-datepicker #picker3 ></mat-datepicker>
                                 </mat-form-field>
-                                <div class="which-half">
+                                <div class="which-half"  *ngIf="selectedType == 'Paid'|| selectedType == null">
                                     <section>
                                         <mat-button-toggle-group [formControl]="multipledaysfirsthalfformcontrol"
                                             aria-label="Font Style" multiple>
@@ -130,10 +130,10 @@
                                 <p>Drop or browse marriage invitation to upload <sup style="color: red;">*</sup> </p>
                             </div>
                         </label>
-                        <input type="file" name="marriageInvitation" id="marriageInvitation" accept=".jpeg, .jpg, image/jpeg">
+                        <input type="file" name="marriageInvitation" id="marriageInvitation" accept=".jpeg, .jpg, image/jpeg" (change)="this.onFileChange($event);">
                     </div>
                     <div class="leave-reason">
-                        <textarea placeholder="Purpouse of leave"></textarea>
+                        <textarea placeholder="Purpouse of leave" [formControl]="multipledaytextarea"></textarea>
                     </div>
                 </mat-tab>
             </mat-tab-group>

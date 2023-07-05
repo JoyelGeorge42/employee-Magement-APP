@@ -140,4 +140,16 @@ export class LeaveComponent {
     const dialogref = this.dialog.open(ApplyLeaveComponent);
     dialogref.disableClose = true;
   }
+
+  deleteLeaveRequest(id:number){
+    this.apiService.deleteRequest(id).subscribe((res=>{
+      console.log(res);
+    }))
+  }
+
+  viewleaverequests(id:number){
+    this.apiService.viewleavedetails(id).subscribe((res=>{
+      console.log("View Details ............",res);
+    }))
+  }
 }
