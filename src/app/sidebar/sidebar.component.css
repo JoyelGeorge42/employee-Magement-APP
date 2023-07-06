@@ -16,14 +16,20 @@
 }
 
 .profile-photo{
-    height: 6.5rem;
-    width: 6.5rem;
+    height: 6.6rem;
+    width: 6.6rem;
     border-radius: 5rem;
-    background-color: rgb(255, 255, 255);
+    position: relative;
 }
 
 .profile-name{
     color: white;
+}
+
+.dp{
+    border-radius: 5rem;
+    height: 6.6rem;
+    width: 6.6rem;
 }
 
 .sidebar-bottom{

@@ -2,10 +2,7 @@ import { ApiService } from './../api.service';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import jwt_decode from 'jwt-decode';
-import {
-  MAT_BUTTON_TOGGLE_GROUP_VALUE_ACCESSOR,
-  MatButtonToggleModule,
-} from '@angular/material/button-toggle';
+import { MAT_BUTTON_TOGGLE_GROUP_VALUE_ACCESSOR,MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpParams } from '@angular/common/http';
