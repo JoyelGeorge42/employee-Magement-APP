@@ -28,9 +28,16 @@ table {
     border-collapse: collapse;
 }
 
+
+
+.attendance-table thead th{
+    position: sticky;
+    top: 0;
+}
+
 .table-head{
-    position: sticky !important;
-    top: 0 !important;
+    position: sticky ;
+    top: 0;
     width: 100%;
     height: 4rem;
     background-color: #292929;
@@ -200,7 +207,6 @@ input {
     color: white;
     font-size: medium;
 }
-
 
 input:focus {
     outline: none;

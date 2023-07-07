@@ -1,8 +1,28 @@
+/* width */
+::-webkit-scrollbar {
+    width: 3px;
+}
+  
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+}
+   
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #9b9b9b; 
+}
+  
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #7e7e7e; 
+}
+
 .leave-container {
     display: flex;
     flex-direction: column;
     background-color: black;
-    height: 78.5vh;
+    height: 78vh;
     padding: 2rem 5.2rem;
     justify-content: space-between;
     overflow: auto;
@@ -24,6 +44,11 @@
     display: flex;
     align-items: center;
     gap: 1.3rem;
+}
+
+.table-body{
+    height: 25vh;
+    overflow: auto;
 }
 
 .leave-btn {
@@ -88,6 +113,8 @@ table {
 }
 
 .table-head {
+    position: sticky;
+    top: 0;
     width: 100%;
     height: 4rem;
     background-color: #292929;
@@ -112,7 +139,7 @@ table {
 
 tr {
     width: 100%;
-    height: 3rem;
+    height: 2.9rem;
     color: #c3c3c3;
     background-color: #111111;
     font-size: medium;
@@ -230,6 +257,16 @@ td {
     .mat-mdc-raised-button:not(:disabled) {
         background-color: black !important;
     }
+    .mat-mdc-snack-bar-container .mdc-snackbar__label{
+        // color: #27da6b !important;
+        font-weight: 600 !important;
+        font-size: larger !important;
+    }
+    .cdk-overlay-pane{
+        position: absolute !important;
+        top: 6rem;
+    }
+
 }
 
 .input {

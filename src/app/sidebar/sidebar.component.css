@@ -3,7 +3,6 @@
     flex-direction: column;
     position: sticky;
     font-size: .9rem;
-    background-color: #161616;
 }
 
 .sidebar-head{
@@ -20,6 +19,7 @@
     width: 6.6rem;
     border-radius: 5rem;
     position: relative;
+    background-color: #202020;
 }
 
 .profile-name{

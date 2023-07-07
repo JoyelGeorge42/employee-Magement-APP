@@ -1,0 +1,64 @@
+.details{
+    background-image: linear-gradient(to right, #222, #161616);
+    width: 800px;
+}
+.top{
+    position: relative;
+    color: #139b48;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #292929;
+    font-weight: 600;
+    font-size: 24px;
+    padding: 15px 10px;
+}
+.top img{
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    height: 30px;
+    width: 30px;
+}
+.body{
+    padding: 40px 40px 0;
+    display: grid;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    grid-template-columns: repeat(4,1fr);
+    grid-column-gap: 40px;
+    column-gap: 40px;
+}
+.ld-single, .ld-single-period, .ld-single-discription{
+    margin-bottom: 40px;
+}
+.ld-single-period{
+    grid-column: span 2;
+}
+.ld-single-discription{
+    grid-column: span 4;
+}
+.label{
+    color: #727272;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+.detail{
+    color: #fff;
+    font-size: 14px;
+}
+.marriage{
+    padding: 0 40px;
+}
+.heading{
+    color: #139b48;
+    font-size: 24px;
+    font-weight: 500;
+}
+.uploads{
+    padding: 10px 0 60px;
+}
+.invitation-upload-photo{
+    height: 10rem;
+    width: 12rem;
+}

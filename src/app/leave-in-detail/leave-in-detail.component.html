@@ -1,0 +1,46 @@
+<div class="details">
+    <div class="top">
+        Leave Request Details
+        <img src="assets/close.png" alt="close" mat-dialog-close>
+    </div>
+    <div class="body">
+        <div class="ld-single">
+            <div class="label">Employee Name</div>
+            <div class="detail">{{details.emp_name}}</div>
+        </div>
+        <div class="ld-single-period">
+            <div class="label">Leave Period</div>
+            <div class="detail">{{details.startdate | date : "dd-MM-yyyy"}} to {{details.enddate | date: "dd-MM-yyyy"}}</div>
+        </div>
+        <div class="ld-single">
+            <div class="label">Total Days</div>
+            <div class="detail">{{details.day_count}}</div>
+        </div>
+        <div class="ld-single">
+            <div class="label">Applied on</div>
+            <div class="detail">{{details.created | date : "dd-MM-yyyy"}}</div>
+        </div>
+        <div class="ld-single">
+            <div class="label">Leave Type</div>
+            <div class="detail">{{details.leave_type_name}}</div>
+        </div>
+        <div class="ld-single">
+            <div class="label">Leave Reason</div>
+            <div class="detail">{{details.leave_reason == "null" ?"":details.leave_reason}}</div>
+        </div>
+        <div class="ld-single">
+            <div class="label">Status</div>
+            <div class="detail">{{details.req_status}}</div>
+        </div>
+        <div class="ld-single-discription">
+            <div class="label">Leave Description</div>
+            <div class="detail">{{details.emp_comments}}</div>
+        </div>
+    </div>
+    <div *ngIf="details.leave_type_name == 'Marriage'" class="marriage">
+        <div class="heading">Invitation uploads</div>
+        <div class="uploads">
+            <img src="{{details.uploads_invitation}}" class="invitation-upload-photo">
+        </div>
+    </div>
+</div>

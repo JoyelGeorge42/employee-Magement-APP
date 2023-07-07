@@ -61,12 +61,30 @@ input:focus{
 .logout{
     padding: .8rem 2rem;
     border-radius: 1rem;
-    background-color: inherit;
-    border: 2px solid red;
+    background: linear-gradient(to right, #1f1f1f, #242424) padding-box,
+    linear-gradient(to right, rgb(255, 55, 55), rgb(133, 0, 0)) border-box;
+    border-radius: 1rem;
+    border: 2px solid transparent;
     color: white;
     font-size: medium;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
 }
 
-.logout:hover{
-    background-color: red;
-}
+.logout::before {
+    content: '';
+    width: 0;
+    height: 3rem;
+    border-radius: 1rem;
+    position: absolute;
+    top: 0;
+    left: -3rem;
+    background-image: linear-gradient(to right, rgb(255, 55, 55), rgb(133, 0, 0));
+    transition: .3s ease;
+    display: block;
+    z-index: -1;
+   }
+   .logout:hover::before {
+    width: 20rem;
+   }

@@ -13,7 +13,8 @@
                         <mat-select [(value)]="selectedType"
                             (selectionChange)="selectedType == 'Marriage' || 'Paternity' || 'Maternity'?selectedIndex = 2:selectedIndex=1"
                             (selectionChange)="selectedType == 'Paid'||null ? selectedIndex = 1:selectedIndex" >
-                            <mat-option *ngFor="let type of leavetytpes" [value]="type.leave_type_name" (onSelectionChange)="resetForm();">
+                            <mat-option *ngFor="let type of leavetytpes" [value]="type.leave_type_name" (onSelectionChange)="resetForm();"
+                            value="type.leave_type_name">
                                 {{type.leave_type_name == "Paid" ? "General":type.leave_type_name}}
                             </mat-option>
                         </mat-select>
@@ -25,7 +26,7 @@
                 <div class="input-area" *ngIf="selectedType == 'Paid'||selectedType == null">
                     <mat-form-field>
                         <mat-label>Leave Reason(optional)</mat-label>
-                        <mat-select>
+                        <mat-select [(value)]="selectedReason">
                             <mat-option *ngFor="let item of reasons" [value]="item.value">
                                 {{item.viewValue}}
                             </mat-option>
@@ -47,21 +48,22 @@
                                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                     <mat-datepicker #picker></mat-datepicker>
                                 </mat-form-field>
+                                <div class="error-msg" *ngIf="halfday.controls.halfstart.invalid  && halfday.controls.halfstart.touched">Please Select a Date !!!</div>
                                 <div class="which-half">
-                                    <section>
-                                        <mat-button-toggle-group [formControl]="halfdayformcontrol" >
+                                    <section [formGroup]="halfday">
+                                        <mat-button-toggle-group formControlName="halfdayformcontrol" >
                                             <mat-button-toggle value="FIRST" >First Half</mat-button-toggle>
                                             <mat-button-toggle value="SECOND">Second Half</mat-button-toggle>
                                         </mat-button-toggle-group>
-                                        <!-- <p>Chosen value is {{fontStyleControl.value}}</p> -->
                                     </section>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="leave-reason">
-                        <textarea placeholder="Purpouse of leave" [formControl]="halfdayreasontextarea"></textarea>
+                    <div class="leave-reason" [formGroup]="halfday">
+                        <textarea placeholder="Purpouse of leave" formControlName="halfdayreasontextarea"></textarea>
+                        <div class="error-msg" *ngIf="halfday.controls.halfdayreasontextarea.invalid  && halfday.controls.halfdayreasontextarea.touched">Please Enter Purpouse of Leave</div>
                     </div>
                 </mat-tab>
                 <mat-tab label="Single Day" class="leave-details"
@@ -75,11 +77,13 @@
                                     <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
                                     <mat-datepicker #picker1></mat-datepicker>
                                 </mat-form-field>
+                                <div class="error-msg" *ngIf="singleday.controls.start.invalid  && singleday.controls.start.touched">Please Select a Date !!!</div>
                             </div>
                         </div>
                     </div>
-                    <div class="leave-reason">
-                        <textarea placeholder="Purpouse of leave" [formControl]="singledaytextarea"></textarea>
+                    <div class="leave-reason" [formGroup]="singleday">
+                        <textarea placeholder="Purpouse of leave" formControlName="singledaytextarea"></textarea>
+                        <div class="error-msg" *ngIf="singleday.controls.singledaytextarea.invalid  && singleday.controls.singledaytextarea.touched">Please Enter Purpouse of Leave</div>
                     </div>
                 </mat-tab>
                 <mat-tab label="Multiple Days">
@@ -88,57 +92,61 @@
                             <div class="input-area">
                                 <mat-form-field [formGroup]="multipledays">
                                     <mat-label>Select Start date </mat-label>
-                                    <input #fromInput matInput [matDatepicker]="picker2" [matDatepickerFilter]="filterDays" formControlName="startdate" (dateChange)="autoupdatedate()" (dateInput)="multipledayscount()">
+                                    <input #fromInput matInput [matDatepicker]="picker2" [matDatepickerFilter]="filterDays" formControlName="starteddate" (dateChange)="autoupdatedate()">
                                     <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                                     <mat-datepicker #picker2></mat-datepicker>
                                 </mat-form-field>
+                                <div class="error-msg" *ngIf="multipledays.controls.starteddate.invalid  && multipledays.controls.starteddate.touched">Please Select a Date !!!</div>
                                 <div class="which-half" *ngIf="selectedType == 'Paid'|| selectedType == null">
                                     <section>
                                         <mat-button-toggle-group [formControl]="multipledayssecondhalfformcontrol"
                                             aria-label="Font Style" multiple>
                                             <mat-button-toggle value="Second Half" (change)="updatefirsthalF()">Second Half</mat-button-toggle>
                                         </mat-button-toggle-group>
-                                        <!-- <p>Chosen value is {{fontStyleControl.value}}</p> -->
                                     </section>
                                 </div>
                             </div>
                             <div class="input-area">
                                 <mat-form-field [formGroup]="multipledays">
-                                    <mat-label>Select Start date </mat-label>
-                                    <input #toInput matInput [matDatepicker]="picker3" [min]="multipledays.value.startdate!" [matDatepickerFilter]="filterDays" formControlName="enddate" (dateChange)="multipledayscount()" isRequired>
+                                    <mat-label>Select End date </mat-label>
+                                    <input #toInput matInput [matDatepicker]="picker3" [min]="multipledays.get('starteddate')?.value!"[matDatepickerFilter]="filterDays" formControlName="enddate" (dateChange)="multipledayscount()" isRequired>
                                     <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
                                     <mat-datepicker #picker3 ></mat-datepicker>
                                 </mat-form-field>
+                                <div class="error-msg" *ngIf="multipledays.controls.enddate.invalid  && multipledays.controls.enddate.touched">Please Select a Date !!!</div>
                                 <div class="which-half"  *ngIf="selectedType == 'Paid'|| selectedType == null">
                                     <section>
                                         <mat-button-toggle-group [formControl]="multipledaysfirsthalfformcontrol"
                                             aria-label="Font Style" multiple>
                                             <mat-button-toggle value="First Half" (change)="updatesecondhalf()">First Half</mat-button-toggle>
                                         </mat-button-toggle-group>
-                                        <!-- <p>Chosen value is {{fontStyleControl.value}}</p> -->
                                     </section>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="invitation-upload" *ngIf="selectedType == 'Marriage'">
+                    <div class="invitation-upload" *ngIf="selectedType == 'Marriage'" [formGroup]="multipledays">
                         <label for="marriageInvitation" class="fileuploadlabel">
                             <div>
                                 <i class="fa fa-upload" aria-hidden="true"></i>
                             </div>
                             <div>
-                                <p>Drop or browse marriage invitation to upload <sup style="color: red;">*</sup> </p>
+                                <p *ngIf="filename.length == 0">Drop or browse marriage invitation to upload <sup style="color: red;">*</sup> </p>
+                                <p *ngIf="filename.length !=0"> {{filename}}</p>
                             </div>
                         </label>
                         <input type="file" name="marriageInvitation" id="marriageInvitation" accept=".jpeg, .jpg, image/jpeg" (change)="this.onFileChange($event);">
                     </div>
-                    <div class="leave-reason">
-                        <textarea placeholder="Purpouse of leave" [formControl]="multipledaytextarea"></textarea>
+                    <div class="error-msg" *ngIf="multipledays.controls.file.invalid && selectedType == 'Marriage'&&multipledays.controls.file.touched" >Please Upload the Invitation File</div>
+                    <div class="leave-reason" [formGroup]="multipledays">
+                        <textarea placeholder="Purpouse of leave" formControlName="multipledaytextarea"></textarea>
+                        <div class="error-msg" *ngIf="multipledays.controls.multipledaytextarea.invalid  && multipledays.controls.multipledaytextarea.touched">Please Enter Purpouse of Leave</div>
                     </div>
                 </mat-tab>
             </mat-tab-group>
         </div>
         <div class="leave-footer">
+            <div *ngIf="selectedType == 'Paid'; else daycount">
             <p>
                 Current Leave Balance : {{currentleavebalance}}
                 <br>
@@ -152,8 +160,16 @@
                 <br>
             </p>
         </div>
+        <ng-template #daycount>
+        <div>
+            <br>
+            <p>Day Count : {{selectnumberofleaves}}</p>
+            <br>
+        </div>
+        </ng-template>
+        </div>
         <div class="submit-btn">
-            <button type="submit" class="submit-button" (click)="applyleave();" [disabled]="">
+            <button type="submit" class="submit-button" (click)="applyleave();">
                     Submit
             </button>
         </div>

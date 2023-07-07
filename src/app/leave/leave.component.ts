@@ -6,6 +6,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { ApplyLeaveComponent } from '../apply-leave/apply-leave.component';
 import { DialogRef } from '@angular/cdk/dialog';
+import { LeaveInDetailComponent } from '../leave-in-detail/leave-in-detail.component';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-leave',
@@ -13,7 +15,7 @@ import { DialogRef } from '@angular/cdk/dialog';
   styleUrls: ['./leave.component.scss'],
 })
 export class LeaveComponent {
-  constructor(private apiService: ApiService, public dialog: MatDialog) {
+  constructor(private apiService: ApiService, public dialog: MatDialog ,private _snackBar:MatSnackBar) {
     this.apiService.getleaveHistory().subscribe((res) => {
       if (res != null) {
         this.history = res.results;
@@ -67,7 +69,6 @@ export class LeaveComponent {
         } else {
           this.history = [];
         }
-        console.log(res);
       },
       (error) => {
         this.history!;
@@ -84,12 +85,10 @@ export class LeaveComponent {
   }
 
   downloadLeaveHistoryByDate() {
-    console.log(this.historydate.value);
     if (
       this.historydate.value.start != null ||
       this.historydate.value.end != null
     ) {
-      console.log('Yo mahn workig');
       const c = this.convertToCustomFormat(this.historydate.value.start!);
       const d = this.convertToCustomFormat(this.historydate.value.end!);
       this.param = new HttpParams()
@@ -107,15 +106,12 @@ export class LeaveComponent {
         setTimeout(() => {
           URL.revokeObjectURL(downloadUrl);
         }, 100);
-        console.log(res);
       });
     } else {
-      console.log('not working');
       this.param = '';
       this.param = new HttpParams()
         .set('filter', 'history')
         .set('emp_id', this.empid);
-      console.log(this.param);
       this.apiService.downloadLeaveHistory(this.param).subscribe((res) => {
         let myBlob: Blob = res.body as Blob;
         let downloadUrl = URL.createObjectURL(myBlob);
@@ -126,9 +122,7 @@ export class LeaveComponent {
         a.click();
         setTimeout(() => {
           URL.revokeObjectURL(downloadUrl);
-        }, 100);
-        console.log(res);
-      });
+        }, 100);      });
     }
   }
 
@@ -143,13 +137,25 @@ export class LeaveComponent {
 
   deleteLeaveRequest(id:number){
     this.apiService.deleteRequest(id).subscribe((res=>{
-      console.log(res);
     }))
+    this.openSnackBar()
   }
 
   viewleaverequests(id:number){
     this.apiService.viewleavedetails(id).subscribe((res=>{
-      console.log("View Details ............",res);
     }))
+  }
+
+  openviewDialog(id:number) {
+    const dialogRef = this.dialog.open(LeaveInDetailComponent, { data: id});
+    dialogRef.disableClose = true
+  }
+  openSnackBar() {
+    const config = new MatSnackBarConfig();
+    config.panelClass=["background-red"];
+    config.duration = 500;
+    config.horizontalPosition = "right";
+    config.verticalPosition ="top"
+    this._snackBar.open("Leave Request Deleted Successfully !!","",config);
   }
 }

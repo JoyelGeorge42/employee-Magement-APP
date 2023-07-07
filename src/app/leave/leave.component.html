@@ -22,6 +22,7 @@
         </div>
         <div class="leave-table">
             <p *ngIf="pending.length==0"> No Leave Requests Available !!</p>
+            <div class="table-body">
             <table class="attendance-table" *ngIf="pending.length!=0">
                 <thead class="table-head">
                     <th>S.No.</th>
@@ -35,7 +36,6 @@
                 <br>
                 <tr *ngFor="let item of pending let i = index">
                     <td>{{i+1}}</td>
-
                     <td>{{item.startdate | date: 'dd-MM-yyyy'}}</td>
                     <td>{{item.enddate | date: 'dd-MM-yyyy'}}</td>
                     <td>{{item.day_count}}</td>
@@ -43,13 +43,14 @@
                     <td>{{item.req_status}}</td>
                     <td>
                         <span style="display: flex; justify-content: center; gap: .4rem; position: relative;">
-                            <img src="/assets/leaveInfo.svg" (click)="viewleaverequests(item.id);" style="cursor: pointer;">
+                            <img src="/assets/leaveInfo.svg" (click)="viewleaverequests(item.id);" style="cursor: pointer;" (click)="openviewDialog(item.id)">
                             <img src="/assets/close.png" *ngIf="item.req_status == 'Pending'" style="position: absolute; right: 2rem;cursor: pointer;" 
                             (click)="deleteLeaveRequest(item.id)">
                         </span>
                     </td>
                     </tr>
             </table>
+        </div>
         </div>
     </div>
     <div class="leave-history">
@@ -81,6 +82,7 @@
         </div>
         <div class="leave-table">
             <p *ngIf="history.length==0">No leave history available</p>
+            <div class="table-body">
             <table class="attendance-table">
                 <thead class="table-head" *ngIf="history.length !=0">
                     <th>S.No.</th>
@@ -101,9 +103,10 @@
                         <td>{{item.leave_type_name == "Paid" ? "General":item.leave_type_name}}</td>
                         <td> {{item.req_status}}</td>
                         <td>{{item.discrepancy_status != "pending" ? '---':item.discrepancy_status}}</td>
-                        <td><img src="/assets/leaveInfo.svg" style="cursor: pointer;"></td>
+                        <td><img src="/assets/leaveInfo.svg" style="cursor: pointer;" (click)="openviewDialog(item.id)"></td>
                     </tr>
             </table>
+            </div>
         </div>
     </div>
 </div>

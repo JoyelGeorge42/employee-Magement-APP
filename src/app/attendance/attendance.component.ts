@@ -8,7 +8,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
   templateUrl: './attendance.component.html',
   styleUrls: ['./attendance.component.scss'],
 })
-export class AttendanceComponent {
+export class AttendanceComponent{
   title = 'Attendance';
 
   constructor(private apiService: ApiService, private http: HttpClient) {
@@ -21,11 +21,11 @@ export class AttendanceComponent {
     });
   }
 
+
+
   empName:string ="";
   empid!: number;
   param: any;
-
-  @ViewChild('myTestDiv') table!: ElementRef;
 
   daterange = new FormGroup({
     start: new FormControl<Date | null>(null),

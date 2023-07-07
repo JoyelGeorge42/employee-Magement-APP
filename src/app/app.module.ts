@@ -32,6 +32,9 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {NgFor} from '@angular/common';
 import {MatSelectModule} from '@angular/material/select';
+import { LeaveInDetailComponent } from './leave-in-detail/leave-in-detail.component';
+import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
+
 
 @NgModule({
   declarations: [
@@ -48,6 +51,7 @@ import {MatSelectModule} from '@angular/material/select';
     LeaveComponent,
     PolicyComponent,
     ApplyLeaveComponent,
+    LeaveInDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,6 +71,7 @@ import {MatSelectModule} from '@angular/material/select';
     MatButtonToggleModule,
     NgFor,
     MatSelectModule,
+    MatSnackBarModule
   ],
   providers: [
     LoginService,

@@ -17,7 +17,6 @@ export class ReportComponent {
     });
 
     this.apiService.unavailableReportDate().subscribe((res=> {
-      console.log(res)
       this.data = res.msg.msg;
     })
     )

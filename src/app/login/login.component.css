@@ -43,7 +43,7 @@ h3{
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    background-color: #3a3a3a;
+    background-image: radial-gradient(130% 100% at 0% 0%,var(--col-primary-500),var(--col-primary-900) 100%);
     width: 50%;
     height: 35%;
     border-radius: 1rem;
@@ -96,16 +96,35 @@ form{
 .login-btn{
     width:20rem ;
     padding: .8rem 2rem;
-    border-radius: 1rem;
-    background-color: inherit;
-    border: 2px solid green;
-    color: white;
-    font-size: medium;
+ border-radius: 30em;
+ font-size: 15px;
+ font-family: inherit;
+ border: none;
+ background: linear-gradient(to right, #1f1f1f, #181717) padding-box,
+              linear-gradient(to right, rgb(2, 167, 38), rgb(22, 48, 22)) border-box;
+              border-radius: 1rem;
+              border: 2px solid transparent;
+ position: relative;
+ overflow: hidden;
+ z-index: 1;
+ color: white;
 }
-
-.login-btn:hover{
-    background-color: #139b48;
-}
+.login-btn::before {
+    content: '';
+    width: 0;
+    height: 3rem;
+    border-radius: none;
+    position: absolute;
+    top: 0;
+    left: -3rem;
+    background-image: linear-gradient(to right, rgb(2, 167, 38), rgb(2, 75, 0));
+    transition: .3s ease;
+    display: block;
+    z-index: -1;
+   }
+.login-btn:hover::before {
+    width: 23rem;
+   }
 
 .forgot-pass{
     display: flex;
