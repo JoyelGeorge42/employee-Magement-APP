@@ -34,6 +34,7 @@ import {NgFor} from '@angular/common';
 import {MatSelectModule} from '@angular/material/select';
 import { LeaveInDetailComponent } from './leave-in-detail/leave-in-detail.component';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
+import { CancelLeaveComponent } from './cancel-leave/cancel-leave.component';
 
 
 @NgModule({
@@ -52,6 +53,7 @@ import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
     PolicyComponent,
     ApplyLeaveComponent,
     LeaveInDetailComponent,
+    CancelLeaveComponent,
   ],
   imports: [
     BrowserModule,

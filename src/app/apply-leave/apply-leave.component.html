@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="leave-days">
-            <mat-tab-group animationDuration="0ms" [(selectedIndex)]="selectedIndex">
+            <mat-tab-group animationDuration="0ms" [(selectedIndex)]="selectedIndex" (focusChange)="resetForm()">
                 <mat-tab label="Half Day"
                     [disabled]="selectedType == 'Marriage' || selectedType == 'Paternity'||selectedType == 'Maternity'">
                     <div class="date-select">
@@ -109,7 +109,7 @@
                             <div class="input-area">
                                 <mat-form-field [formGroup]="multipledays">
                                     <mat-label>Select End date </mat-label>
-                                    <input #toInput matInput [matDatepicker]="picker3" [min]="multipledays.get('starteddate')?.value!"[matDatepickerFilter]="filterDays" formControlName="enddate" (dateChange)="multipledayscount()" isRequired>
+                                    <input #toInput matInput [matDatepicker]="picker3" [min]="multipledays.get('starteddate')?.value!"[matDatepickerFilter]="filterDays" formControlName="enddate" (dateChange)="multipledayscount()" [max]="multipledays.get('enddate')?.value!" isRequired>
                                     <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
                                     <mat-datepicker #picker3 ></mat-datepicker>
                                 </mat-form-field>

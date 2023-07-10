@@ -27,7 +27,15 @@ get password(){
   return this.loginForm.get("password");
 }
 
+getErrorMessage() {
+  if (this.email?.hasError('required')) {
+    return 'You must enter a value';
+  }
+
+  return this.email?.hasError('email') ? 'Not a valid email' : '';
+}
   submit(){
+    if(this.loginForm.valid){
     this.loginService.authenticateUser(this.loginForm.value).subscribe((res)=>{
       if(res.success == true){
         this.loginService.changeflag();
@@ -43,6 +51,9 @@ get password(){
       this.serverresponse = error.statusText;
     })
 
+  }else{
+    this.loginForm.markAllAsTouched();
   }
+}
 
 }

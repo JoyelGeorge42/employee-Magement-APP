@@ -1,13 +1,15 @@
 import { FormControl, FormGroup } from '@angular/forms';
 import { ApiService } from './../api.service';
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { ApplyLeaveComponent } from '../apply-leave/apply-leave.component';
 import { DialogRef } from '@angular/cdk/dialog';
 import { LeaveInDetailComponent } from '../leave-in-detail/leave-in-detail.component';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { NgIf } from '@angular/common';
+import { CancelLeaveComponent } from '../cancel-leave/cancel-leave.component';
 
 @Component({
   selector: 'app-leave',
@@ -136,9 +138,10 @@ export class LeaveComponent {
   }
 
   deleteLeaveRequest(id:number){
-    this.apiService.deleteRequest(id).subscribe((res=>{
-    }))
-    this.openSnackBar()
+    this.dialog.open(CancelLeaveComponent, {
+      data:id
+    });
+
   }
 
   viewleaverequests(id:number){
@@ -150,12 +153,15 @@ export class LeaveComponent {
     const dialogRef = this.dialog.open(LeaveInDetailComponent, { data: id});
     dialogRef.disableClose = true
   }
-  openSnackBar() {
-    const config = new MatSnackBarConfig();
-    config.panelClass=["background-red"];
-    config.duration = 500;
-    config.horizontalPosition = "right";
-    config.verticalPosition ="top"
-    this._snackBar.open("Leave Request Deleted Successfully !!","",config);
-  }
+
 }
+
+// @Component({
+//   selector: 'dialog-data-example-dialog',
+//   templateUrl: 'cancel-leave.html',
+//   standalone: true,
+//   imports: [MatDialogModule, NgIf],
+// })
+// export class DialogDataExampleDialog {
+
+// }

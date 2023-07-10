@@ -33,7 +33,7 @@
                     <th>Leave Status</th>
                     <th>Action</th>
                 </thead>
-                <br>
+                <div class="gap"></div>
                 <tr *ngFor="let item of pending let i = index">
                     <td>{{i+1}}</td>
                     <td>{{item.startdate | date: 'dd-MM-yyyy'}}</td>
@@ -42,9 +42,9 @@
                     <td>{{item.leave_type_name == "Paid" ? "General":item.leave_type_name}}</td>
                     <td>{{item.req_status}}</td>
                     <td>
-                        <span style="display: flex; justify-content: center; gap: .4rem; position: relative;">
+                        <span style="display: flex; justify-content: flex-start; gap: .4rem; position: relative;">
                             <img src="/assets/leaveInfo.svg" (click)="viewleaverequests(item.id);" style="cursor: pointer;" (click)="openviewDialog(item.id)">
-                            <img src="/assets/close.png" *ngIf="item.req_status == 'Pending'" style="position: absolute; right: 2rem;cursor: pointer;" 
+                            <img src="/assets/close.png" *ngIf="item.req_status == 'Pending'" style="position: absolute; right: 6rem;cursor: pointer;" 
                             (click)="deleteLeaveRequest(item.id)">
                         </span>
                     </td>
@@ -94,7 +94,7 @@
                     <th>Correction Status</th>
                     <th>Action</th>
                 </thead>
-                <br>
+                <div class="gap"></div>
                 <tr *ngFor="let item of history; let i = index">
                         <td>{{i+1}}</td>
                         <td>{{item.startdate | date: 'dd-MM-yyyy'}}</td>

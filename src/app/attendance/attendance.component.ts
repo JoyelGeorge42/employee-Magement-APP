@@ -15,6 +15,9 @@ export class AttendanceComponent{
     this.apiService.reportingDetails().subscribe((res) => {
       this.empid = res.results.emp_id;
       this.empName = res.results.emp_name;
+      this.selectedvalue = res.results.emp_name;
+      this.reporters = res.results.reporters;
+      console.log(this.reporters);
     });
     this.apiService.attendancedetails().subscribe((res) => {
       this.attendance = res.results;
@@ -26,6 +29,8 @@ export class AttendanceComponent{
   empName:string ="";
   empid!: number;
   param: any;
+  selectedvalue:string ="";
+  reporters:any[]=[];
 
   daterange = new FormGroup({
     start: new FormControl<Date | null>(null),

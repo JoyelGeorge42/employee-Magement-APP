@@ -10,15 +10,13 @@
             </div>
             <div class="attendance-top-right">
                 <div class="input">
-                    <div class="input-head">
-                        Search
-                    </div>
-                    <div class="input-area">
-                        <input type="text" placeholder="Joyel George">
-                        <span class="search-icon">
-                            <i class="fa-solid fa-caret-down"></i>
-                        </span>
-                    </div>
+                    <mat-form-field>
+                        <mat-label>Search</mat-label>
+                        <mat-select [(value)]="selectedvalue" [(ngModel)]="selectedvalue">
+                            <mat-option *ngIf="reporters.length == 0" [value]="empName">{{empName}}</mat-option>
+                            <mat-option *ngFor="let item of reporters" [value]="item.emp_name">{{item.emp_name}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
                 </div>
                 <div class="input">    
                     <div class="input-head" id="datehead">
@@ -49,7 +47,7 @@
                         <th>Net Working Hours</th>
                         <th>Timesheet Submitted Hours</th>
                     </thead>
-                    <br>
+                    <div class="gap"></div>
                     <tr *ngFor="let item of attendance">
                         <td>{{item.Date}}</td>
                         <td>{{item.FirstInTime}}</td>

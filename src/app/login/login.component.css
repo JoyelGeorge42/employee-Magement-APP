@@ -11,7 +11,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 55%;
+    width: 50%;
     height: 100%;
     background-color: black;
 }
@@ -20,7 +20,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 45%;
+    width: 50%;
     gap: 1rem;
     height: 100%;
     background-color: rgb(0, 0, 0);
@@ -31,11 +31,28 @@
 }
 
 h1{
-    color:  #139b48;
+    background:linear-gradient(to right,#36aa63,#119341);
+    font-weight: 700;
+    font-size: 2.6em;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    line-height:50.83px;
+}
+
+.input-fields{
+    display: flex;
+    gap: .5rem;
+    justify-content: center;
+    align-items: center;
 }
 
 h3{
-    color: #636363;
+    line-height: 29.05px;
+    background: linear-gradient(to right,#545454,#363636);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    font-weight: 500;
+    font-size: 24px;
 }
 
 .login-form{
@@ -43,11 +60,11 @@ h3{
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    background-image: radial-gradient(130% 100% at 0% 0%,var(--col-primary-500),var(--col-primary-900) 100%);
-    width: 50%;
+    background: linear-gradient(169.15deg,rgba(238, 237, 237, 0.15) 0%, rgba(68, 67, 67, 0.3) 96.79%);
+    width: 45%;
     height: 35%;
-    border-radius: 1rem;
-    padding: 1.5rem 1.5rem 1rem 1.5rem;
+    border-radius: 1.5rem;
+    padding: 2.5rem 2rem 1rem 2rem;
 }
 
 .login-head{
@@ -56,7 +73,10 @@ h3{
     justify-content: flex-end;
     flex-direction: column;
     width: 50%;
-    height: 30%;
+    height: 25%;
+    margin-bottom: 2rem;
+    margin-left: 4em;
+    font-size: 16px;
 }
 
 input[type=email],[type=password]{
@@ -96,19 +116,19 @@ form{
 .login-btn{
     width:20rem ;
     padding: .8rem 2rem;
- border-radius: 30em;
- font-size: 15px;
- font-family: inherit;
- border: none;
- background: linear-gradient(to right, #1f1f1f, #181717) padding-box,
-              linear-gradient(to right, rgb(2, 167, 38), rgb(22, 48, 22)) border-box;
-              border-radius: 1rem;
-              border: 2px solid transparent;
- position: relative;
- overflow: hidden;
- z-index: 1;
- color: white;
+    border-radius: 30em;
+    font-size: 15px;
+    font-family: inherit;
+    border: none;
+    background: linear-gradient(to right, #1f1f1f, #181717) padding-box,linear-gradient(to right, rgb(2, 167, 38), rgb(22, 48, 22)) border-box;
+    border-radius: 1rem;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    color: white;
 }
+
 .login-btn::before {
     content: '';
     width: 0;
@@ -134,4 +154,14 @@ form{
     font-size: smaller;
     font-weight: 100;
     color: #139b48;
+}
+
+.error-popups{
+    margin-left:1.6rem;
+    align-items: flex-start !important;
+    display: flex; width: 100%; 
+    color: rgba(224, 55, 55, 1); 
+    margin-top: .3rem;
+    height: 1rem;
+    font-size:15px;
 }

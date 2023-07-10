@@ -1,29 +1,37 @@
 <div class="login-container">
     <div class="left-loginpage">
-        <img src="/assets/Frame.png">
+        <img src="/assets/Frame.png" />
     </div>
     <div class="right-loginpage">
         <div class="login-head">
             <h1>Hello,</h1>
-            <br>
             <h3>Welcome back!</h3>
         </div>
         <div class="login-form">
-            <form [formGroup]=loginForm (ngSubmit)="submit();">
+            <form [formGroup]="loginForm" (ngSubmit)="submit()">
                 <div>
-                <input type="email" formControlName = email placeholder="Email*">
+                    <span class="input-fields">
+                        <img src="/assets/usename.svg">
+                        <input type="email" formControlName="email" placeholder="Email *" />
+                    </span>
+                    <div class="error-popups">
+                        <span style="color: rgba(224, 55, 55, 1);"  *ngIf="email?.invalid && email?.touched">Enter a valid email* </span> 
+                    </div>
                 </div>
-                <div *ngIf="email?.invalid && email?.touched" style="align-items: flex-start !important; display: flex; width: 100%; color: rgb(223, 33, 33);">
-                    Enter a valid email*
-                </div>
+
                 <div>
-                <input type="password" formControlName = password placeholder="Password*">
+                    <span class="input-fields">
+                        <img src="/assets/password.svg">
+                        <input type="password" formControlName="password" placeholder="Password *" />
+                    </span>
+                    <div class="error-popups">
+                        <span *ngIf="password?.invalid && password?.touched">Enter a your password*</span>
+                    </div>
                 </div>
-                <div></div>
                 <div class="forgot-pass">
                     <span>
-                        <h2 *ngIf="serverresponse" style="color: red; margin: 0; font-size: small; font-weight:500; ;">
-                            {{serverresponse}}!!
+                        <h2 *ngIf="serverresponse" style="color: red; margin: 0; font-size: small; font-weight: 500">
+                            {{ serverresponse }}!!
                         </h2>
                     </span>
                     <span>
@@ -31,8 +39,8 @@
                     </span>
                 </div>
                 <div>
-                <button type="submit" class="login-btn">Login</button>
-            </div>
+                    <button type="submit" class="login-btn">Login</button>
+                </div>
             </form>
         </div>
     </div>

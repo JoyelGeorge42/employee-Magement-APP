@@ -31,16 +31,25 @@ input:focus{
     caret-color: green;
 }
 
+input::placeholder{
+    font-size: medium;
+}
+
 .week-circle{
-    display: flex;
-    width: 1.2rem;
-    height: 1.2rem;
-    border: 2px solid rgb(235, 26, 26);
-    border-radius: 10rem;
-    align-items: center;
-    justify-content: center;
-    font-size: 7px;
+    border: 3px solid transparent;
+    border-radius: 20px;
+    background: linear-gradient(to right, #111111, #111111), linear-gradient(to right, rgba(189, 30, 30, 1) , rgb(170 27 27 / 87%));
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;  
+    width: 1.3rem;
+    height: 1.3rem;
+    font-size:x-small;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background-color:transparent;
     color: white;
+
 }
 
 .head-start{
@@ -59,14 +68,14 @@ input:focus{
 }
 
 .logout{
-    padding: .8rem 2rem;
+    padding: .9rem 2.2rem;
     border-radius: 1rem;
-    background: linear-gradient(to right, #1f1f1f, #242424) padding-box,
-    linear-gradient(to right, rgb(255, 55, 55), rgb(133, 0, 0)) border-box;
+    background: linear-gradient(to right, #111111, #111111) padding-box,
+    linear-gradient(to right, rgb(255, 55, 55), rgb(133, 0, 0)) border-box,linear-gradient(to left, rgb(133, 0, 0), rgb(255, 55, 55)) border-box;
     border-radius: 1rem;
     border: 2px solid transparent;
     color: white;
-    font-size: medium;
+    font-size: 14px;
     position: relative;
     overflow: hidden;
     z-index: 1;
@@ -80,8 +89,9 @@ input:focus{
     position: absolute;
     top: 0;
     left: -3rem;
-    background-image: linear-gradient(to right, rgb(255, 55, 55), rgb(133, 0, 0));
-    transition: .3s ease;
+    background: transparent;
+    background-image: linear-gradient(to right, rgb(255, 55, 55), rgb(133, 0, 0)),linear-gradient(to left, rgb(133, 0, 0), rgb(255, 55, 55));
+    transition: all .25s ease-in-out;
     display: block;
     z-index: -1;
    }

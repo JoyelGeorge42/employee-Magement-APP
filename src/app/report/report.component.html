@@ -5,15 +5,13 @@
         </div>
         <div class="report-top-right">
             <div class="input">
-                <div class="input-head">
-                    Search
-                </div>
-                <div class="input-area">
-                    <input type="text" placeholder="Joyel George">
-                    <span class="search-icon">
-                        <i class="fa-solid fa-caret-down"></i>
-                    </span>
-                </div>
+                <mat-form-field>
+                    <mat-label>Search</mat-label>
+                    <mat-select [(value)]="selectedvalue">
+                        <mat-option *ngIf="reporters.length == 0" [value]="empName" selected>{{empName}}</mat-option>
+                        <mat-option *ngFor="let item of reporters" [value]="item.emp_name">{{item.emp_name}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
             </div>
             <div class="input">    
                 <div class="input-head" id="datehead">
@@ -37,7 +35,7 @@
     </div>
     <div class="report-details">
         <div>
-            <img src="/assets/report.png">
+            <img src="/assets/report.png" draggable="false">
         </div>
         <div>
             <h2>

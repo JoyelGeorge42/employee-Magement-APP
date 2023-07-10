@@ -14,6 +14,9 @@ export class ReportComponent {
     this.apiService.reportingDetails().subscribe((res) => {
       this.empid = res.results.emp_id;
       this.empName = res.results.emp_name;
+      this.selectedvalue = res.results.emp_name;
+      this.reporters = res.results.reporters;
+      console.log(this.selectedvalue);      
     });
 
     this.apiService.unavailableReportDate().subscribe((res=> {
@@ -33,7 +36,10 @@ export class ReportComponent {
   data:string ="";
   empid!:number;
   empName:string ="";
+  selectedvalue:string =  this.empName;
   params:any;
+  reporters:any[] =[];
+  dropdown = new FormControl(this.selectedvalue);
 
 
   downloadreport(){

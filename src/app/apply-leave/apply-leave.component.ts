@@ -116,6 +116,7 @@ export class ApplyLeaveComponent {
   } else {
     this.halfday.markAsUntouched();
   }
+    this.selectnumberofleaves = 0;
     this.multipledays.get('starteddate')?.setValue(null);
     this.multipledays.get('enddate')?.setValue(null);
     this.multipledayscount();
