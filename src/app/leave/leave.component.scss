@@ -91,7 +91,7 @@
     top: 0;
     left: -3rem;
     background-image: linear-gradient(to right,#139b48, rgba(19, 155, 72, 0.1));
-    transition: .3s ease;
+    transition: .3s ease-in-out;
     display: block;
     z-index: -1;
 }

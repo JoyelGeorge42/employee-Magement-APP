@@ -1,5 +1,5 @@
 .attendance {
-    padding: 1.5rem 5.5rem;
+    padding: 1rem 5.5rem;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -54,7 +54,7 @@ tr td:first-child {
 
 .attendance-top-right {
     display: flex;
-    gap: 2rem;
+    gap: .8rem;
     align-items: flex-end;
 }
 
@@ -62,8 +62,6 @@ table {
     width: 100%;
     border-collapse: collapse;
 }
-
-
 
 .attendance-table thead th {
     position: sticky;
@@ -80,7 +78,6 @@ table {
     color: #9b9b9b;
     z-index: 1;
 }
-
 
 .table-head th:first-child {
     border-top-left-radius: 1rem;
@@ -110,6 +107,9 @@ td {
 }
 
 ::ng-deep {
+    .mat-mdc-select-value-text{
+        font-size: 14px;
+    }
 
     .mat-mdc-form-field .mat-mdc-floating-label.mdc-floating-label {
         font-size: 18px;
@@ -566,6 +566,10 @@ td {
         border: 0;
     }
 
+    .mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label{
+        color: gray !important;
+    }
+
     .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::before {
         border-bottom-color: gray;
     }
@@ -580,6 +584,42 @@ td {
 
     .mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
         color: gray;
+    }.mat-mdc-form-field-infix {
+        min-height: 48px;
+    }
+    .mdc-text-field--no-label:not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mat-mdc-form-field-infix{
+        display: flex;
+        align-items:flex-end ;
+    }
+    .mat-mdc-select-arrow svg {
+        fill: currentColor;
+        position: absolute;
+        top: 57%;
+        left: 50%;
+        transform: translate(-50%, -25%) !important;
+    }.mdc-icon-button{
+        align-items: flex-end;
+        justify-content: flex-end;
+    }
+    .mat-mdc-icon-button.mat-mdc-button-base {
+        padding: 0;
+        padding-bottom: 5px;
+    }
+    .mdc-icon-button{
+        display: flex !important;
+    }
+    .mat-date-range-input-wrapper {
+        position: relative;
+        overflow: hidden;
+        max-width: calc(50% - 4px);
+        margin-bottom: 5px;
+    }
+    .mat-mdc-select-value {
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin-bottom: 4px;
     }
 }
 
@@ -590,10 +630,13 @@ td {
     color: gray;
     position: relative;
     width: 15rem;
+    font-size: 14px;
+
 }
 
 #datehead {
     position: absolute;
+    top: 15%;
 }
 
 input {
@@ -601,11 +644,12 @@ input {
     background-color: inherit;
     border: 0;
     border-bottom: 2px solid gray;
-    padding-bottom: 10px;
     appearance: none;
     box-sizing: unset;
     color: white;
     font-size: medium;
+    font-size: 14px;
+
 }
 
 input:focus {
