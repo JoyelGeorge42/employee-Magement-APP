@@ -39,22 +39,3 @@ app-footer{
     background-color: #161616;
     height: var(--footerHeight);
 }
-/* width */
-::-webkit-scrollbar {
-    width: 3px;
-}
-  
-/* Track */
-::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px grey; 
-}
-   
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: #9b9b9b; 
-}
-  
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: #7e7e7e; 
-}

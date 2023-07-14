@@ -19,10 +19,7 @@ export class ApiService {
 
   attendanceApi: string = 'http://172.16.120.39:8000/api/attendance/';
 
-  attendanceparam: any = new HttpParams()
-    .set('from', '2023-06-10')
-    .set('to', '2023-07-10')
-    .set('emp_id', 2068);
+  attendanceparam: any = new HttpParams();
 
   changeparam(data: any) {
     this.attendanceparam = data;

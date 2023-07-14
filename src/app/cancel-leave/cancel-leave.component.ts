@@ -13,11 +13,14 @@ export class CancelLeaveComponent {
   }
 
   deletedleave(){
-    // this.apiService.deleteRequest(this.data).subscribe((res=>{
-    // }))
+    this.apiService.deleteRequest(this.data).subscribe((res=>{
+    }))
+    setTimeout(() => { window.location.reload(); },2000);
     this.openSnackBar();
     this.dialog.closeAll();
+    setTimeout(() => { window.location.reload(); },2000);
   }
+  
   closeall() {
     this.dialog.closeAll();
   }

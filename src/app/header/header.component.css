@@ -38,18 +38,29 @@ input::placeholder{
 .week-circle{
     border: 3px solid transparent;
     border-radius: 20px;
-    background: linear-gradient(to right, #111111, #111111), linear-gradient(to right, rgba(189, 30, 30, 1) , rgb(170 27 27 / 87%));
+    background: linear-gradient(to right, #111111, #111111), linear-gradient(to right, #36aa63 , #002f0a);
     background-clip: padding-box, border-box;
     background-origin: padding-box, border-box;  
-    width: 1.3rem;
-    height: 1.3rem;
+    width: 1.5rem;
+    height: 1.5rem;
     font-size:x-small;
     display:flex;
     align-items:center;
     justify-content:center;
     background-color:transparent;
     color: white;
+}
 
+.week-circle:first-child{
+    background: linear-gradient(to right, #111111, #111111), linear-gradient(to right, #f44336 , #770000);
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;  
+}
+
+.week-circle:nth-last-child(2){
+    background: linear-gradient(to right, #111111, #111111), linear-gradient(to right, #f44336 , #770000);
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;  
 }
 
 .head-start{
@@ -68,7 +79,7 @@ input::placeholder{
 }
 
 .logout{
-    padding: .9rem 2.2rem;
+    padding: .8rem 2.2rem;
     border-radius: 1rem;
     background: linear-gradient(to right, #111111, #111111) padding-box,
     linear-gradient(to right, rgb(255, 55, 55), rgb(133, 0, 0)) border-box,linear-gradient(to left, rgb(133, 0, 0), rgb(255, 55, 55)) border-box;

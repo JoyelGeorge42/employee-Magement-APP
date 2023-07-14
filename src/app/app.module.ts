@@ -35,6 +35,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { LeaveInDetailComponent } from './leave-in-detail/leave-in-detail.component';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 import { CancelLeaveComponent } from './cancel-leave/cancel-leave.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 
 @NgModule({
@@ -73,7 +74,8 @@ import { CancelLeaveComponent } from './cancel-leave/cancel-leave.component';
     MatButtonToggleModule,
     NgFor,
     MatSelectModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatAutocompleteModule,
   ],
   providers: [
     LoginService,

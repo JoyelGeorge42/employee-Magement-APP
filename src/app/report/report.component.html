@@ -5,13 +5,22 @@
         </div>
         <div class="report-top-right">
             <div class="input">
-                <mat-form-field>
-                    <mat-label>Search</mat-label>
-                    <mat-select [(value)]="selectedvalue">
-                        <mat-option *ngIf="reporters.length == 0" [value]="empName" selected>{{empName}}</mat-option>
-                        <mat-option *ngFor="let item of reporters" [value]="item.emp_name">{{item.emp_name}}</mat-option>
-                    </mat-select>
-                  </mat-form-field>
+                <form class="example-form">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Search</mat-label>
+                      <input type="text"
+                             placeholder="Pick one"
+                             aria-label="Number"
+                             matInput
+                             [formControl]="myControl"
+                             [matAutocomplete]="auto" [value]="selectedvalue">
+                      <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                          {{option}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </form>
             </div>
             <div class="input">    
                 <div class="input-head" id="datehead">

@@ -1,1 +1,344 @@
-<p>enrty works!</p>
+<div class="timesheet">
+    <div class="timesheet-top">
+        <div class="timesheet-top-left">
+            <h2>Weekly Timesheet</h2>
+        </div>
+    </div>
+    <div class="timesheet-details">
+        <table class="timesheet-table">
+            <thead class="table-head">
+                <th (click)="calculateByDay();">Week {{weekNumber}}</th>
+                <th class="date-day" *ngFor="let item of days">{{item | date: "dd"}}<span class="day"> {{item | date:"EE"}}</span></th>
+                <th>Total</th>
+            </thead>
+            <div class="gap"></div>
+            <tr class="table-row-1">
+                <td>{{projectName}} [{{cummilativeProject1Hours}} : {{cummilativeProject1Minutes}}]</td>
+                <td *ngFor="let daydata of defaultprojectDetails; let i= index ;">
+                    <div class="time-container">
+                        <span class="timepicker">
+                            <input type="number" min=00 max=01 [disabled]="!daydata.enable" [(ngModel)]="daydata.h" (ngModelChange)="calculateProject1Data();"
+                            [ngModelOptions]="{updateOn: 'blur'}">
+                            :<select [disabled]="!daydata.enable" [value]="daydata.m" (change)="calculateProject1Data();" [(ngModel)]="daydata.m">
+                                <option value="0">00</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                            </select>
+                        </span>
+                    </div>
+                </td>
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" value="00" readonly [(ngModel)]="project1nettotalHours ==0? '00':project1nettotalHours">
+                            :<input type="number" value="00" readonly [(ngModel)]="project1nettotalMinutes ==0? '00':project1nettotalMinutes">
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            <tr class="table-row-2">
+                <td>Miscellaneous</td>
+                <td *ngFor="let daydata of miscellaneous">
+                    <div class="time-container">
+                        <span class="timepicker">
+                            <input type="number" min=00 max=01 [disabled]="!daydata.enable" [(ngModel)]="daydata.h" 
+                            (ngModelChange)="calculateMiscellaneousData();" [ngModelOptions]="{updateOn: 'blur'}">
+                            :<select [disabled]="!daydata.enable" [(ngModel)]="daydata.m" (change)="calculateMiscellaneousData();">
+                                <option value="0">00</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                            </select>
+                        </span>
+                    </div>
+                </td>
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" [(ngModel)]="cummilativenettotalHours ==0? '00':cummilativenettotalHours" readonly>
+                            :<input type="number" [(ngModel)]="cummilativenettotalMinutes==0? '00':cummilativenettotalMinutes" readonly>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            <tr class="table-row-3">
+                <td>Holiday</td>
+                <td *ngFor="let daydata of holidaydata">
+                    <div class="time-container">
+                        <span class="timepicker">
+                            <input type="number" min=00 max=01 [(ngModel)]=daydata.h [disabled]="!daydata.enable">
+                            :<select [disabled]="!daydata.enable" [(ngModel)]=daydata.m>
+                                <option value=0>00</option>
+                                <option value=15>15</option>
+                                <option value=30>30</option>
+                                <option value=45>45</option>
+                            </select>
+                        </span>
+                    </div>
+                </td>
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" value="00" readonly [(ngModel)]="holidaynettotalHours ==0? '00':holidaynettotalHours">
+                            :<input type="number" value="00" readonly [(ngModel)]="holidaynettotalMinutes ==0? '00':holidaynettotalMinutes">
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            <tr class="table-row-4">
+                <td>Vacation</td>
+                <td *ngFor="let daydata of vacation">
+                    <div class="time-container">
+                        <span class="timepicker">
+                            <input type="number" min=00 max=01 [(ngModel)]=daydata.h [disabled]="!daydata.enable">
+                            :<select [disabled]="!daydata.enable" [(ngModel)]="daydata.m">
+                                <option value=0>00</option>
+                                <option value=15>15</option>
+                                <option value=30>30</option>
+                                <option value=45>45</option>
+                            </select>
+                        </span>
+                    </div>
+                </td>
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" value="00" readonly [(ngModel)]="vacationnettotalHours ==0 ? '00':vacationnettotalHours">
+                            :<input type="number" value="00" readonly [(ngModel)]="vacationnettotalMinutes ==0 ? '00':vacationnettotalMinutes">
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            <tr class="table-row-5">
+                <td>Total Hours</td>
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" min=00 max=01 [(ngModel)]="day0NetHours == 0 ? '00':day0NetHours" readonly>
+                            :<input type="number" [(ngModel)]="day0NetMinutes == 0 ? '00':day0NetMinutes"readonly>
+                        </span>
+                    </div>
+                </td>
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" min=00 max=01 [(ngModel)]="day1NetHours == 0 ? '00':day1NetHours" readonly>
+                            :<input type="number" [(ngModel)]="day1NetMinutes == 0 ? '00':day1NetMinutes"readonly>
+                        </span>
+                    </div>
+                </td>                
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" min=00 max=01 [(ngModel)]="day2NetHours == 0 ? '00':day2NetHours" readonly>
+                            :<input type="number" [(ngModel)]="day2NetMinutes == 0 ? '00':day2NetMinutes"readonly>
+                        </span>
+                    </div>
+                </td>                
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" min=00 max=01 [(ngModel)]="day3NetHours == 0 ? '00':day3NetHours" readonly>
+                            :<input type="number" [(ngModel)]="day3NetMinutes == 0 ? '00':day3NetMinutes"readonly>
+                        </span>
+                    </div>
+                </td>                
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" min=00 max=01 [(ngModel)]="day4NetHours == 0 ? '00':day4NetHours" readonly>
+                            :<input type="number" [(ngModel)]="day4NetMinutes == 0 ? '00':day4NetMinutes"readonly>
+                        </span>
+                    </div>
+                </td>                
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" min=00 max=01 [(ngModel)]="day5NetHours == 0 ? '00':day5NetHours" readonly>
+                            :<input type="number" [(ngModel)]="day5NetMinutes == 0 ? '00':day5NetMinutes"readonly>
+                        </span>
+                    </div>
+                </td>                
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" min=00 max=01 [(ngModel)]="day6NetHours == 0 ? '00':day6NetHours" readonly>
+                            :<input type="number" [(ngModel)]="day6NetMinutes == 0 ? '00':day6NetMinutes"readonly>
+                        </span>
+                    </div>
+                </td>
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" value="00" [(ngModel)]="netTotalDaysHours == 0? '00':netTotalDaysHours" readonly>
+                            :<input type="number" value="00" readonly [(ngModel)]="netTotalDaysMinutes ==0 ? '00': netTotalDaysMinutes">
+                        </span>
+                    </div>
+                </td>            
+            </tr>
+            <tr class="table-row-6">
+                <td>Net Working Hours<br>
+                    (from Access Control)</td>
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" value="00" readonly>
+                            :<input type="number" value="00" readonly>
+                        </span>
+                    </div>
+                </td>                
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" value="00" readonly>
+                            :<input type="number" value="00" readonly>
+                        </span>
+                    </div>
+                </td>  
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" value="00" readonly>
+                            :<input type="number" value="00" readonly>
+                        </span>
+                    </div>
+                </td>                
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" value="00" readonly>
+                            :<input type="number" value="00" readonly>
+                        </span>
+                    </div>
+                </td>  
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" value="00" readonly>
+                            :<input type="number" value="00" readonly>
+                        </span>
+                    </div>
+                </td>                
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" value="00" readonly>
+                            :<input type="number" value="00" readonly>
+                        </span>
+                    </div>
+                </td>                
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" value="00" readonly>
+                            :<input type="number" value="00" readonly>
+                        </span>
+                    </div>
+                </td>                
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" value="00" readonly>
+                            :<input type="number" value="00" readonly>
+                        </span>
+                    </div>
+                </td>            
+            </tr>
+            <tr class="table-row-7">
+                <td>Gross Working Hours<br>
+                    (from Access Control)</td>
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" value="00" readonly>
+                            :<input type="number" value="00" readonly>
+                        </span>
+                    </div>
+                </td>                
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" value="00" readonly>
+                            :<input type="number" value="00" readonly>
+                        </span>
+                    </div>
+                </td>  
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" value="00" readonly>
+                            :<input type="number" value="00" readonly>
+                        </span>
+                    </div>
+                </td>                
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" value="00" readonly>
+                            :<input type="number" value="00" readonly>
+                        </span>
+                    </div>
+                </td>  
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" value="00" readonly>
+                            :<input type="number" value="00" readonly>
+                        </span>
+                    </div>
+                </td>                
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" value="00" readonly>
+                            :<input type="number" value="00" readonly>
+                        </span>
+                    </div>
+                </td>                
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" value="00" readonly>
+                            :<input type="number" value="00" readonly>
+                        </span>
+                    </div>
+                </td>                
+                <td>
+                    <div class="time-container">
+                        <span class="timepicker-total">
+                            <input type="number" value="00" readonly>
+                            :<input type="number" value="00" readonly>
+                        </span>
+                    </div>
+                </td>            
+            </tr>
+        </table>
+    </div>
+    <div class="timesheet-top">
+        <div class="timesheet-top-left">
+            <h2>Weekly Status Report</h2>
+        </div>
+    </div>
+    <div class="timesheet-details">
+
+        <div class="timesheet-textarea-container">
+            <div class="active-projects">
+                <div class="project1">
+                    <div class="head-text">{{projectName}}</div>
+                    <div class="textarea-div">
+                    <textarea placeholder="Add details of project"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="general-project">
+                <div class="head-text">General Project</div>
+                <textarea placeholder="General details to include"></textarea>
+            </div>
+        </div>
+        <div class="submit-btns">
+            <button type="submit">Save & Submit</button>
+            <button type="submit">Save</button>
+        </div>
+    </div>
+</div>

@@ -101,7 +101,7 @@
                                     <section>
                                         <mat-button-toggle-group [formControl]="multipledayssecondhalfformcontrol"
                                             aria-label="Font Style" multiple>
-                                            <mat-button-toggle value="Second Half" (change)="updatefirsthalF()">Second Half</mat-button-toggle>
+                                            <mat-button-toggle (change)="updatefirsthalF()" [disabled]="multipledays.controls.enddate.invalid || multipledays.controls.starteddate.invalid">Second Half</mat-button-toggle>
                                         </mat-button-toggle-group>
                                     </section>
                                 </div>
@@ -118,7 +118,7 @@
                                     <section>
                                         <mat-button-toggle-group [formControl]="multipledaysfirsthalfformcontrol"
                                             aria-label="Font Style" multiple>
-                                            <mat-button-toggle value="First Half" (change)="updatesecondhalf()">First Half</mat-button-toggle>
+                                            <mat-button-toggle (change)="updatesecondhalf()" [disabled]="multipledays.controls.enddate.invalid || multipledays.controls.starteddate.invalid">First Half</mat-button-toggle>
                                         </mat-button-toggle-group>
                                     </section>
                                 </div>

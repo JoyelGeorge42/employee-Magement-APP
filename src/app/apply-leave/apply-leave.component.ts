@@ -14,7 +14,6 @@ import { HttpParams } from '@angular/common/http';
 import { MatStartDate } from '@angular/material/datepicker';
 import { MatInput } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-import { LeaveComponent } from '../leave/leave.component';
 
 @Component({
   selector: 'app-apply-leave',
@@ -53,8 +52,8 @@ export class ApplyLeaveComponent {
   holidays: any[] = [];
   currentleavebalance!: number;
   empGender: string = '';
-  multipledayssecondhalfformcontrol = new FormControl('');
-  multipledaysfirsthalfformcontrol = new FormControl('');
+  multipledayssecondhalfformcontrol = new FormControl<boolean[]|null>([false]);
+  multipledaysfirsthalfformcontrol = new FormControl<boolean[]|null>([false]);
   fontStyle?: string;
   selectedIndex = 1;
   leavetytpes: any[] = [];
@@ -70,8 +69,8 @@ export class ApplyLeaveComponent {
   count!: number;
   start: any;
   halfdays: number = 0;
-  firsthalf: number = 0;
-  secondhalf: number = 0;
+  firsthalf = new FormControl(0);
+  secondhalf = new FormControl(0);
   btnvalue!: string;
 
   reasons: any[] = [
@@ -117,8 +116,8 @@ export class ApplyLeaveComponent {
     this.halfday.markAsUntouched();
   }
     this.selectnumberofleaves = 0;
-    this.multipledays.get('starteddate')?.setValue(null);
-    this.multipledays.get('enddate')?.setValue(null);
+    this.multipledays.get('starteddate')?.reset();
+    this.multipledays.get('enddate')?.reset();
     this.multipledayscount();
   }
 
@@ -182,14 +181,14 @@ export class ApplyLeaveComponent {
     let startDate = this.multipledays.controls.starteddate.value;
     if (this.multipledays.value.enddate != null) {
       let testdate: any = new Date(startDate!);
-      let endate: any = new Date(this.multipledays.controls.enddate.value!);
+      this.endate = new Date(this.multipledays.controls.enddate.value!);
       var diffDays: any = Math.floor(
-        (endate - testdate) / (1000 * 60 * 60 * 24)
+        (this.endate - testdate) / (1000 * 60 * 60 * 24)
       );
 
       this.count = diffDays + 1;
       if (this.selectedType != 'Maternity') {
-        while (testdate <= endate) {
+        while (testdate <= this.endate) {
           var b = this.filterDays(testdate);
           if (b == false) {
             this.count = this.count - 1;
@@ -198,45 +197,52 @@ export class ApplyLeaveComponent {
         }
       }
       this.selectnumberofleaves = this.count;
-      if (this.firsthalf != 0 || this.secondhalf != 0) {
+      if (this.selectedType != 'Paid') {
+      if (this.firsthalf.value != 0 || this.secondhalf.value != 0) {
         this.selectnumberofleaves =
-          this.count - (this.firsthalf + this.secondhalf);
+          this.count - (this.firsthalf.value! + this.secondhalf.value!);
       }
     }
+    }
   }
+
+  testvar:boolean = false;
+  tesvar2:boolean = false;
+
+
 
   updatefirsthalF() {
-    if (this.firsthalf == 0) {
-      this.firsthalf = 0.5;
-      this.firsthalfvalue = 'true';
+    if(this.testvar == false){
       if (this.endate != null) {
-        this.selectnumberofleaves = this.selectnumberofleaves - this.firsthalf;
+        this.selectnumberofleaves  = this.selectnumberofleaves - 0.5;
       }
-    } else {
-      this.firsthalf = 0;
-      this.firsthalfvalue = 'false';
+      this.testvar = true;
+      this.firsthalfvalue = "true";
+    }else{
       if (this.endate != null) {
         this.selectnumberofleaves = this.selectnumberofleaves + 0.5;
       }
+      this.testvar = false;
+      this.firsthalfvalue = "";
     }
   }
 
-  firsthalfvalue: string = 'false';
-  secondhalfvalue: string = 'false';
+  firsthalfvalue: string = "";
+  secondhalfvalue: string = "";
 
   updatesecondhalf() {
-    if (this.secondhalf == 0) {
-      this.secondhalf = 0.5;
-      this.secondhalfvalue = 'true';
+    if(this.tesvar2 == false){
       if (this.endate != null) {
-        this.selectnumberofleaves = this.selectnumberofleaves - this.secondhalf;
+        this.selectnumberofleaves  = this.selectnumberofleaves - 0.5;
       }
-    } else {
-      this.secondhalf = 0;
-      this.secondhalfvalue = 'false';
+      this.tesvar2 = true;
+      this.secondhalfvalue = "true";
+    }else{
       if (this.endate != null) {
         this.selectnumberofleaves = this.selectnumberofleaves + 0.5;
-      }
+      }      
+      this.tesvar2 = false;
+      this.secondhalfvalue = "";
     }
   }
 
@@ -249,9 +255,7 @@ export class ApplyLeaveComponent {
       );
       this.multipledays.get('enddate')?.setValue(new Date(latestdate));
       this.multipledayscount();
-    } else if (this.selectedType == 'Marriage') {
-      console.log(this.leavetytpes[1]);
-      
+    } else if (this.selectedType == 'Marriage') {      
       let latestdate = start!.setDate(
         start!.getDate() + this.leavetytpes[1].leave_credits - 1
       );
@@ -306,7 +310,7 @@ export class ApplyLeaveComponent {
           this.multipledays.value.starteddate!
         );
         const d = this.convertToCustomFormat(this.multipledays.value.enddate!);
-        this.body.append('day_leave_type', 'Multiple Day');
+        this.body.append('day_leave_type', 'Multiple Days');
         this.body.append('hour', '');
         this.body.append(
           'emp_comments',
@@ -343,9 +347,23 @@ export class ApplyLeaveComponent {
       } else {
         this.body.append('leave_type', '1');
       }
-      this.apiService.postleave(this.body).subscribe((res) => {});
-      this.closeall();
-      this.openSnackBar();
+
+      this.apiService.postleave(this.body).subscribe((res) => {
+        this.closeall();
+        setTimeout(() => { window.location.reload(); },2000);
+        this.openSnackBar();
+      },
+      (err)=>{
+        var errormsg;
+        var data ="Oops! Preexisting Leave Found on this Date";
+        if(err.status == 409){
+          errormsg = data ; 
+        }
+        this.closeall();
+        this.openSnackBar2(errormsg);
+      }
+      );
+
     } else {
       if (this.selectedIndex == 1) {
         this.singleday.markAllAsTouched();
@@ -354,6 +372,8 @@ export class ApplyLeaveComponent {
       } else {
         this.halfday.markAllAsTouched();
       }
+      var test = "Please Fill The Details !!"
+      this.openSnackBar2(test);
     }
   }
 
@@ -371,9 +391,19 @@ export class ApplyLeaveComponent {
   openSnackBar() {
     const config = new MatSnackBarConfig();
     config.panelClass = ['background-green'];
-    config.duration = 1000;
+    config.duration = 2500;
     config.horizontalPosition = "right";
     config.verticalPosition ="top"
     this._snackBar.open("Leave Request Submitted Successfully !!","",config);
   }
+
+  openSnackBar2(data:any) {
+    const config = new MatSnackBarConfig();
+    config.panelClass=["background-red"];
+    config.duration = 2500;
+    config.horizontalPosition = "right";
+    config.verticalPosition ="top"
+    this._snackBar.open(data+" !!","",config);
+  }
 }
+

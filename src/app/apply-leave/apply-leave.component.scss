@@ -1,18 +1,20 @@
 .apply-leave-container {
-    width: 60vw;
+    width: 53vw;
     display: flex;
     align-items: center;
     flex-direction: column;
     overflow: auto;
-    min-height: 85vh;
+    min-height: 77vh;
+    height: 79vh;
     position: relative;
     background-color: #1D1D1D;
+    font-size: 14px;
 }
 
 .apply-leave-head {
     width: 100%;
-    min-height: 8vh;
-    height: 8vh;
+    min-height: 7vh;
+    height: 7vh;
     background-color: #292929;
     display: flex;
     align-items: center;
@@ -43,7 +45,7 @@
     width: -webkit-fill-available;
     background-color: #1D1D1D;
     height: -webkit-fill-available;
-    padding: 2rem 3rem 2rem 3rem;
+    padding: 3.5rem 3.5rem 3.5rem 3.5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -114,7 +116,7 @@ select::-ms-expand {
     padding: .7rem 1rem;
     background-color: #363636;
     border-radius: .5rem;
-    min-height: 6rem;
+    min-height: 4rem;
 }
 
 .invitation-upload{
@@ -139,8 +141,8 @@ textarea {
     background-color: transparent;
     border: 1px solid gray;
     color: gray;
-    width: 96%;
-    min-height: 6rem;
+    width: 95%;
+    min-height: 5rem;
 }
 
 
@@ -162,7 +164,14 @@ textarea::placeholder {
     font-size: smaller;
 }
 
-::ng-deep {
+
+
+::ng-deep {    .mat-button-toggle-disabled.mat-button-toggle-appearance-standard {
+    background: transparent;
+    border-color: rgb(94, 92, 92);
+    color: rgb(94, 92, 92);
+    font-weight: 100;
+}
     .mdb-date-picker .md-form label.active {
         background:#139B48;
     }

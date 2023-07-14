@@ -88,8 +88,7 @@ export class LeaveComponent {
 
   downloadLeaveHistoryByDate() {
     if (
-      this.historydate.value.start != null ||
-      this.historydate.value.end != null
+      this.historydate.value.start != null ||this.historydate.value.end != null
     ) {
       const c = this.convertToCustomFormat(this.historydate.value.start!);
       const d = this.convertToCustomFormat(this.historydate.value.end!);
@@ -105,9 +104,10 @@ export class LeaveComponent {
         let a = document.createElement('a');
         a.href = downloadUrl;
         a.download = '' + this.empName + ' LeaveHistoryReport.xlsx';
+        a.click();
         setTimeout(() => {
           URL.revokeObjectURL(downloadUrl);
-        }, 100);
+        }, 200);
       });
     } else {
       this.param = '';
@@ -155,13 +155,3 @@ export class LeaveComponent {
   }
 
 }
-
-// @Component({
-//   selector: 'dialog-data-example-dialog',
-//   templateUrl: 'cancel-leave.html',
-//   standalone: true,
-//   imports: [MatDialogModule, NgIf],
-// })
-// export class DialogDataExampleDialog {
-
-// }

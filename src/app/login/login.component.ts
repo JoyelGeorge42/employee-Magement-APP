@@ -37,6 +37,7 @@ getErrorMessage() {
   submit(){
     if(this.loginForm.valid){
     this.loginService.authenticateUser(this.loginForm.value).subscribe((res)=>{
+      console.log(res);
       if(res.success == true){
         this.loginService.changeflag();
         console.log("Logged In");
@@ -48,7 +49,13 @@ getErrorMessage() {
       }
     },
     error =>{
-      this.serverresponse = error.statusText;
+      console.log(error);
+     if (error.status == 417){
+      this.serverresponse = error.error.results.email[0];
+     }
+     else{
+      this.serverresponse = "Incorrect Credentials";
+    }
     })
 
   }else{

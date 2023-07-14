@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ApiService } from '../api.service';
 import { HttpParams } from '@angular/common/http';
+import { Observable, startWith, map } from 'rxjs';
 
 @Component({
   selector: 'app-report',
@@ -39,9 +40,43 @@ export class ReportComponent {
   selectedvalue:string =  this.empName;
   params:any;
   reporters:any[] =[];
+  options: any[]=[];
   dropdown = new FormControl(this.selectedvalue);
 
 
+
+  filteredOptions!: Observable<string[]>;
+
+  ngOnInit() {
+    this.update();
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(""),
+      map(value => this._filter(value || "")),
+    );
+    console.log(this.options);
+    
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+  }
+  myControl = new FormControl('');
+
+  update(){
+    this.apiService.reportingDetails().subscribe((res) => {
+      this.reporters = res.results.reporters;
+      this.reporters.push(res.results);
+      this.empid = res.results.emp_id;
+      this.empName = res.results.emp_name;
+      console.log(this.reporters);
+      this.selectedvalue = res.results.emp_name;
+      this.reporters.forEach((element)=>{
+      this.options.push(element.emp_name);
+      });
+    });
+  }
   downloadreport(){
   if(this.range.value.start != null||this.range.value.end != null){
     const c = this.convertToCustomFormat(this.range.value.start!);
