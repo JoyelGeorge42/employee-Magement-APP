@@ -9,7 +9,7 @@ body{
 :root{
     --sidebarWidth:13.9vw;
     --headerHeight:6rem;
-    --footerHeight:2rem;
+    --footerHeight:2rem;  
     --col-primary: #363636;
     --col-primary-50: #e7e7e7;
     --col-primary-100: #c3c3c3;

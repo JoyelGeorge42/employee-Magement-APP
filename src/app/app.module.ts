@@ -36,6 +36,8 @@ import { LeaveInDetailComponent } from './leave-in-detail/leave-in-detail.compon
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 import { CancelLeaveComponent } from './cancel-leave/cancel-leave.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import { CloseProjectComponent } from './close-project/close-project.component';
 
 
 @NgModule({
@@ -55,6 +57,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     ApplyLeaveComponent,
     LeaveInDetailComponent,
     CancelLeaveComponent,
+    CloseProjectComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,6 +79,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatSelectModule,
     MatSnackBarModule,
     MatAutocompleteModule,
+    MatTooltipModule
   ],
   providers: [
     LoginService,

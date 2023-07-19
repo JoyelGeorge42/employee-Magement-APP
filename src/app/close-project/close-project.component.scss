@@ -1,0 +1,127 @@
+.cancel-container {
+    min-height: 18vh;
+    min-width: 35vh;
+    background-image: radial-gradient(130% 100% at 0% 0%, #727272, #161616 100%) !important;
+    box-shadow: inset 0 -75px 60px #00000038;
+    border-radius: 1rem;
+    border: 1px solid #555;
+    padding: 40px 50px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cancel-head {
+    color: #5ab97f;
+    background: linear-gradient(to right, #119341, #b8e1c8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.cancel-body {
+    margin-bottom: 30px;
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 300;
+    color: #c3c3c3;
+}
+
+::ng-deep {
+    .mat-mdc-dialog-container .mdc-dialog__container {
+        padding: 0;
+        background: none;
+        box-shadow: none;
+    }
+
+    .mat-mdc-dialog-container .mdc-dialog__surface {
+        background: none;
+    }
+
+    .mdc-dialog__title {
+        padding: 0;
+    }
+}
+
+.cancel-buttons {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.btn-no {
+    width: 8rem;
+    padding: .8rem 2rem;
+    border-radius: 30em;
+    font-size: 15px;
+    font-family: inherit;
+    border: none;
+    background: linear-gradient(to right, #424242, #181717) padding-box, linear-gradient(to right, #727272, rgba(128, 128, 128, 0.2)) border-box;
+    border-radius: 1rem;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    color: white;    
+    outline: none;
+}
+
+.btn-no::before {
+    content: '';
+    width: 0;
+    height: 3rem;
+    border-radius: none;
+    position: absolute;
+    top: 0;
+    left: -3rem;
+    background-image: linear-gradient(to right, #727272, rgba(128, 128, 128, 0.2));
+    transition: .3s ease;
+    display: block;
+    z-index: -1;
+}
+
+.btn-no:hover::before {
+    width: 12rem;
+}
+
+
+.btn-yes {
+    width: 8rem;
+    padding: .8rem 2rem;
+    border-radius: 30em;
+    font-size: 15px;
+    font-family: inherit;
+    border: none;
+    background: linear-gradient(to right, #1f1f1f, #181717) padding-box, linear-gradient(to right, rgb(2, 167, 38), rgb(22, 48, 22)) border-box;
+    border-radius: 1rem;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    color: white;
+}
+
+.btn-yes::before {
+    content: '';
+    width: 0;
+    height: 3rem;
+    border-radius: none;
+    position: absolute;
+    top: 0;
+    left: -3rem;
+    background-image: linear-gradient(to right, rgb(2, 167, 38), rgb(2, 75, 0));
+    transition: .3s ease;
+    display: block;
+    z-index: -1;
+}
+
+.btn-yes:hover::before {
+    width: 12rem;
+}
+
+.btn-no:active{
+    outline: none;
+}
