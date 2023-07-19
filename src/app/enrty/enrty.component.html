@@ -20,13 +20,11 @@
                 </td>
                 <td *ngFor="let daydata of defaultprojectDetails; let i= index ;">
                     <div class="time-container">
-                        <span class="timepicker" [ngClass]="daydata.enable ? 'timepicker':'timepicker-disabled'" (click)="maketooltipshow(i,1);">
+                        <span class="timepicker" [ngClass]="isSaveAndSubmit && daydata.enable ?'timepicker':'timepicker-disabled'"  (click)="maketooltipshow(i,1);" [style.color]="daydata.h ==0 || daydata.m == 0? '#727272':'black'">
                             <input matInput type="number" maxlength="2" [disabled]="!daydata.enable"
                                 [(ngModel)]="daydata.h" (ngModelChange)="calculateProject1Data(i,true);"
-                                [ngModelOptions]="{updateOn: 'blur'}" maxlength="2" >
-
-                            :<select [disabled]="!daydata.enable" [value]="daydata.m"
-                                (change)="calculateProject1Data(i,true);" [(ngModel)]="daydata.m">
+                                [ngModelOptions]="{updateOn: 'blur'}" maxlength="2" readonly="!isSaveAndSubmit" [style.color]="daydata.h ==0 || daydata.m == 0? '#727272':'black'">
+                            :<select [disabled]="!daydata.enable || !isSaveAndSubmit" (change)="calculateProject1Data(i,true);" [(ngModel)]="daydata.m" [style.color]="daydata.h ==0 || daydata.m == 0? '#727272':'black'">
                                 <option value="0">00</option>
                                 <option value="15">15</option>
                                 <option value="30">30</option>
@@ -59,14 +57,14 @@
                 </td>
                 <td *ngFor="let daydata of initialProjectDetails; let i= index ;">
                     <div class="time-container">
-                        <span class="timepicker" [ngClass]="daydata.enable ? 'timepicker':'timepicker-disabled'"
-                            (click)="maketooltipshow(i,2);">
+                        <span class="timepicker" [ngClass]="isSaveAndSubmit && daydata.enable ? 'timepicker':'timepicker-disabled'"
+                            (click)="maketooltipshow(i,2);" [style.color]="daydata.h !=0 || daydata.m != 0? '#dcd9d9':'#161616'">
                             <input matInput type="number" maxlength="2" [disabled]="!daydata.enable"
                                 [(ngModel)]="daydata.h" (ngModelChange)="calculateproject0data(i);"
-                                [ngModelOptions]="{updateOn: 'blur'}" maxlength="2" >
+                                [ngModelOptions]="{updateOn: 'blur'}" maxlength="2" readonly="!isSaveAndSubmit" [style.color]="daydata.h !=0 || daydata.m != 0? '#dcd9d9':'#161616'">
 
-                            :<select [disabled]="!daydata.enable" [value]="daydata.m"
-                                (change)="calculateproject0data(i);" [(ngModel)]="daydata.m">
+                            :<select [disabled]="!daydata.enable || !isSaveAndSubmit" [value]="daydata.m"
+                                (change)="calculateproject0data(i);" [(ngModel)]="daydata.m" [style.color]="daydata.h !=0 || daydata.m != 0? '#dcd9d9':'#161616'">
                                 <option value="0">00</option>
                                 <option value="15">15</option>
                                 <option value="30">30</option>
@@ -103,11 +101,11 @@
                         Miscellaneous</td>
                 <td *ngFor="let daydata of miscellaneous; let i = index;">
                     <div class="time-container">
-                        <span class="timepicker" [ngClass]="daydata.enable ? 'timepicker':'timepicker-disabled'" (click)="maketooltipshow(i,3);">
+                        <span class="timepicker" [ngClass]="isSaveAndSubmit && daydata.enable ? 'timepicker':'timepicker-disabled'" (click)="maketooltipshow(i,3);" [style.color]="daydata.h !=0 || daydata.m != 0? '#dcd9d9':'#161616'">
                             <input type="number" min=00 max=01 [disabled]="!daydata.enable" [(ngModel)]="daydata.h"
-                                (ngModelChange)="calculateMiscellaneousData(i);" [ngModelOptions]="{updateOn: 'blur'}">
-                            :<select [disabled]="!daydata.enable" [(ngModel)]="daydata.m"
-                                (change)="calculateMiscellaneousData(i);">
+                                (ngModelChange)="calculateMiscellaneousData(i);" [ngModelOptions]="{updateOn: 'blur'}" readonly="!isSaveAndSubmit" [style.color]="daydata.h == 0 || daydata.m == 0 ? '#161616':'#dcd9d9'">
+                            :<select [disabled]="!daydata.enable || !isSaveAndSubmit" [(ngModel)]="daydata.m"
+                                (change)="calculateMiscellaneousData(i);" [style.color]="daydata.h !=0 || daydata.m !=0 ? '#dcd9d9':'#161616'">
                                 <option value="0">00</option>
                                 <option value="15">15</option>
                                 <option value="30">30</option>
@@ -135,9 +133,9 @@
                 <td>Holiday</td>
                 <td *ngFor="let daydata of holidaydata">
                     <div class="time-container">
-                        <span class="timepicker" [ngClass]="daydata.enable ? 'timepicker':'timepicker-disabled'">
-                            <input type="number" min=00 max=01 [(ngModel)]=daydata.h [disabled]="!daydata.enable">
-                            :<select [disabled]="!daydata.enable" [(ngModel)]=daydata.m>
+                        <span class="timepicker" [ngClass]="daydata.enable ? 'timepicker':'timepicker-disabled'" [style.color]="daydata.h !=0 || daydata.m != 0? '#dcd9d9':'#161616'">
+                            <input type="number" min=00 max=01 [(ngModel)]=daydata.h [disabled]="!daydata.enable" [style.color]="daydata.h !=0 || daydata.m != 0? '#dcd9d9':'#161616'">
+                            :<select [disabled]="!daydata.enable" [(ngModel)]=daydata.m [style.color]="daydata.h !=0 || daydata.m != 0? '#dcd9d9':'#161616'"> 
                                 <option value=0>00</option>
                                 <option value=15>15</option>
                                 <option value=30>30</option>
@@ -161,9 +159,9 @@
                 <td>Vacation</td>
                 <td *ngFor="let daydata of vacation">
                     <div class="time-container">
-                        <span class="timepicker" [ngClass]="daydata.enable ? 'timepicker':'timepicker-disabled'" [style.color]="daydata.h !=0 ? '#dcd9d9 !important':'black'">
-                            <input type="number" min=00 max=01 [(ngModel)]=daydata.h [disabled]="!daydata.enable" [style.color]="daydata.h !=0 ? '#dcd9d9 !important':'black'">
-                            :<select [disabled]="!daydata.enable" [(ngModel)]="daydata.m"[style.color]="daydata.h !=0 ? '#dcd9d9 !important':'black'">
+                        <span class="timepicker" [ngClass]="daydata.enable ? 'timepicker':'timepicker-disabled'" [style.color]="daydata.h !=0 ? '#dcd9d9 !important':'#161616'">
+                            <input type="number" min=00 max=01 [(ngModel)]=daydata.h [disabled]="!daydata.enable" [style.color]="daydata.h !=0 ? '#dcd9d9 !important':'#161616'">
+                            :<select [disabled]="!daydata.enable" [(ngModel)]="daydata.m"[style.color]="daydata.h !=0 ? '#dcd9d9 !important':'#161616'">
                                 <option value=0>00</option>
                                 <option value=15>15</option>
                                 <option value=30>30</option>

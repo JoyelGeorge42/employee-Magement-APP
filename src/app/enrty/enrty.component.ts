@@ -20,7 +20,7 @@ export class EnrtyComponent {
   project0Name: any;
   days: any[] = [];
   weekNumber: any;
-  isSaveAndSubmit!: boolean;
+  isSaveAndSubmit:any;
   gross_working_hours: any;
   net_working_hours: any;
   initialProjectDetails: any;
@@ -389,7 +389,7 @@ calculateHoliday(index: number,row:number,i:number){
         Number(this.initialProjectDetails[i].m) +
         Number(this.holidaydata[i].m) +
         Number(this.miscellaneous[i].m);
-      if(check == true){
+      if(i == index && check == true){
         this.calculateHoliday(index,row,i);
       }
       let c = 0;

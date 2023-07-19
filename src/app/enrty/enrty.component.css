@@ -304,7 +304,10 @@ input[type=number]{
     padding: 0;
     width: 1.4rem;
     text-align: center;
+    font-weight: 600;
+
 }
+
 
 input[type=number]:focus {
     border: none;
@@ -321,6 +324,7 @@ select{
     outline: none;
     background-color: white;
     border: none;
+    font-weight: 600;
 }
 
 option{
@@ -352,6 +356,7 @@ option{
     background-color: transparent;
     display: flex;
     color: rgb(59, 59, 59);
+    font-weight: 600;
 }
 
 .timepicker-total1{
@@ -359,18 +364,21 @@ option{
     background-color: transparent;
     display: flex;  
     color: rgb(224, 224, 224) !important;
+    font-weight: 600;
 }
 
 .timepicker-total1 input[type=number]{
     background: transparent;
     background-color: transparent;
     color: rgb(224, 224, 224);
+    font-weight: 600;
 }
 
 .timepicker-total input[type=number]{
     background: transparent;
     background-color: transparent;
     color: rgb(59, 59, 59);
+    font-weight: 600;
 }
 
 .timesheet-textarea-container{
@@ -536,7 +544,7 @@ textarea::placeholder{
 }
 
 .timepicker-disabled{
-    background: var(--col-primary-600);
+    background: var(--col-primary-500);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -544,6 +552,7 @@ textarea::placeholder{
     width: 60%;
     height: 2rem;
     border-radius: .3rem;
+    font-weight: 600;
 }
 
 .timepicker-disabled select{
@@ -552,11 +561,11 @@ textarea::placeholder{
     color: black;
     width: 37px;
     text-align: center;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .timepicker-disabled input{
     background: transparent;
     color: black;
-    font-weight: 500;
+    font-weight: 600;
 }
