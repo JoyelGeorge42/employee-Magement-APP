@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { LoginService } from '../login.service';
 import { Router } from '@angular/router';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +10,17 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
   
-  constructor(private loginService:LoginService , private router:Router){}
+  constructor(private loginService:LoginService , private router:Router, private apiservice:ApiService){
+    this.apiservice.weekDataStatus().subscribe(
+      (res)=>{
+        this.weekdata = res.results;
+        console.log(this.weekdata);
+        
+      }
+    )
+  }
+
+  weekdata:any;
 
   logout(){
     this.loginService.changeflag();

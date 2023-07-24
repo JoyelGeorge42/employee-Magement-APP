@@ -22,9 +22,12 @@ export class TimesheetapiService {
 
   weeklystatusurl:string = "http://172.16.120.39:8000/api/weeklystatus/";
 
-
   getweeklystatus():Observable<any>{
     return this.http.get(this.weeklystatusurl);
+  }
+
+  postWeeklystatus(bodyValues:any):Observable<any>{
+    return this.http.post(this.weeklystatusurl,bodyValues);
   }
 
 

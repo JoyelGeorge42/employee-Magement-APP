@@ -15,6 +15,7 @@ export class CloseProjectComponent {
   changeflag(){
     this.flag.buttonClicked = false;
     this.flag.showRow = false;
+    this.flag.deleteProject0Dta = true;
     this.dialog.closeAll();
   }
 }

@@ -38,6 +38,7 @@ import { CancelLeaveComponent } from './cancel-leave/cancel-leave.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { CloseProjectComponent } from './close-project/close-project.component';
+import { DatePipe } from '@angular/common';
 
 
 @NgModule({
@@ -85,7 +86,7 @@ import { CloseProjectComponent } from './close-project/close-project.component';
     LoginService,
     { provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi: true },
+      multi: true },DatePipe,
   ],
   bootstrap: [AppComponent],
 })

@@ -10,4 +10,5 @@ export class FlagService {
   showRow:boolean = false;
   buttonClicked1:boolean =false;
   showRow1:boolean = false;
+  deleteProject0Dta = false;
 }

@@ -51,13 +51,7 @@ input::placeholder{
     color: white;
 }
 
-.week-circle:first-child{
-    background: linear-gradient(to right, #111111, #111111), linear-gradient(to right, #f44336 , #770000);
-    background-clip: padding-box, border-box;
-    background-origin: padding-box, border-box;  
-}
-
-.week-circle:nth-last-child(2){
+.error{
     background: linear-gradient(to right, #111111, #111111), linear-gradient(to right, #f44336 , #770000);
     background-clip: padding-box, border-box;
     background-origin: padding-box, border-box;  

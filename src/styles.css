@@ -119,6 +119,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     padding: 1rem 2rem !important;
     border-radius: 10px !important;
     font-size: small !important;
+    z-index: 10000;
 }
 
 .background-green .mat-mdc-snack-bar-label .mdc-snackbar__label{
@@ -126,6 +127,28 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     padding: 1rem 2rem !important;
     border-radius: 10px !important;
     font-size: small !important;
+    z-index: 10000;
+}
+
+.background-green1 .mat-mdc-snack-bar-label .mdc-snackbar__label{
+    background: linear-gradient(to bottom, #008233 0%, #003916 100%) !important;
+    padding: 1rem 2rem !important;
+    border-radius: 10px !important;
+    font-size: small !important;
+    z-index: 10000;
+    position: absolute !important;
+    margin-top: 5rem !important;
+}
+
+
+.background-green2 .mat-mdc-snack-bar-label .mdc-snackbar__label{
+    background: linear-gradient(to bottom, #008233 0%, #003916 100%) !important;
+    padding: 1rem 2rem !important;
+    border-radius: 10px !important;
+    font-size: small !important;
+    z-index: 10000;
+    position: absolute !important;
+    margin-top:7rem;
 }
 
 ::-webkit-scrollbar {

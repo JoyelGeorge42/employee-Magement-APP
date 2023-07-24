@@ -4,6 +4,9 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { CloseProjectComponent } from '../close-project/close-project.component';
 import { FlagService } from '../flag.service';
+import { DatePipe } from '@angular/common';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { IActiveProjects, IWeeklyData, IWeeklyStatus, IWeeklyStatusProjects, IWorkHours } from '../interfaces/interfaces';
 
 @Component({
   selector: 'app-enrty',
@@ -11,43 +14,44 @@ import { FlagService } from '../flag.service';
   styleUrls: ['./enrty.component.css'],
 })
 export class EnrtyComponent {
-  apiResponse:any;
-  weeklydata: any;
-  holidaydata: any;
-  miscellaneous: any;
-  vacation: any;
-  activeprojects: any;
-  project0Name: any;
-  days: any[] = [];
-  weekNumber: any;
-  isSaveAndSubmit:any;
-  gross_working_hours: any;
-  net_working_hours: any;
-  initialProjectDetails: any;
-  allProjectDetails:any[]=[];
-  defaultprojectDetails: any;
-  netTotalDaysHours: any;
-  netTotalDaysMinutes: any;
+  apiResponse: Array<IWeeklyData> = [];
+  weeklyStatus:Array<IWeeklyStatus> = [];
+  weeklydata!: IWeeklyData;
+  holidaydata: Array<IWorkHours> =[];
+  miscellaneous: Array<IWorkHours> =[];
+  vacation: Array<IWorkHours> =[];
+  activeprojects!: Array<IActiveProjects>;
+  project0Name!: string;
+  days: Array<Date> = [];
+  weekNumber!: number;
+  isSaveAndSubmit: boolean = true;
+  gross_working_hours: Array<IWorkHours>=[];
+  net_working_hours:  Array<IWorkHours>=[];
+  initialProjectDetails:  Array<IWorkHours>=[];
+  allProjectDetails: Array<IWorkHours> = [];
+  defaultprojectDetails:  Array<IWorkHours>=[];
+  netTotalDaysHours!:number;
+  netTotalDaysMinutes!:number;
   projectName!: string;
-  cummilativeProject1Hours: any;
-  cummilativeProject1Minutes: any;
-  cummilativeProject0Hours: any;
-  cummilativeProject0Minutes: any;
+  cummilativeProject1Hours!:number;
+  cummilativeProject1Minutes!:number;
+  cummilativeProject0Hours!:number;
+  cummilativeProject0Minutes!:number;
 
-  hideDelay = new FormControl(2000);
-  disabled = new FormControl(false);
   showRow: any;
   buttonClicked: any;
 
-  generalTextAreaData:any;
-  activeprojectData:any;
+  generalTextAreaData!:IWeeklyStatusProjects;
+  activeprojectData:Array<IWeeklyStatusProjects>=[];
 
-  totaltextAreaLength :any;
+  totaltextAreaLength!:number;
 
   constructor(
     public flag: FlagService,
     private api: TimesheetapiService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private datepipe:DatePipe,
+    private _snackBar:MatSnackBar
   ) {
     this.settingValues();
   }
@@ -55,6 +59,8 @@ export class EnrtyComponent {
   settingValues() {
     this.api.getweeklydata().subscribe((res) => {
       this.apiResponse = res;
+      console.log(this.apiResponse);
+      
       this.weeklydata = this.apiResponse[0];
       console.log(this.weeklydata);
       this.holidaydata = this.weeklydata.HOLIDAY.work_hours;
@@ -65,6 +71,7 @@ export class EnrtyComponent {
         this.days.push(new Date(item));
       });
       this.isSaveAndSubmit = this.weeklydata.enableSaveSubmit;
+
       this.gross_working_hours = this.weeklydata.gross_working_hours;
       this.net_working_hours = this.weeklydata.net_working_hours;
       this.weekNumber = this.weeklydata.week_number;
@@ -72,16 +79,15 @@ export class EnrtyComponent {
       this.cummilativeProject1Hours = this.activeprojects[1].cumulative.h;
       this.cummilativeProject1Minutes = this.activeprojects[1].cumulative.m;
       this.initialProjectDetails = this.activeprojects[0].work_hours;
-      this.activeprojects.forEach((element:any,index:number) => {
-        if(index == 1){
-          this.defaultprojectDetails = element.work_hours;          
-      }
-      else{
-        this.allProjectDetails.push(element);
-      }
+      this.activeprojects.forEach((element: any, index: number) => {
+        if (index == 1) {
+          this.defaultprojectDetails = element.work_hours;
+        } else {
+          this.allProjectDetails.push(element);
+          console.log("yoyyo .. ..",element);
+          
+        }
       });
-      console.log(this.allProjectDetails);
-
       this.project0Name = this.activeprojects[0].project_name;
       this.cummilativeProject0Hours = this.activeprojects[0].cumulative.h;
       this.cummilativeProject0Minutes = this.activeprojects[0].cumulative.m;
@@ -93,23 +99,36 @@ export class EnrtyComponent {
       this.calculateVacationData();
       this.calculateByDay();
     });
-    this.api.getweeklystatus().subscribe(res=>{
-      this.generalTextAreaData = res[0].GENERAL.work_report;
-      this.activeprojectData =res[0].active_projects[1].work_report;
-      this.totaltextAreaLength = this.generalTextAreaData.length + this.activeprojectData.length;
-    })
+    this.api.getweeklystatus().subscribe((res) => {
+      this.weeklyStatus = res;
+      console.log("Before post",this.weeklyStatus);
+      
+      this.generalTextAreaData = this.weeklyStatus[0].GENERAL;
+      this.activeprojectData = this.weeklyStatus[0].active_projects;
+      let a = 0;
+      this,this.activeprojectData.forEach((element:any) => {
+         a =a + element.work_report.length;
+      });
+      this.totaltextAreaLength =
+        this.generalTextAreaData.work_report.length + a;
+    });
   }
 
-
-  calculateLength(){
-    this.totaltextAreaLength = this.generalTextAreaData.length + this.activeprojectData.length;
+  calculateLength() {
+    let a = 0;
+    this,this.activeprojectData.forEach((element:any) => {
+       a =a + element.work_report.length;
+    });
+    this.totaltextAreaLength =
+      this.generalTextAreaData.work_report.length + a;
+    this.enablingSaveangsubmit();
   }
 
   flag0: boolean = false;
   flag1: boolean = false;
   flag2: boolean = false;
-  project0nettotalHours: any;
-  project0nettotalMinutes: any;
+  project0nettotalHours!: number;
+  project0nettotalMinutes!: number;
 
   calculateproject0data(i = 7) {
     if (i != 7) {
@@ -135,10 +154,20 @@ export class EnrtyComponent {
       var b = 0;
       var minutes = 0;
       var hours = 0;
-      this.initialProjectDetails.forEach((item: any) => {
-        a = item.h + a;
-        b = Number(item.m) + b;
-      });
+      if (this.flag.deleteProject0Dta == true) {
+        this.initialProjectDetails.forEach((item: any) => {
+          item.h = 0;
+          item.m = 0;
+          a = 0;
+          b = 0;
+        });
+        this.flag.deleteProject0Dta = false;
+      } else {
+        this.initialProjectDetails.forEach((item: any) => {
+          a = item.h + a;
+          b = Number(item.m) + b;
+        });
+      }
       minutes = b % 60;
       hours = Math.floor(b / 60);
       hours = hours + a;
@@ -155,9 +184,9 @@ export class EnrtyComponent {
 
   currentTootltip: number = 7;
   currentTooltipRow: number = 0;
-  project1nettotalHours: any;
-  project1nettotalMinutes: any;
-  calculateProject1Data(i = 7,c = false) {
+  project1nettotalHours!: number;
+  project1nettotalMinutes!: number;
+  calculateProject1Data(i = 7, c = false) {
     if (i != 7) {
       if (this.defaultprojectDetails[i].h > 24) {
         this.currentTootltip = i;
@@ -170,9 +199,9 @@ export class EnrtyComponent {
           this.defaultprojectDetails[i].h = 0;
         }, 2000);
       }
-      this.calculateByDay(i,1,c);
+      this.calculateByDay(i, 1, c);
     } else {
-      this.calculateByDay(i,1,c);
+      this.calculateByDay(i, 1, c);
     }
 
     this.defaultprojectDetails.forEach((item: any) => {
@@ -205,20 +234,20 @@ export class EnrtyComponent {
     }
   }
 
-  day0NetHours: any;
-  day0NetMinutes: any;
-  day1NetHours: any;
-  day1NetMinutes: any;
-  day2NetHours: any;
-  day2NetMinutes: any;
-  day3NetHours: any;
-  day3NetMinutes: any;
-  day4NetHours: any;
-  day4NetMinutes: any;
-  day5NetHours: any;
-  day5NetMinutes: any;
-  day6NetHours: any;
-  day6NetMinutes: any;
+  day0NetHours!: number;
+  day0NetMinutes!: number;
+  day1NetHours!: number;
+  day1NetMinutes!: number;
+  day2NetHours!: number;
+  day2NetMinutes!: number;
+  day3NetHours!: number;
+  day3NetMinutes!: number;
+  day4NetHours!: number;
+  day4NetMinutes!: number;
+  day5NetHours!: number;
+  day5NetMinutes!: number;
+  day6NetHours!: number;
+  day6NetMinutes!: number;
 
   calculateMiscellaneousData(i = 7) {
     if (i != 7) {
@@ -246,7 +275,7 @@ export class EnrtyComponent {
       var b = 0;
       var minutes = 0;
       var hours = 0;
-      this.miscellaneous.forEach((item: any) => {
+      this.miscellaneous.forEach((item: IWorkHours) => {
         a = item.h + a;
         b = Number(item.m) + b;
       });
@@ -263,10 +292,10 @@ export class EnrtyComponent {
       this.calculateByDay();
     }
   }
-  cummilativenettotalHours: any;
-  cummilativenettotalMinutes: any;
-  holidaynettotalHours: any;
-  holidaynettotalMinutes: any;
+  cummilativenettotalHours!: number;
+  cummilativenettotalMinutes!: number;
+  holidaynettotalHours!: number;
+  holidaynettotalMinutes!: number;
 
   calculateHolidayData() {
     this.calculateByDay();
@@ -290,9 +319,8 @@ export class EnrtyComponent {
     }
   }
 
-
-  vacationnettotalHours: any;
-  vacationnettotalMinutes: any;
+  vacationnettotalHours!: number;
+  vacationnettotalMinutes!: number;
   calculateVacationData() {
     this.calculateByDay();
     if (!this.exceedsTwentyFourHours) {
@@ -318,60 +346,49 @@ export class EnrtyComponent {
 
   exceedsTwentyFourHours: boolean = false;
   errorplacevalue: number = 7;
-  errorplacevalue1:number = 7
-  errorplacevalue2:number =7;
-  halfDayTaken:boolean = false;
-  vacationTaken:boolean = false;
+  errorplacevalue1: number = 7;
+  errorplacevalue2: number = 7;
+  halfDayTaken: boolean = false;
+  vacationTaken: boolean = false;
 
-calculateHoliday(index: number,row:number,i:number){
-  
-  if(this.vacation[i].h == 5){
-    if(this.defaultprojectDetails[i].h >5){
-    this.halfDayTaken = true;
-    this.errorplacevalue1 = index;
-    this.currentTooltipRow = row;
-    setTimeout(()=>{
-      this.halfDayTaken = false;
-      this.errorplacevalue1 = 7;
-      this.currentTooltipRow = 0;
-    },2000)
-    }else if(this.defaultprojectDetails[i].h == 5){
-      if(this.defaultprojectDetails[i].m >0){
+  calculateHoliday(index: number, row: number, i: number) {
+    if (this.vacation[i].h == 5) {
+      if (this.defaultprojectDetails[i].h > 5) {
         this.halfDayTaken = true;
         this.errorplacevalue1 = index;
         this.currentTooltipRow = row;
-        setTimeout(()=>{
+        setTimeout(() => {
           this.halfDayTaken = false;
           this.errorplacevalue1 = 7;
           this.currentTooltipRow = 0;
-        },2000)
+        }, 2000);
+      } else if (this.defaultprojectDetails[i].h == 5) {
+        if (this.defaultprojectDetails[i].m > 0) {
+          this.halfDayTaken = true;
+          this.errorplacevalue1 = index;
+          this.currentTooltipRow = row;
+          setTimeout(() => {
+            this.halfDayTaken = false;
+            this.errorplacevalue1 = 7;
+            this.currentTooltipRow = 0;
+          }, 2000);
+        }
+      } else {
       }
+    } else if (this.vacation[i].h == 8) {
+      this.vacationTaken = true;
+      this.errorplacevalue2 = index;
+      this.currentTooltipRow = row;
+      setTimeout(() => {
+        this.vacationTaken = false;
+        this.errorplacevalue2 = 7;
+        this.currentTooltipRow = 0;
+      }, 2000);
+    } else {
     }
-    else{
-      // this.halfDayTaken = false;
-      // this.errorplacevalue1 = 7;
-      // this.currentTooltipRow = 0;
-    }
   }
-  else if(this.vacation[i].h == 8){
-    this.vacationTaken = true;
-    this.errorplacevalue2 = index;
-    this.currentTooltipRow = row;
-    setTimeout(()=>{
-      this.vacationTaken = false;
-      this.errorplacevalue2 = 7;
-      this.currentTooltipRow = 0;
-    },2000)    
-  }
-  else{
-    // this.vacationTaken = false;
-    // this.halfDayTaken = false;
-    // this.errorplacevalue1 = 7;
-    // this.currentTooltipRow = 0;
-  }
-}
 
-  calculateByDay(index = 0, row = 0, check =false) {
+  calculateByDay(index = 0, row = 0, check = false) {
     let totalHour = 0;
     let totalMinute = 0;
     for (let i = 0; i < 7; i++) {
@@ -389,8 +406,8 @@ calculateHoliday(index: number,row:number,i:number){
         Number(this.initialProjectDetails[i].m) +
         Number(this.holidaydata[i].m) +
         Number(this.miscellaneous[i].m);
-      if(i == index && check == true){
-        this.calculateHoliday(index,row,i);
+      if (i == index && check == true) {
+        this.calculateHoliday(index, row, i);
       }
       let c = 0;
       let d = 0;
@@ -399,29 +416,76 @@ calculateHoliday(index: number,row:number,i:number){
       d = d + a;
       if ((d == 24 && c !== 0) || d > 24) {
         this.exceedsTwentyFourHours = true;
+        switch(row){
+          case 1:
+            setTimeout(() => {
+              this.defaultprojectDetails[i].h = 0;
+              this.defaultprojectDetails[i].m = 0;
+              this.calculateProject1Data();
+              if(d>24){
+              this.hourGreaterThan24 = true;              
+              }else{
+              this.minGreaterThan24 = true;
+              }
+              this.errorplacevalue = index;
+              this.currentTooltipRow = row;
+              setTimeout(() => {
+                this.hourGreaterThan24 = false;
+                this.minGreaterThan24 = true;
+                this.errorplacevalue = 7;
+                this.currentTooltipRow = 0;
+              }, 2000);
+            }, 100);
+            a = Number(this.vacation[i].h) + Number(this.holidaydata[i].h) + Number(this.initialProjectDetails[i].h) + Number(this.miscellaneous[i].h);
+            b = Number(this.vacation[i].m) + Number(this.holidaydata[i].m) + Number(this.initialProjectDetails[i].m) + Number(this.miscellaneous[i].m);
+            break;
 
-        setTimeout(() => {
-          this.defaultprojectDetails[i].h = 0;
-          this.miscellaneous[i].h = 0;
-          this.defaultprojectDetails[i].m = 0;
-          this.miscellaneous[i].m = 0;
-          this.initialProjectDetails[i].h = 0;
-          this.initialProjectDetails[i].m = 0;
-          this.calculateProject1Data(),
-          this.calculateMiscellaneousData(),
-          this.calculateproject0data();
-          this.hourGreaterThan24 = true;
-          this.errorplacevalue = index;
-          this.currentTooltipRow = row;
-          setTimeout(() => {
-            this.hourGreaterThan24 = false;
-            this.errorplacevalue = 7;
-            this.currentTooltipRow = 0;
-          }, 2000);
-        }, 100);
-        a = Number(this.vacation[i].h) + Number(this.holidaydata[i].h);
-        b = Number(this.vacation[i].m) + Number(this.holidaydata[i].m);
-        break;
+            case 2:
+              setTimeout(() => {
+                this.initialProjectDetails[i].h = 0;
+                this.initialProjectDetails[i].m = 0;
+                this.calculateproject0data();
+                if(d>24){
+                  this.hourGreaterThan24 = true;              
+                  }else{
+                  this.minGreaterThan24 = true;
+                  }
+                this.errorplacevalue = index;
+                this.currentTooltipRow = row;
+                setTimeout(() => {
+                  this.hourGreaterThan24 = false;
+                  this.minGreaterThan24 = false;
+                  this.errorplacevalue = 7;
+                  this.currentTooltipRow = 0;
+                }, 2000);
+              }, 100);
+              a = Number(this.vacation[i].h) + Number(this.holidaydata[i].h) + Number(this.miscellaneous[i].h) + Number(this.defaultprojectDetails[i].h);
+              b = Number(this.vacation[i].m) + Number(this.holidaydata[i].m) + Number(this.miscellaneous[i].m) + Number(this.defaultprojectDetails[i].m);
+              break;
+
+              case 3:
+                setTimeout(() => {
+                  this.miscellaneous[i].h = 0;
+                  this.miscellaneous[i].m = 0;
+                  this.calculateMiscellaneousData();
+                  if(d>24){
+                    this.hourGreaterThan24 = true;              
+                    }else{
+                    this.minGreaterThan24 = true;
+                    }
+                  this.errorplacevalue = index;
+                  this.currentTooltipRow = row;
+                  setTimeout(() => {
+                    this.hourGreaterThan24 = false;
+                    this.minGreaterThan24 = false;
+                    this.errorplacevalue = 7;
+                    this.currentTooltipRow = 0;
+                  }, 2000);
+                }, 100);
+                a = Number(this.vacation[i].h) + Number(this.holidaydata[i].h) + Number(this.initialProjectDetails[i].h) + Number(this.defaultprojectDetails[i].h);
+                b = Number(this.vacation[i].m) + Number(this.holidaydata[i].m) + Number(this.initialProjectDetails[i].m) + Number(this.defaultprojectDetails[i].m);
+                break;
+        }
       } else {
         this.exceedsTwentyFourHours = false;
         totalHour = totalHour + a;
@@ -469,6 +533,7 @@ calculateHoliday(index: number,row:number,i:number){
           break;
       }
     }
+    this.enablingSaveangsubmit();
     let netTotalMinute = 0;
     let netTotalhour = 0;
     netTotalMinute = totalMinute % 60;
@@ -476,13 +541,13 @@ calculateHoliday(index: number,row:number,i:number){
     netTotalhour = netTotalhour + totalHour;
     this.netTotalDaysHours = netTotalhour;
     this.netTotalDaysMinutes = netTotalMinute;
-    this.enablingSaveangsubmit();
   }
 
   weekendSat: boolean = false;
   weekendSun: boolean = false;
   numberGreaterThan24: boolean = false;
   hourGreaterThan24: boolean = false;
+  minGreaterThan24:boolean = false;
   showTextarea: boolean = false;
   entered: boolean = false;
   entered1: boolean = false;
@@ -517,21 +582,99 @@ calculateHoliday(index: number,row:number,i:number){
     }
   }
 
-  saveAndSubmitButtonEnable:boolean = false;
+  saveAndSubmitButtonEnable: boolean = false;
 
-  enablingSaveangsubmit(){
-    if(this.day2NetHours!=0 || this.day2NetMinutes !=0 && this.day3NetHours!=0 || this.day4NetMinutes !=0 && this.day4NetHours!=0 || this.day4NetMinutes !=0 && this.day5NetHours!=0 || this.day5NetMinutes !=0 && this.day6NetHours!=0 || this.day6NetMinutes !=0 && this.totaltextAreaLength!=0){
+  enablingSaveangsubmit() {
+    if (
+      (this.day2NetHours != 0 || this.day2NetMinutes != 0) &&
+      (this.day3NetHours != 0 || this.day4NetMinutes != 0) &&
+      (this.day4NetHours != 0 || this.day4NetMinutes != 0) &&
+      (this.day5NetHours != 0 || this.day5NetMinutes != 0) &&
+      (this.day6NetHours != 0 || this.day6NetMinutes != 0) &&
+      this.totaltextAreaLength != 0
+    ) {
       this.saveAndSubmitButtonEnable = true;
-    }else{
+    } else {
       this.saveAndSubmitButtonEnable = false;
     }
-
   }
 
-  saveData(){
-    this.api.postWeeklyData(this.apiResponse).subscribe((res)=>{
+  saveData() {
+    this.api.postWeeklyData(this.apiResponse).subscribe((res) => {
+      this.openSnackBar("Successfully saved the timesheet !!");
       console.log(res);
-    })
+      setTimeout(() => {
+        this.api.postWeeklystatus(postdata).subscribe((res)=>{
+          this.openSnackBar2("Successfully saved the weekly status report");
+          console.log(res);    setTimeout(() => {
+            window.location.reload();
+          }, 3000);
+        })  
+      }, 2500);
+
+    });
+    let a = [];
+    a.push({project_id:this.generalTextAreaData.project_id ,report:this.generalTextAreaData.work_report});
+    this.activeprojectData.forEach(element => {
+      if(element.work_report.length != 0){
+        a.push({project_id:element.project_id ,report:element.work_report})
+      }
+    });
+    let wsrDate = this.datepipe.transform(this.days[6],'yyyy-MM-dd') ;
+    let postdata = {
+      is_final_submit:false,
+      weekly_status:a,
+      wsr_date:wsrDate
+    }
+  }
+
+  finalSaveData() {    
+    this.api.postWeeklyData(this.apiResponse).subscribe((res) => {
+      this.openSnackBar("Successfully saved the timesheet !!");
+      console.log(res);
+      setTimeout(() => {
+        this.api.postWeeklystatus(postdata).subscribe((res)=>{
+          this.openSnackBar2("Successfully saved the weekly status report");
+          console.log(res);    setTimeout(() => {
+            window.location.reload();
+          }, 3000);
+        })  
+      }, 2500);
+
+    });
+    let a = [];
+    a.push({project_id:this.generalTextAreaData.project_id ,report:this.generalTextAreaData.work_report});
+    this.activeprojectData.forEach(element => {
+      if(element.work_report.length != 0){
+        a.push({project_id:element.project_id ,report:element.work_report})
+      }
+    });
+    let wsrDate = this.datepipe.transform(this.days[6],'yyyy-MM-dd') ;
+    let postdata = {
+      is_final_submit:true,
+      weekly_status:a,
+      wsr_date:wsrDate
+    }
+  }
+
+  openSnackBar(data:string) {
+    const config = new MatSnackBarConfig();
+    config.panelClass = ['background-green1'];
+    // config.duration = 2500;
+    config.horizontalPosition = "right";
+    config.verticalPosition ="top"
+    let a = data;
+    this._snackBar.open(a,"",config);
+  }
+
+  openSnackBar2(data:string) {
+    const config = new MatSnackBarConfig();
+    config.panelClass = ['background-green2'];
+    config.duration = 2500;
+    config.horizontalPosition = "right";
+    config.verticalPosition ="top"
+    let a = data;
+    this._snackBar.open(a,"",config);
   }
 
   @HostListener('document:click', ['$event'])
@@ -544,6 +687,13 @@ calculateHoliday(index: number,row:number,i:number){
   }
 
   openDialog() {
-    this.dialog.open(CloseProjectComponent);
+    this.dialog
+      .open(CloseProjectComponent)
+      .afterClosed()
+      .subscribe((res) => {
+        this.calculateproject0data();
+      });
   }
+
+
 }

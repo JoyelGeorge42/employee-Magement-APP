@@ -13,18 +13,24 @@
                 <th>Total</th>
             </thead>
             <div class="gap"></div>
-            <tr class="table-row-1">
+            <tr class="table-row-1" *ngIf="activeprojects[1]">
                 <td>
                     {{projectName}} [{{cummilativeProject1Hours}} : {{cummilativeProject1Minutes}}]
 
                 </td>
                 <td *ngFor="let daydata of defaultprojectDetails; let i= index ;">
                     <div class="time-container">
-                        <span class="timepicker" [ngClass]="isSaveAndSubmit && daydata.enable ?'timepicker':'timepicker-disabled'"  (click)="maketooltipshow(i,1);" [style.color]="daydata.h ==0 || daydata.m == 0? '#727272':'black'">
-                            <input matInput type="number" maxlength="2" [disabled]="!daydata.enable"
+                        <span class="timepicker"
+                            [ngClass]="isSaveAndSubmit && daydata.enable ?'timepicker':'timepicker-disabled'"
+                            (click)="maketooltipshow(i,1);"
+                            [style.color]="daydata.h ==0 || daydata.m == 0? '#727272':'black'">
+                            <input matInput type="number" maxlength="2" [disabled]="!daydata.enable || !isSaveAndSubmit"
                                 [(ngModel)]="daydata.h" (ngModelChange)="calculateProject1Data(i,true);"
-                                [ngModelOptions]="{updateOn: 'blur'}" maxlength="2" readonly="!isSaveAndSubmit" [style.color]="daydata.h ==0 || daydata.m == 0? '#727272':'black'">
-                            :<select [disabled]="!daydata.enable || !isSaveAndSubmit" (change)="calculateProject1Data(i,true);" [(ngModel)]="daydata.m" [style.color]="daydata.h ==0 || daydata.m == 0? '#727272':'black'">
+                                [ngModelOptions]="{updateOn: 'blur'}" maxlength="2" readonly="false"
+                                [style.color]="daydata.h == 0? '#727272':'black'">
+                            :<select [disabled]="!daydata.enable || !isSaveAndSubmit"
+                                (change)="calculateProject1Data(i,true);" [(ngModel)]="daydata.m"
+                                [style.color]="daydata.m == 0? '#727272':'black'">
                                 <option value="0">00</option>
                                 <option value="15">15</option>
                                 <option value="30">30</option>
@@ -33,12 +39,30 @@
                         </span>
                         <span></span>
                     </div>
-                        <span class="tooltiptext" *ngIf="i == 0" [style.visibility]="weekendSat && currentTooltipRow ==1 ?'visible':'hidden'">It's Saturday</span>
-                        <span class="tooltiptext" *ngIf="i == 1" [style.visibility]="weekendSun && currentTooltipRow ==1 ?'visible':'hidden'">It's Sunday</span>
-                        <span class="tooltiptext" *ngIf="numberGreaterThan24 &&  i == currentTootltip  && currentTooltipRow == 1" [ngClass]="numberGreaterThan24 ? 'tooltiptext1':'tooltiptext'">Number must be between 0 and 24</span>
-                        <span class="tooltiptext" *ngIf="hourGreaterThan24 &&  i == errorplacevalue && !numberGreaterThan24 && currentTooltipRow ==1" [ngClass]="hourGreaterThan24 ? 'tooltiptext1':'tooltiptext'">Total hours for this day cannot be more than 24. Please re-enter.</span>
-                        <span class="tooltiptext" *ngIf="vacationTaken &&  i == errorplacevalue2 && !hourGreaterThan24 &&!numberGreaterThan24 && currentTooltipRow ==1 " [ngClass]="vacationTaken ? 'tooltiptext1':'tooltiptext'">Hours filled for vacation</span>
-                        <span class="tooltiptext" *ngIf="halfDayTaken &&  i == errorplacevalue1  && !hourGreaterThan24 &&!numberGreaterThan24 && currentTooltipRow ==1" [ngClass]="halfDayTaken ? 'tooltiptext1':'tooltiptext'"> More than 5 hours filled for half day vacation</span>
+                    <span class="tooltiptext" *ngIf="i == 0"
+                        [style.visibility]="weekendSat && currentTooltipRow ==1 ?'visible':'hidden'">It's
+                        Saturday</span>
+                    <span class="tooltiptext" *ngIf="i == 1"
+                        [style.visibility]="weekendSun && currentTooltipRow ==1 ?'visible':'hidden'">It's Sunday</span>
+                    <span class="tooltiptext"
+                        *ngIf="numberGreaterThan24 &&  i == currentTootltip  && currentTooltipRow == 1"
+                        [ngClass]="numberGreaterThan24 ? 'tooltiptext1':'tooltiptext'">Number must be between 0 and
+                        24</span>
+                    <span class="tooltiptext"
+                        *ngIf="hourGreaterThan24 &&  i == errorplacevalue && !numberGreaterThan24 && currentTooltipRow ==1"
+                        [ngClass]="hourGreaterThan24 ? 'tooltiptext1':'tooltiptext'">Total hours for this day cannot be
+                        more than 24. Please re-enter.</span>
+                    <span class="tooltiptext"
+                        *ngIf="vacationTaken &&  i == errorplacevalue2 && !hourGreaterThan24 &&!numberGreaterThan24 && currentTooltipRow ==1 "
+                        [ngClass]="vacationTaken ? 'tooltiptext1':'tooltiptext'">Hours filled for vacation</span>
+                    <span class="tooltiptext"
+                        *ngIf="halfDayTaken &&  i == errorplacevalue1  && !hourGreaterThan24 &&!numberGreaterThan24 && currentTooltipRow ==1"
+                        [ngClass]="halfDayTaken ? 'tooltiptext1':'tooltiptext'"> More than 5 hours filled for half day
+                        vacation</span>
+                        <span class="tooltiptext"
+                        *ngIf="minGreaterThan24 &&  i == errorplacevalue && currentTooltipRow ==1"
+                        [ngClass]="minGreaterThan24 ? 'tooltiptext2':'tooltiptext'">Total hours for this day cannot be
+                        more than 24. Please re-enter.</span>
                 </td>
                 <td>
                     <div class="time-container">
@@ -51,20 +75,25 @@
                     </div>
                 </td>
             </tr>
-            <tr class="table-row-0" *ngIf="flag.showRow">
+            <tr class="table-row-0" *ngIf="flag.showRow || activeprojects[0].visibilityFlag">
                 <td>{{project0Name}} [{{cummilativeProject0Hours}} : {{cummilativeProject0Minutes}}]
-                    <span class="close-project" (click)="openDialog()"><img src="/assets/remove project.svg" alt=""></span>
+                    <span class="close-project" (click)="calculateproject0data(); openDialog();"><img
+                            src="/assets/remove project.svg" alt="" *ngIf="!activeprojects[0].visibilityFlag"></span>
                 </td>
                 <td *ngFor="let daydata of initialProjectDetails; let i= index ;">
                     <div class="time-container">
-                        <span class="timepicker" [ngClass]="isSaveAndSubmit && daydata.enable ? 'timepicker':'timepicker-disabled'"
-                            (click)="maketooltipshow(i,2);" [style.color]="daydata.h !=0 || daydata.m != 0? '#dcd9d9':'#161616'">
-                            <input matInput type="number" maxlength="2" [disabled]="!daydata.enable"
+                        <span class="timepicker"
+                            [ngClass]="isSaveAndSubmit && daydata.enable ? 'timepicker':'timepicker-disabled'"
+                            (click)="maketooltipshow(i,2);"
+                            [style.color]="daydata.h ==0 || daydata.m == 0? '#727272':'#161616'">
+                            <input matInput type="number" maxlength="2" [disabled]="!daydata.enable || !isSaveAndSubmit"
                                 [(ngModel)]="daydata.h" (ngModelChange)="calculateproject0data(i);"
-                                [ngModelOptions]="{updateOn: 'blur'}" maxlength="2" readonly="!isSaveAndSubmit" [style.color]="daydata.h !=0 || daydata.m != 0? '#dcd9d9':'#161616'">
+                                [ngModelOptions]="{updateOn: 'blur'}" maxlength="2"
+                                [style.color]="daydata.h ==0? '#727272':'#161616'">
 
                             :<select [disabled]="!daydata.enable || !isSaveAndSubmit" [value]="daydata.m"
-                                (change)="calculateproject0data(i);" [(ngModel)]="daydata.m" [style.color]="daydata.h !=0 || daydata.m != 0? '#dcd9d9':'#161616'">
+                                (change)="calculateproject0data(i);" [(ngModel)]="daydata.m"
+                                [style.color]="daydata.m == 0? '#727272':'#161616'">
                                 <option value="0">00</option>
                                 <option value="15">15</option>
                                 <option value="30">30</option>
@@ -73,10 +102,22 @@
                         </span>
                         <span></span>
                     </div>
-                    <span class="tooltiptext" *ngIf="i == 0" [style.visibility]="weekendSat && currentTooltipRow ==2?'visible':'hidden'">It's Saturday</span>
-                    <span class="tooltiptext" *ngIf="i == 1" [style.visibility]="weekendSun && currentTooltipRow ==2?'visible':'hidden'">It's Sunday</span>
-                    <span class="tooltiptext" *ngIf="numberGreaterThan24 &&  i == currentTootltip && currentTooltipRow ==2" [ngClass]="numberGreaterThan24 ? 'tooltiptext1':'tooltiptext'">Number must be between 0 and 24</span>
-                    <span class="tooltiptext" *ngIf="hourGreaterThan24 &&  i == errorplacevalue && currentTooltipRow ==2" [ngClass]="hourGreaterThan24 ? 'tooltiptext1':'tooltiptext'">Total hours for this day cannot be more than 24. Please re-enter.</span>
+                    <span class="tooltiptext" *ngIf="i == 0"
+                        [style.visibility]="weekendSat && currentTooltipRow ==2?'visible':'hidden'">It's Saturday</span>
+                    <span class="tooltiptext" *ngIf="i == 1"
+                        [style.visibility]="weekendSun && currentTooltipRow ==2?'visible':'hidden'">It's Sunday</span>
+                    <span class="tooltiptext"
+                        *ngIf="numberGreaterThan24 &&  i == currentTootltip && currentTooltipRow ==2"
+                        [ngClass]="numberGreaterThan24 ? 'tooltiptext1':'tooltiptext'">Number must be between 0 and
+                        24</span>
+                    <span class="tooltiptext"
+                        *ngIf="hourGreaterThan24 &&  i == errorplacevalue && currentTooltipRow ==2"
+                        [ngClass]="hourGreaterThan24 ? 'tooltiptext1':'tooltiptext'">Total hours for this day cannot be
+                        more than 24. Please re-enter.</span>
+                        <span class="tooltiptext"
+                        *ngIf="minGreaterThan24 &&  i == errorplacevalue && currentTooltipRow ==2"
+                        [ngClass]="minGreaterThan24 ? 'tooltiptext2':'tooltiptext'">Total hours for this day cannot be
+                        more than 24. Please re-enter.</span>
                 </td>
                 <td>
                     <div class="time-container">
@@ -91,21 +132,29 @@
             </tr>
             <tr class="table-row-2">
                 <td>
-                    <span class="select-btn" (click)="flag.buttonClicked = true;$event.stopPropagation()" *ngIf="!flag.showRow && isSaveAndSubmit">
+                    <span class="select-btn" (click)="flag.buttonClicked = true;$event.stopPropagation()"
+                        *ngIf="!flag.showRow && isSaveAndSubmit">
                         <span class="circle">+</span>Select Project</span>
-                        <div class="project-names" *ngIf="flag.buttonClicked">
-                            <div class="proj1" (click)="flag.showRow = true;$event.stopPropagation();flag.buttonClicked = false">
-                                {{project0Name}}
-                            </div>
+                    <div class="project-names" *ngIf="flag.buttonClicked">
+                        <div class="proj1"
+                            (click)="flag.showRow = true;$event.stopPropagation();flag.buttonClicked = false">
+                            {{project0Name}}
                         </div>
-                        Miscellaneous</td>
+                    </div>
+                    Miscellaneous
+                </td>
                 <td *ngFor="let daydata of miscellaneous; let i = index;">
                     <div class="time-container">
-                        <span class="timepicker" [ngClass]="isSaveAndSubmit && daydata.enable ? 'timepicker':'timepicker-disabled'" (click)="maketooltipshow(i,3);" [style.color]="daydata.h !=0 || daydata.m != 0? '#dcd9d9':'#161616'">
-                            <input type="number" min=00 max=01 [disabled]="!daydata.enable" [(ngModel)]="daydata.h"
-                                (ngModelChange)="calculateMiscellaneousData(i);" [ngModelOptions]="{updateOn: 'blur'}" readonly="!isSaveAndSubmit" [style.color]="daydata.h == 0 || daydata.m == 0 ? '#161616':'#dcd9d9'">
+                        <span class="timepicker"
+                            [ngClass]="isSaveAndSubmit && daydata.enable ? 'timepicker':'timepicker-disabled'"
+                            (click)="maketooltipshow(i,3);"
+                            [style.color]="daydata.h ==0 || daydata.m == 0? '#727272':'#161616'">
+                            <input type="number" min=00 max=01 [disabled]="!daydata.enable || !isSaveAndSubmit" [(ngModel)]="daydata.h"
+                                (ngModelChange)="calculateMiscellaneousData(i);" [ngModelOptions]="{updateOn: 'blur'}"
+                                [style.color]="daydata.h == 0? '#727272':'#161616'">
                             :<select [disabled]="!daydata.enable || !isSaveAndSubmit" [(ngModel)]="daydata.m"
-                                (change)="calculateMiscellaneousData(i);" [style.color]="daydata.h !=0 || daydata.m !=0 ? '#dcd9d9':'#161616'">
+                                (change)="calculateMiscellaneousData(i);"
+                                [style.color]="daydata.m ==0 ? '#727272':'#161616'">
                                 <option value="0">00</option>
                                 <option value="15">15</option>
                                 <option value="30">30</option>
@@ -113,10 +162,22 @@
                             </select>
                         </span>
                     </div>
-                    <span class="tooltiptext" *ngIf="i == 0" [style.visibility]="weekendSat && currentTooltipRow ==3?'visible':'hidden'">It's Saturday</span>
-                    <span class="tooltiptext" *ngIf="i == 1" [style.visibility]="weekendSun && currentTooltipRow ==3?'visible':'hidden'">It's Sunday</span>
-                    <span class="tooltiptext" *ngIf="numberGreaterThan24 &&  i == currentTootltip  && currentTooltipRow ==3" [ngClass]="numberGreaterThan24 ? 'tooltiptext1':'tooltiptext'">Number must be between 0 and 24</span>
-                    <span class="tooltiptext" *ngIf="hourGreaterThan24 &&  i == errorplacevalue && currentTooltipRow ==3" [ngClass]="hourGreaterThan24 ? 'tooltiptext1':'tooltiptext'">Total hours for this day cannot be more than 24. Please re-enter.</span>
+                    <span class="tooltiptext" *ngIf="i == 0"
+                        [style.visibility]="weekendSat && currentTooltipRow ==3?'visible':'hidden'">It's Saturday</span>
+                    <span class="tooltiptext" *ngIf="i == 1"
+                        [style.visibility]="weekendSun && currentTooltipRow ==3?'visible':'hidden'">It's Sunday</span>
+                    <span class="tooltiptext"
+                        *ngIf="numberGreaterThan24 &&  i == currentTootltip  && currentTooltipRow ==3"
+                        [ngClass]="numberGreaterThan24 ? 'tooltiptext1':'tooltiptext'">Number must be between 0 and
+                        24</span>
+                    <span class="tooltiptext"
+                        *ngIf="hourGreaterThan24 &&  i == errorplacevalue && currentTooltipRow ==3"
+                        [ngClass]="hourGreaterThan24 ? 'tooltiptext1':'tooltiptext'">Total hours for this day cannot be
+                        more than 24. Please re-enter.</span>
+                        <span class="tooltiptext"
+                        *ngIf="minGreaterThan24 &&  i == errorplacevalue && currentTooltipRow ==3"
+                        [ngClass]="minGreaterThan24 ? 'tooltiptext2':'tooltiptext'">Total hours for this day cannot be
+                        more than 24. Please re-enter.</span>
                 </td>
                 <td>
                     <div class="time-container">
@@ -133,9 +194,12 @@
                 <td>Holiday</td>
                 <td *ngFor="let daydata of holidaydata">
                     <div class="time-container">
-                        <span class="timepicker" [ngClass]="daydata.enable ? 'timepicker':'timepicker-disabled'" [style.color]="daydata.h !=0 || daydata.m != 0? '#dcd9d9':'#161616'">
-                            <input type="number" min=00 max=01 [(ngModel)]=daydata.h [disabled]="!daydata.enable" [style.color]="daydata.h !=0 || daydata.m != 0? '#dcd9d9':'#161616'">
-                            :<select [disabled]="!daydata.enable" [(ngModel)]=daydata.m [style.color]="daydata.h !=0 || daydata.m != 0? '#dcd9d9':'#161616'"> 
+                        <span class="timepicker" [ngClass]="daydata.enable ? 'timepicker':'timepicker-disabled'"
+                            [style.color]="daydata.h !=0 || daydata.m != 0? '#dcd9d9':'#161616'">
+                            <input type="number" min=00 max=01 [(ngModel)]=daydata.h [disabled]="!daydata.enable"
+                                [style.color]="daydata.h !=0 || daydata.m != 0? '#dcd9d9':'#161616'">
+                            :<select [disabled]="!daydata.enable" [(ngModel)]=daydata.m
+                                [style.color]="daydata.h !=0 || daydata.m != 0? '#dcd9d9':'#161616'">
                                 <option value=0>00</option>
                                 <option value=15>15</option>
                                 <option value=30>30</option>
@@ -159,9 +223,12 @@
                 <td>Vacation</td>
                 <td *ngFor="let daydata of vacation">
                     <div class="time-container">
-                        <span class="timepicker" [ngClass]="daydata.enable ? 'timepicker':'timepicker-disabled'" [style.color]="daydata.h !=0 ? '#dcd9d9 !important':'#161616'">
-                            <input type="number" min=00 max=01 [(ngModel)]=daydata.h [disabled]="!daydata.enable" [style.color]="daydata.h !=0 ? '#dcd9d9 !important':'#161616'">
-                            :<select [disabled]="!daydata.enable" [(ngModel)]="daydata.m"[style.color]="daydata.h !=0 ? '#dcd9d9 !important':'#161616'">
+                        <span class="timepicker" [ngClass]="daydata.enable ? 'timepicker':'timepicker-disabled'"
+                            [style.color]="daydata.h !=0 ? '#dcd9d9 !important':'#161616'">
+                            <input type="number" min=00 max=01 [(ngModel)]=daydata.h [disabled]="!daydata.enable"
+                                [style.color]="daydata.h !=0 ? '#dcd9d9 !important':'#161616'">
+                            :<select [disabled]="!daydata.enable" [(ngModel)]="daydata.m"
+                                [style.color]="daydata.h !=0 ? '#dcd9d9 !important':'#161616'">
                                 <option value=0>00</option>
                                 <option value=15>15</option>
                                 <option value=30>30</option>
@@ -408,33 +475,41 @@
         <div class="timesheet-textarea-container">
             <div class="active-projects">
                 <div class="project1">
-                    <div class="head-text">{{projectName}}</div>
+                    <div class="head-text">{{activeprojectData[1]?.project_name}}</div>
                     <div class="textarea-div">
-                        <textarea placeholder="Add details of project" [(ngModel)]="activeprojectData" (ngModelChange)="calculateLength()" [ngModelOptions]="{updateOn: 'change'}"></textarea>
+                        <textarea placeholder="Add details of project" [(ngModel)]="activeprojectData[1].work_report" [disabled]="!isSaveAndSubmit"
+                            (ngModelChange)="calculateLength()" [ngModelOptions]="{updateOn: 'change'}"></textarea>
                     </div>
                 </div>
 
-                <div class="project1" *ngIf="flag.showRow1">
-                    <div class="head-text">{{projectName}}</div>
+                <div class="project1" *ngIf="flag.showRow1 || activeprojectData[0].visibilityFlag">
+                    <div class="head-text">{{activeprojectData[0].project_name}}</div>
                     <div class="textarea-div">
-                        <textarea placeholder="Add details of project"></textarea>
+                        <textarea placeholder="Add details of project" [disabled]="!isSaveAndSubmit" [(ngModel)]="activeprojectData[0].work_report!" (ngModelChange)="calculateLength()" [ngModelOptions]="{updateOn: 'change'}"></textarea>
                     </div>
                 </div>
-                <span class="select-btn-bottom" (click)="flag.buttonClicked1 = true;$event.stopPropagation()" *ngIf="!flag.showRow1 && isSaveAndSubmit">
+                <ng-container *ngIf="!activeprojectData[0].visibilityFlag">
+                <span class="select-btn-bottom" (click)="flag.buttonClicked1 = true;$event.stopPropagation()"
+                    *ngIf="!flag.showRow1 && isSaveAndSubmit">
                     <span class="circle">+</span>Select Project</span>
-                    <div class="project-names-1" *ngIf="flag.buttonClicked1">
-                        <div class="proj1" (click)="flag.showRow1 = true;$event.stopPropagation();flag.buttonClicked1 = false">
-                            {{project0Name}}
-                        </div>
+                <div class="project-names-1" *ngIf="flag.buttonClicked1">
+                    <div class="proj1"
+                        (click)="flag.showRow1 = true;$event.stopPropagation();flag.buttonClicked1 = false">
+                        {{project0Name}}
                     </div>
+                </div>
+            </ng-container>
             </div>
             <div class="general-project">
                 <div class="head-text1">General Project</div>
-                <textarea placeholder="General details to include" class="txtarea1" [(ngModel)]="generalTextAreaData" (ngModelChange)="calculateLength()" [ngModelOptions]="{updateOn: 'change'}"></textarea>
+                <textarea placeholder="General details to include" class="txtarea1" [disabled]="!isSaveAndSubmit"
+                    [(ngModel)]="generalTextAreaData.work_report" (ngModelChange)="calculateLength()"
+                    [ngModelOptions]="{updateOn: 'change'}"></textarea>
             </div>
         </div>
         <div class="submit-btns">
-            <button type="submit" class="submit-save" [disabled]="!saveAndSubmitButtonEnable" *ngIf="isSaveAndSubmit">Save & Submit</button>
+            <button type="submit" class="submit-save" [disabled]="!saveAndSubmitButtonEnable" *ngIf="isSaveAndSubmit"
+                (click)="finalSaveData();">Save & Submit</button>
             <button type="submit" class="submit-only" *ngIf="isSaveAndSubmit" (click)="saveData();">Save</button>
         </div>
     </div>

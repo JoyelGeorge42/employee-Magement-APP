@@ -4,20 +4,8 @@
         <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
     </div>
     <div class="head-middle">
-        <span class="week-circle">
-            <span>25</span>
-        </span>
-        <span class="week-circle">
-            <span>26</span>
-        </span>
-        <span class="week-circle">
-            <span>27</span>
-        </span>
-        <span class="week-circle">
-            <span>28</span>
-        </span>
-        <span class="week-circle">
-            <span>29</span>
+        <span class="week-circle" *ngFor="let item of weekdata" [ngClass]="item.cnt == 0 ?'week-circle':'error'">
+            <span>{{item.week}}</span>
         </span>
     </div>
     <div>

@@ -123,4 +123,10 @@ export class ApiService {
   viewleavedetails(id:number):Observable<any>{
     return this.http.get(this.deleteRequestUrl+id,{params:this.viewleavedetailsparams})
   }
+
+  weekDataStatusUrl:string = "http://172.16.120.39:8000/api/compliance/"
+  
+  weekDataStatus():Observable<any>{
+    return this.http.get(this.weekDataStatusUrl);
+  }
 }
