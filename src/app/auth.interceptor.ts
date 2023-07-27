@@ -5,12 +5,14 @@ import {
   HttpEvent,
   HttpInterceptor
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, finalize } from 'rxjs';
+import { FlagService } from './services/flag.service';
+
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor() {}
+  constructor(private FlagService:FlagService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const token = window.localStorage.getItem("token");
@@ -19,6 +21,11 @@ export class AuthInterceptor implements HttpInterceptor {
         Authorization : 'Bearer ' + token
       }
     });
-    return next.handle(request);
+    this.FlagService.loaderShow = true
+    return next.handle(request).pipe(
+      finalize(() => {       
+        this.FlagService.loaderShow = false;
+      })
+    );
   }
 }

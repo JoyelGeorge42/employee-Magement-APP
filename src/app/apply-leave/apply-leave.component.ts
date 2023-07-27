@@ -1,5 +1,5 @@
 import { Moment } from 'moment';
-import { ApiService } from './../api.service';
+import { ApiService } from '../services/api.service';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import jwt_decode from 'jwt-decode';

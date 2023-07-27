@@ -34,6 +34,15 @@ main{
     min-height: calc(100vh -  var(--footerHeight) - var(--headerHeight)) ;
 }
 
+app-loader{
+    position: fixed;
+    z-index: 10000;
+    top: 45vh;
+    left: 50vw;
+    bottom: 0;
+    right: 0;
+}
+
 app-footer{
     grid-area: footer;
     background-color: #161616;

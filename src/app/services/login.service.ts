@@ -31,7 +31,7 @@ export class LoginService {
     return this.isUserAuthenticated;
    }
 
-  loginApi:string = "http://172.16.120.39:8000/api/login/";
+  loginApi:string = "http://testvedika.atai.ai/api/login/";
 
   authenticateUser(data:any):Observable<any>{
     return this.httpClient.post(this.loginApi,data);

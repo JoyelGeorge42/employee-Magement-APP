@@ -10,9 +10,9 @@ export class TimesheetapiService {
   constructor(private http:HttpClient) {  
   }
 
-  weeklydataurl:string = "http://172.16.120.39:8000/api/weeklydata/";
+  weeklydataurl:string = "http://testvedika.atai.ai/api/weeklydata/";
 
-  getweeklydata():Observable<any>{
+  getweeklyData():Observable<any>{
     return this.http.get(this.weeklydataurl)
   }
 
@@ -20,7 +20,7 @@ export class TimesheetapiService {
     return this.http.post(this.weeklydataurl,bodyData)
   }
 
-  weeklystatusurl:string = "http://172.16.120.39:8000/api/weeklystatus/";
+  weeklystatusurl:string = "http://testvedika.atai.ai/api/weeklystatus/";
 
   getweeklystatus():Observable<any>{
     return this.http.get(this.weeklystatusurl);

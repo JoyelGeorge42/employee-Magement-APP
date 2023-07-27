@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { FlagService } from '../flag.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { FlagService } from '../services/flag.service';
 
 @Component({
   selector: 'app-close-project',
@@ -8,14 +8,15 @@ import { FlagService } from '../flag.service';
   styleUrls: ['./close-project.component.scss']
 })
 export class CloseProjectComponent {
-  constructor(public dialog: MatDialog,private flag:FlagService){}
+  constructor(public dialog: MatDialogRef<CloseProjectComponent>,private flag:FlagService){}
   closeall() {
-    this.dialog.closeAll();
+    this.dialog.close('Cancel');
   }
   changeflag(){
-    this.flag.buttonClicked = false;
-    this.flag.showRow = false;
+    this.flag.showRow = 4;
     this.flag.deleteProject0Dta = true;
-    this.dialog.closeAll();
+    this.dialog.close('Cleared');
   }
+
+  close:string = "Yo";
 }

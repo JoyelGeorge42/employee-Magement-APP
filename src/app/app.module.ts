@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { DecimalPipe } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -23,7 +23,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {JsonPipe} from '@angular/common';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatNativeDateModule} from '@angular/material/core';
-import { LoginService } from './login.service';
+import { LoginService } from './services/login.service';
 import { ApplyLeaveComponent } from './apply-leave/apply-leave.component';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
@@ -39,6 +39,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { CloseProjectComponent } from './close-project/close-project.component';
 import { DatePipe } from '@angular/common';
+import { LoaderComponent } from './loader/loader.component';
 
 
 @NgModule({
@@ -59,6 +60,7 @@ import { DatePipe } from '@angular/common';
     LeaveInDetailComponent,
     CancelLeaveComponent,
     CloseProjectComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -84,9 +86,13 @@ import { DatePipe } from '@angular/common';
   ],
   providers: [
     LoginService,
-    { provide: HTTP_INTERCEPTORS,
+    { 
+      provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi: true },DatePipe,
+      multi: true 
+    },
+    DatePipe,
+    DecimalPipe,
   ],
   bootstrap: [AppComponent],
 })

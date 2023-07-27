@@ -6,8 +6,9 @@ import { Injectable } from '@angular/core';
 export class FlagService {
 
   constructor() { }
+  loaderShow:boolean = false;
   buttonClicked:boolean =false;
-  showRow:boolean = false;
+  showRow:number = 4;
   buttonClicked1:boolean =false;
   showRow1:boolean = false;
   deleteProject0Dta = false;

@@ -1,5 +1,7 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
-import { LoginService } from './login.service';
+import { LoginService } from './services/login.service';
+import { FlagService } from './services/flag.service';
+
 
 @Component({
   selector: 'app-root',
@@ -9,7 +11,7 @@ import { LoginService } from './login.service';
 export class AppComponent {
   title = 'atwork';
 
-  constructor(public loginService: LoginService) {
+  constructor(public loginService: LoginService, public flagService:FlagService) {
     loginService.isUserLogined();
 }
 

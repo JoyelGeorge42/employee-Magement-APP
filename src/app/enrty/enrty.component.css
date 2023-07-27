@@ -62,6 +62,7 @@ p{
 
 td {
     position: relative;
+    cursor: default;
   }
   
 td .tooltiptext {
@@ -74,7 +75,7 @@ td .tooltiptext {
     padding: 5px 0;
     position: absolute;
     z-index: 1000;
-    bottom: -30%;
+    bottom: -20%;
     left: 10%;
     font-size: smaller;
   }
@@ -147,6 +148,7 @@ td .tooltiptext {
 }
 
 .select-btn{
+    cursor: pointer !important;
     position: absolute;
     top: 0;
     right: 0;
@@ -170,6 +172,7 @@ td .tooltiptext {
     width: 10rem;
     background-color: #c3c3c3;
     border-radius: .3rem;
+    z-index: 100;
 }
 
 .proj1{
@@ -177,9 +180,11 @@ td .tooltiptext {
     padding: 15px 15px;
     font-size: smaller;
     color: #111111;
+    cursor: pointer !important;
 }
 
 .proj1:hover{
+    cursor: pointer !important;
     background: #9b9b9b;
     border-radius: .3rem;
 }
@@ -207,6 +212,7 @@ td .tooltiptext {
 }
 
 .close-project{
+    cursor: pointer;
     position: absolute;
     left: 5%;
     top: 36%;
@@ -339,6 +345,7 @@ select{
     background-color: white;
     border: none;
     font-weight: 600;
+    cursor: pointer;
 }
 
 option{
@@ -355,6 +362,7 @@ option{
     width: 60%;
     height: 2rem;
     border-radius: .3rem;
+    cursor: default;
 }
 
 .time-container{
@@ -429,7 +437,7 @@ option{
 
 .select-btn-bottom{
     position: absolute;
-    bottom: 20%;
+    bottom: 10%;
     left: 0;
     display: flex;
     align-items: center;
@@ -441,6 +449,7 @@ option{
     padding: 4px 4px;
     border-radius: 0.8rem;
     color: white;
+    cursor: pointer;
 }
 
 
@@ -470,7 +479,7 @@ option{
 
 .general-project textarea{
     width: 50vh;
-    min-height: 82%;
+    min-height: 98%;
 }
 
 .head-text{
@@ -501,6 +510,7 @@ textarea{
     caret-color: #139b48;
     color: gray;
     font-size: medium;
+    resize: vertical;
 }
 
 textarea::placeholder{
@@ -509,12 +519,14 @@ textarea::placeholder{
 }
 
 .submit-btns button{
+    position: relative;
     padding: 1rem 2rem;
     border-radius: 1rem;
     border: 1px solid #139b48;
     background: transparent;
     color: white;
     font-size: 14px;
+    cursor: pointer;
 }
 
 .submit-btns button:hover{
@@ -567,6 +579,7 @@ textarea::placeholder{
     height: 2rem;
     border-radius: .3rem;
     font-weight: 600;
+    cursor: default;
 }
 
 .timepicker-disabled select{
@@ -576,10 +589,12 @@ textarea::placeholder{
     width: 37px;
     text-align: center;
     font-weight: 600;
+    cursor: default;
 }
 
 .timepicker-disabled input{
     background: transparent;
     color: black;
     font-weight: 600;
+    cursor: default;
 }

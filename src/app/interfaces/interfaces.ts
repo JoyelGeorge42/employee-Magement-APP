@@ -56,7 +56,7 @@ export interface IWeeklyStatusProjects{
     project_id: number,
     priority: number,
     work_report: string,
-    visibilityFlag: number
+    visibilityFlag: boolean
 }
 
 export interface IAttendance{

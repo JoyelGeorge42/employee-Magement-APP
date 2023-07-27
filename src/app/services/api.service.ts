@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class ApiService {
   constructor(private http: HttpClient) {}
 
-  reportingAPi: string = 'http://172.16.120.39:8000/api/mgr-reporters/';
+  reportingAPi: string = 'http://testvedika.atai.ai/api/mgr-reporters/';
 
   reportingparams: any = new HttpParams().set('indirect', 'true');
 
@@ -17,7 +17,7 @@ export class ApiService {
     return this.http.get(this.reportingAPi, { params: this.reportingparams });
   }
 
-  attendanceApi: string = 'http://172.16.120.39:8000/api/attendance/';
+  attendanceApi: string = 'http://testvedika.atai.ai/api/attendance/';
 
   attendanceparam: any = new HttpParams();
 
@@ -40,13 +40,13 @@ export class ApiService {
   }
 
   reportMsgUrl: string =
-    'http://172.16.120.39:8000/api/reportdatesavailability/';
+    'http://testvedika.atai.ai/api/reportdatesavailability/';
 
   unavailableReportDate(): Observable<any> {
     return this.http.get(this.reportMsgUrl);
   }
 
-  reportDownloadUrl: string = 'http://172.16.120.39:8000/api/report/';
+  reportDownloadUrl: string = 'http://testvedika.atai.ai/api/report/';
 
   reportDownload(parameters:any): Observable<any> {
 
@@ -58,7 +58,7 @@ export class ApiService {
   }
 
 
-  leaveHistoryUrl:string = "http://172.16.120.39:8000/api/leave/request/";
+  leaveHistoryUrl:string = "http://testvedika.atai.ai/api/leave/request/";
 
   leavehistoryparams = new HttpParams().set("filter","history");
 
@@ -70,7 +70,7 @@ export class ApiService {
     return this.http.get(this.leaveHistoryUrl,{params:this.leavehistoryparams});
   }
 
-  leaveBallanceUrl:string = "http://172.16.120.39:8000/api/leave/balance/";
+  leaveBallanceUrl:string = "http://testvedika.atai.ai/api/leave/balance/";
 
   getleavebalance():Observable<any>{
     return this.http.get(this.leaveBallanceUrl);
@@ -86,7 +86,7 @@ export class ApiService {
     return this.http.get(this.leaveHistoryUrl,{params:this.leavependingparams});
   }
 
-  downloadLeaveHistoryUrl = "http://172.16.120.39:8000/api/leave/export-resolved/";
+  downloadLeaveHistoryUrl = "http://testvedika.atai.ai/api/leave/export-resolved/";
 
   downloadLeaveHistory(parameters:any){
     return this.http.get(this.downloadLeaveHistoryUrl,{params:parameters,
@@ -94,25 +94,25 @@ export class ApiService {
       responseType: 'blob'})
   }
 
-  leaveTypesUrl:string="http://172.16.120.39:8000/api/leave/config/category/";
+  leaveTypesUrl:string="http://testvedika.atai.ai/api/leave/config/category/";
 
   getLeaveTypes(parameters:any):Observable<any>{  
     return this.http.get(this.leaveTypesUrl,{params:parameters});
   }
 
-  holidayUrl:string ="http://172.16.120.39:8000/api/holiday/";
+  holidayUrl:string ="http://testvedika.atai.ai/api/holiday/";
 
   getHolidays(param:any):Observable<any>{
     return this.http.get(this.holidayUrl,{params:param});
   }
 
-  postLeaveUrl:string = "http://172.16.120.39:8000/api/leave/request/";
+  postLeaveUrl:string = "http://testvedika.atai.ai/api/leave/request/";
 
   postleave(body:any):Observable<any>{
     return this.http.post(this.postLeaveUrl,body)
   }
 
-  deleteRequestUrl:string = "http://172.16.120.39:8000/api/leave/request/"
+  deleteRequestUrl:string = "http://testvedika.atai.ai/api/leave/request/"
 
   deleteRequest(id:number):Observable<any>{
     return this.http.delete(this.deleteRequestUrl+id);
@@ -124,7 +124,7 @@ export class ApiService {
     return this.http.get(this.deleteRequestUrl+id,{params:this.viewleavedetailsparams})
   }
 
-  weekDataStatusUrl:string = "http://172.16.120.39:8000/api/compliance/"
+  weekDataStatusUrl:string = "http://testvedika.atai.ai/api/compliance/"
   
   weekDataStatus():Observable<any>{
     return this.http.get(this.weekDataStatusUrl);
