@@ -104,7 +104,10 @@ input:focus {
     font-size: 13px;
 }
 
-::ng-deep {
+::ng-deep{
+    .cdk-overlay-pane{
+        background: #424242 !important;
+    }
     .mat-mdc-form-field .mat-mdc-floating-label.mdc-floating-label{
     font-size: 18px;
     }
@@ -475,13 +478,7 @@ input:focus {
         display: flex;
         align-items:flex-end ;
     }
-    .mat-mdc-select-arrow svg {
-        fill: currentColor;
-        position: absolute;
-        top: 57%;
-        left: 50%;
-        transform: translate(-50%, -25%) !important;
-    }.mdc-icon-button{
+    .mdc-icon-button{
         align-items: flex-end;
         justify-content: flex-end;
     }

@@ -21,7 +21,7 @@ export class AuthInterceptor implements HttpInterceptor {
         Authorization : 'Bearer ' + token
       }
     });
-    this.FlagService.loaderShow = true
+    this.FlagService.loaderShow = true;
     return next.handle(request).pipe(
       finalize(() => {       
         this.FlagService.loaderShow = false;

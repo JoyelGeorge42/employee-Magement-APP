@@ -1,1 +1,30 @@
-<p>holidays works!</p>
+    <div class="holiday">
+        <div class="holiday-top">
+            <div class="holiday-top-left">
+                <h2>Holiday List 2023</h2>
+            </div>
+
+        </div>
+        <div class="holiday-table">
+            <table class="holiday-table"  #myTestDiv>
+                    <thead class="table-head">
+                        <th>Date</th>
+                        <th>Occasion</th>
+                        <th>Day</th>
+                        <th>No of Days</th>
+                        <th>Net Working Hours</th>
+                        <th>Timesheet Submitted Hours</th>
+                    </thead>
+                    <div class="gap"></div>
+                    <tr *ngFor="let item of holidaylist">
+                        <td>{{item.holiday_date}}</td>
+                        <td>{{item.holiday_name}}</td>
+                        <td>{{item.holiday_date |date:'EEEE'}}</td>
+                        <td>{{item.holiday_year}}</td>
+                        <td>{{item.location_name}}</td>
+                        <td>{{item.holiday_date |date:'EEEE'}}</td>
+
+                    </tr>
+            </table>
+        </div>
+    </div>

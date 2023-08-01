@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnChanges, OnInit } from '@angular/core';
 import { LoginService } from './services/login.service';
 import { FlagService } from './services/flag.service';
 
@@ -8,12 +8,19 @@ import { FlagService } from './services/flag.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'atwork';
-
-  constructor(public loginService: LoginService, public flagService:FlagService) {
+  isShowLoader:boolean =false;
+  isSidebarHidden:boolean = false;
+  constructor(public loginService: LoginService, private flagService:FlagService,private cdRef:ChangeDetectorRef) {
     loginService.isUserLogined();
 }
+  ngOnInit(): void {
+    this.isShowLoader = this.flagService.loaderShow;
+    this.cdRef.detectChanges();
+  }
 
-
+  hideSidebar(){
+    this.isSidebarHidden = !this.isSidebarHidden;
+  }
 }

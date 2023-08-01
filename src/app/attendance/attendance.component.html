@@ -10,23 +10,16 @@
             </div>
             <div class="attendance-top-right">
                 <div class="input">
-                    <!-- <mat-form-field>
-                        <mat-label>Search</mat-label>
-                        <mat-select [(value)]="selectedvalue" [(ngModel)]="selectedvalue">
-                            <mat-option [value]="empName" >{{empName}}</mat-option>
-                            <mat-option *ngFor="let item of reporters" [value]="item.emp_name">{{item.emp_name}}</mat-option>
-                        </mat-select>
-                      </mat-form-field> -->
                       <form class="example-form">
                         <mat-form-field class="example-full-width">
                           <mat-label>Search</mat-label>
-                          <input type="text"
+                          <input matInput type="text"
                                  placeholder="Pick one"
                                  aria-label="Number"
                                  matInput
                                  [formControl]="myControl"
                                  [matAutocomplete]="auto" [value]="selectedvalue">
-                          <mat-autocomplete #auto="matAutocomplete">
+                          <mat-autocomplete #auto="matAutocomplete" class = "autocomplete-drpdwn" classlist="autocomplete-drpdwn" overlayPanelClass="autocomplete-drpdwn">
                             <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                               {{option}}
                             </mat-option>

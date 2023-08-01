@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import { TimesheetapiService } from '../services/timesheetapi.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CloseProjectComponent } from '../close-project/close-project.component';
@@ -17,7 +17,7 @@ import {
 @Component({
   selector: 'app-enrty',
   templateUrl: './enrty.component.html',
-  styleUrls: ['./enrty.component.css'],
+  styleUrls: ['./enrty.component.scss'],
 })
 export class EnrtyComponent implements OnInit {
   apiResponse: Array<IWeeklyData> = [];
@@ -27,7 +27,6 @@ export class EnrtyComponent implements OnInit {
   miscellaneous: Array<IWorkHours> = [];
   vacation: Array<IWorkHours> = [];
   activeProjects!: Array<IActiveProjects>;
-  // project0Name!: string;
   days: Array<Date> = [];
   weekNumber!: number;
   isSaveAndSubmit: boolean = true;
@@ -41,7 +40,7 @@ export class EnrtyComponent implements OnInit {
   totaltextAreaLength!: number;
 
   /*
-  * these variable is reesponsible to showing the tooltip
+  * Tooltip Flags and variuables
   */
   hourGreaterThan24: boolean = false;
   minGreaterThan24: boolean = false;
@@ -56,8 +55,8 @@ export class EnrtyComponent implements OnInit {
   left: boolean = false;
   entered1: boolean = false;
   entered: boolean = false;
-
-
+  visiblityTrueTextArea: Array<IWeeklyStatusProjects> = [];
+  visiblityFalseTextArea: Array<IWeeklyStatusProjects> = [];
   totalHoursColumn: Array<ICumulative> = [
     {
       h: 0,
@@ -93,30 +92,38 @@ export class EnrtyComponent implements OnInit {
     },
   ];
 
+  dropDownValues:Array<any>=
+  [
+    {value:0,option:'00'},
+    {value:15,option:'15'},
+    {value:30,option:'30'},
+    {value:45,option:'45'}
+  ]
+
   constructor(
     public flag: FlagService,
     private api: TimesheetapiService,
     public dialog: MatDialog,
     private datepipe: DatePipe,
     private _snackBar: MatSnackBar,
-    private _decimalPipe: DecimalPipe
-  ) { }
+    public _decimalPipe: DecimalPipe,
+    private cdref:ChangeDetectorRef
+  ) {     
+  }
 
   ngOnInit(): void {
+    this.cdref.detectChanges();
     this.settingValues();
   }
 
-  visiblityTrueTextArea: Array<IWeeklyStatusProjects> = [];
-  visiblityFalseTextArea: Array<IWeeklyStatusProjects> = [];
-
   /*
-   * this function is using to initialize the data in entry timesheet 
+   * This function is used to initialize the data in entry timesheet 
    */
   settingValues() {
+
     this.api.getweeklyData().subscribe((res) => {
       this.apiResponse = res;
       this.weeklyData = this.apiResponse[0];
-      console.log(this.weeklyData);
       this.holidayData = this.weeklyData.HOLIDAY.work_hours;
       this.miscellaneous = this.weeklyData.MISCELLANEOUS.work_hours;
       this.activeProjects = this.weeklyData.active_projects;
@@ -136,14 +143,12 @@ export class EnrtyComponent implements OnInit {
         }
       });
       this.totalPriorityLength = this.activeProjects.length + 1;
-      this.test();
+      this.hideSelect();
       this.addingAllColoumns();
     });
 
     this.api.getweeklystatus().subscribe((res) => {
       this.weeklyStatus = res;
-      console.log('Before post', this.weeklyStatus);
-
       this.generalTextAreaData = this.weeklyStatus[0].GENERAL;
       this.activeprojectData = this.weeklyStatus[0].active_projects;
 
@@ -159,10 +164,11 @@ export class EnrtyComponent implements OnInit {
       this.totaltextAreaLength =
         this.generalTextAreaData.work_report.length + totalActiveWorkReportLength;
     });
+    
   }
 
   closeSelect: boolean = false;
-
+// Calculates the total textarea datalength
   calculateLength() {
     let totalWorkReportLength = 0;
     this,
@@ -173,6 +179,7 @@ export class EnrtyComponent implements OnInit {
     this.enablingSaveangsubmit();
   }
 
+  // Calculates the total hours and minutes for row
   addingRowValue(project: Array<IWorkHours>): string {
     let totalHours = 0;
     let totalMinutes = 0;
@@ -191,6 +198,7 @@ export class EnrtyComponent implements OnInit {
     )} : ${this._decimalPipe.transform(totalMinutes, '2.')}`;
   }
 
+  // Calculates the total hours and minutes for column
   addingAllColoumns(i?: number): any {
     if (i != undefined) {
       this.addingAllColoumns()
@@ -244,7 +252,7 @@ export class EnrtyComponent implements OnInit {
     }
   }
 
-  test(index?: number) {
+  hideSelect(index?: number) {
     let count = 0;
     if (index != undefined) {
       this.inActiveProjectsList[index!].visibilityFlag = true;
@@ -261,7 +269,7 @@ export class EnrtyComponent implements OnInit {
     }
   }
 
-  isGreaterThan24(hourOrMinute: string,
+  toolTipValidator(hourOrMinute: string,
     i: number,
     arr: Array<IWorkHours>,
     column?: number,
@@ -288,7 +296,6 @@ export class EnrtyComponent implements OnInit {
       }, 2000);
     }
     if (this.addingAllColoumns(i) == 0) {
-      console.log(this.addingAllColoumns(i));
       if (hourOrMinute == 'h') {
         setTimeout(() => {
           arr[i].h = 0;
@@ -473,16 +480,18 @@ export class EnrtyComponent implements OnInit {
       wsr_date: wsrDate,
     };
     this.api.postWeeklyData(this.apiResponse).subscribe((res) => {
-      this.openSnackBar('Successfully saved the timesheet !!');
       if(res.success==true){
+        this.openSnackBar('Successfully saved the timesheet !!');
         this.AfterSave();
+
        }else{
 
        }
     });
     this.api.postWeeklystatus(postdata).subscribe((res) => {
       if(res.success==true){
-       this.AfterSave();
+        this.openSnackBar('Successfully saved the weekly status report',true);
+        this.AfterSave();
       }else{
 
       }
@@ -491,9 +500,7 @@ export class EnrtyComponent implements OnInit {
   }
 AfterSave(){
     this.api.getweeklyData().subscribe((res) => {
-      console.log("ress................",res[0].active_projects);
       this.isSaveAndSubmit = res[0].enableSaveSubmit;
-
         this.activeProjects = [];
         this.activeProjects = res[0].active_projects;
         this.inActiveProjectsList = [];
@@ -507,8 +514,6 @@ AfterSave(){
           }
       });
     });
-
-    this.openSnackBar('Successfully saved the weekly status report',true);
 }
   finalSaveData() {
     let toBePushedProjects = [];
@@ -529,10 +534,8 @@ AfterSave(){
     };
     this.api.postWeeklyData(this.apiResponse).subscribe((res) => {
       this.openSnackBar('Successfully saved the timesheet !!');
-      console.log(res);
     });
     this.api.postWeeklystatus(postdata).subscribe((res) => {
-      console.log(res);
     });
     this.api.getweeklyData().subscribe((res) => {
       this.apiResponse = res;
@@ -545,7 +548,7 @@ AfterSave(){
 
   closeDropDown: boolean = false;
 
-  test2(i?: number) {
+  hideSecondSelect(i?: number) {
     this.flag.buttonClicked1 = false;
     let count = 0;
     if (i != undefined) {
@@ -607,7 +610,7 @@ AfterSave(){
               }
             }
           });
-          this.test();
+          this.hideSelect();
         }
       });
   }

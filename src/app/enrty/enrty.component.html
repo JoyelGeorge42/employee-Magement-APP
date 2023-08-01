@@ -7,7 +7,7 @@
     <div class="timesheet-details">
         <table class="timesheet-table">
             <thead class="table-head">
-                <th>Week {{weekNumber}}</th>
+                <th style="color: rgb(195, 195, 195);">Week {{weekNumber}}</th>
                 <th class="date-day" *ngFor="let item of days">{{item | date: "dd"}}<span class="day"> {{item |
                         date:"EE"}}</span></th>
                 <th>Total</th>
@@ -26,21 +26,18 @@
                         <div class="time-container">
                             <span class="timepicker"
                                 [ngClass]="isSaveAndSubmit && daydata.enable ?'timepicker':'timepicker-disabled'"
-                                [style.color]="daydata.h ==0 || daydata.m == 0? '#727272':'black'"
+                                [style.color]="daydata.h ==0 || daydata.m == 0? '#00000061':'black'"
                                 (click)="maketooltipshow(i,1,item.priority);">
                                 <input matInput type="number" min=00 max=24 maxlength="24"
                                     [disabled]="!daydata.enable || !isSaveAndSubmit" [(ngModel)]="daydata.h"
                                     [ngModelOptions]="{updateOn: 'blur'}"
-                                    (ngModelChange)="isGreaterThan24('h',i,item.work_hours,1,item.priority);"
-                                    maxlength="2" readonly="false" [style.color]="daydata.h == 0? '#727272':'black'">
-                                :<select [disabled]="!daydata.enable || !isSaveAndSubmit" [(ngModel)]="daydata.m"
-                                    (change)="isGreaterThan24('m',i,item.work_hours,1,item.priority);"
-                                    [style.color]="daydata.m == 0? '#727272':'black'">
-                                    <option value="0">00</option>
-                                    <option value="15">15</option>
-                                    <option value="30">30</option>
-                                    <option value="45">45</option>
-                                </select>
+                                    (ngModelChange)="toolTipValidator('h',i,item.work_hours,1,item.priority);"
+                                    maxlength="2" readonly="false" [style.color]="daydata.h == 0? '#00000061':'black'">
+                                :<mat-select [class.val]="daydata.m>0 || daydata.h>0" [class.disabledlabel]="!daydata.enable || !isSaveAndSubmit" [disabled]="!daydata.enable || !isSaveAndSubmit" [(ngModel)]="daydata.m"
+                                (selectionChange)="toolTipValidator('m',i,item.work_hours,1,item.priority);"
+                                > 
+                                    <mat-option *ngFor="let options of dropDownValues" [value]="options.value">{{options.option}}</mat-option>
+                                  </mat-select>
                             </span>
                         </div>
                         <span class="tooltiptext" *ngIf="i == 0"
@@ -99,20 +96,17 @@
                         <div class="time-container">
                             <span class="timepicker" (click)="maketooltipshow(i,1,item.priority);"
                                 [ngClass]="isSaveAndSubmit && daydata.enable ?'timepicker':'timepicker-disabled'"
-                                [style.color]="daydata.h ==0 || daydata.m == 0? '#727272':'black'">
+                                [style.color]="daydata.h ==0 || daydata.m == 0? '#00000061':'black'">
                                 <input matInput type="number" min=00 max=24 maxlength="24"
                                     [disabled]="!daydata.enable || !isSaveAndSubmit" [(ngModel)]="daydata.h"
                                     [ngModelOptions]="{updateOn: 'blur'}"
-                                    (ngModelChange)="isGreaterThan24('h',i,item.work_hours,2,item.priority);"
-                                    maxlength="2" readonly="false" [style.color]="daydata.h == 0? '#727272':'black'">
-                                :<select [disabled]="!daydata.enable || !isSaveAndSubmit" [(ngModel)]="daydata.m"
-                                    (change)="isGreaterThan24('m',i,item.work_hours,1,item.priority);"
-                                    [style.color]="daydata.m == 0? '#727272':'black'">
-                                    <option value="0">00</option>
-                                    <option value="15">15</option>
-                                    <option value="30">30</option>
-                                    <option value="45">45</option>
-                                </select>
+                                    (ngModelChange)="toolTipValidator('h',i,item.work_hours,2,item.priority);"
+                                    maxlength="2" readonly="false" [style.color]="daydata.h == 0? '#00000061':'black'">
+                                :<mat-select panelClass="select-time" [class.val]="daydata.m>0 || daydata.h>0" [disabled]="!daydata.enable || !isSaveAndSubmit" [(ngModel)]="daydata.m"
+                                (selectionChange)="toolTipValidator('m',i,item.work_hours,2,item.priority)"
+                                [style.color]="daydata.m ==0 ? '#00000061':'#161616'"> 
+                                    <mat-option *ngFor="let options of dropDownValues" [value]="options.value">{{options.option}}</mat-option>
+                                  </mat-select>
                             </span>
                         </div>
                         <span class="tooltiptext" *ngIf="i == 0"
@@ -163,7 +157,7 @@
                     <div class="project-names" *ngIf="flag.buttonClicked" (click)="$event.stopPropagation()">
                         <ng-container *ngFor="let item of inActiveProjectsList;let i = index;"
                             (click)="$event.stopPropagation()">
-                            <div class="proj1" (click)="test(i); flag.buttonClicked= false"
+                            <div class="proj1" (click)="hideSelect(i); flag.buttonClicked= false"
                                 *ngIf="!item.visibilityFlag">
                                 {{item.project_name}}
                             </div>
@@ -176,20 +170,17 @@
                         <span class="timepicker"
                             [ngClass]="isSaveAndSubmit && daydata.enable ? 'timepicker':'timepicker-disabled'"
                             (click)="maketooltipshow(i,totalPriorityLength);"
-                            [style.color]="daydata.h ==0 || daydata.m == 0? '#727272':'#161616'">
+                            [style.color]="daydata.h ==0 || daydata.m == 0? '#00000061':'#161616'">
                             <input type="number" min=00 max=24 maxlength="24"
                                 [disabled]="!daydata.enable || !isSaveAndSubmit" [(ngModel)]="daydata.h"
-                                (ngModelChange)="isGreaterThan24('h',i,miscellaneous,totalPriorityLength);"
+                                (ngModelChange)="toolTipValidator('h',i,miscellaneous,totalPriorityLength);"
                                 [ngModelOptions]="{updateOn: 'blur'}"
-                                [style.color]="daydata.h == 0? '#727272':'#161616'">
-                            :<select [disabled]="!daydata.enable || !isSaveAndSubmit" [(ngModel)]="daydata.m"
-                                (change)="isGreaterThan24('m',i,miscellaneous,totalPriorityLength);"
-                                [style.color]="daydata.m ==0 ? '#727272':'#161616'">
-                                <option value="0">00</option>
-                                <option value="15">15</option>
-                                <option value="30">30</option>
-                                <option value="45">45</option>
-                            </select>
+                                [style.color]="daydata.h == 0? '#00000061':'#161616'">:
+                            <mat-select panelClass="select-time" [class.val]="daydata.m>0 || daydata.h>0" [disabled]="!daydata.enable || !isSaveAndSubmit" [(ngModel)]="daydata.m"
+                            (selectionChange)="toolTipValidator('m',i,miscellaneous,totalPriorityLength);"
+                            [style.color]="daydata.m == 0 ? '#00000061':'#161616'"> 
+                                <mat-option *ngFor="let options of dropDownValues" [value]="options.value">{{options.option}}</mat-option>
+                              </mat-select>
                         </span>
                     </div>
                     <span class="tooltiptext" *ngIf="i == 0"
@@ -202,7 +193,7 @@
                     </span>
                     <span class="tooltiptext"
                         *ngIf="numberGreaterThan24 && currentRow == i && totalPriorityLength == currentColumn"
-                        [ngClass]="numberGreaterThan24 ? 'tooltiptext1':'tooltiptext'">Number must be between 0 and
+                        [ngClass]="numberGreaterThan24 ? 'tooltiptext0':'tooltiptext'">Number must be between 0 and
                         24</span>
                     <span class="tooltiptext"
                         *ngIf="!numberGreaterThan24 && hourGreaterThan24 &&  i == currentRow && totalPriorityLength == currentColumn"
@@ -240,13 +231,10 @@
                             [style.color]="daydata.h !=0 || daydata.m != 0? '#dcd9d9':'#161616'">
                             <input type="number" min=00 max=01 [(ngModel)]=daydata.h [disabled]="!daydata.enable"
                                 [style.color]="daydata.h !=0 || daydata.m != 0? '#dcd9d9':'#161616'">
-                            :<select [disabled]="!daydata.enable" [(ngModel)]=daydata.m
-                                [style.color]="daydata.h !=0 || daydata.m != 0? '#dcd9d9':'#161616'">
-                                <option value=0>00</option>
-                                <option value=15>15</option>
-                                <option value=30>30</option>
-                                <option value=45>45</option>
-                            </select>
+                            :<mat-select panelClass="select-time"  [disabled]="!daydata.enable || !isSaveAndSubmit" [(ngModel)]="daydata.m"
+                            [style.color]="daydata.m ==0 ? '#727272 !important':'#161616 !important'"> 
+                                <mat-option *ngFor="let options of dropDownValues" [value]="options.value">{{options.option}}</mat-option>
+                              </mat-select>
                         </span>
                     </div>
                 </td>
@@ -267,20 +255,15 @@
                             [style.color]="daydata.h !=0 ? '#dcd9d9 !important':'#161616'">
                             <input type="number" min=00 max=01 [(ngModel)]=daydata.h [disabled]="!daydata.enable"
                                 [style.color]="daydata.h !=0 ? '#dcd9d9 !important':'#161616'">
-                            :<select [disabled]="!daydata.enable" [(ngModel)]="daydata.m"
-                                [style.color]="daydata.h !=0 ? '#dcd9d9 !important':'#161616'">
-                                <option value=0>00</option>
-                                <option value=15>15</option>
-                                <option value=30>30</option>
-                                <option value=45>45</option>
-                            </select>
+                            :<mat-select [class.err]="daydata.m>0 || daydata.h>0" [disabled]="!daydata.enable || !isSaveAndSubmit" [(ngModel)]="daydata.m"> 
+                                <mat-option *ngFor="let options of dropDownValues" [value]="options.value">{{options.option}}</mat-option>
+                              </mat-select>
                         </span>
                     </div>
                 </td>
                 <td>
                     <div class="time-container">
-                        <span
-                            [ngClass]="addingRowValue(vacation) != '00 : 00' ? 'timepicker-total1':'timepicker-total'">
+                        <span [ngClass]="addingRowValue(vacation) != '00 : 00' ? 'timepicker-total1':'timepicker-total'">
                             {{addingRowValue(vacation)}}
                         </span>
                     </div>
@@ -370,15 +353,17 @@
                         </div>
                     </div>
                 </ng-container>
-                <span class="select-btn-bottom" (click)="flag.buttonClicked1 = true;$event.stopPropagation()"
+                <div class="project-selctor">
+                    <span class="select-btn-bottom" (click)="flag.buttonClicked1 = true;$event.stopPropagation()"
                     *ngIf="!closeDropDown && isSaveAndSubmit">
                     <span class="circle">+</span>Select Project</span>
                 <div class="project-names-1" *ngIf="flag.buttonClicked1">
                     <ng-container *ngFor="let item of visiblityFalseTextArea; let i = index;">
-                        <div class="proj1" (click)="test2(i);$event.stopPropagation();" *ngIf="!item.visibilityFlag">
+                        <div class="proj1" (click)="hideSecondSelect(i);$event.stopPropagation();" *ngIf="!item.visibilityFlag">
                             {{item.project_name}}
                         </div>
                     </ng-container>
+                </div>
                 </div>
             </div>
             <div class="general-project" *ngIf="generalTextAreaData">

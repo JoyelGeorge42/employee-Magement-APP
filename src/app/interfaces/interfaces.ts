@@ -114,3 +114,40 @@ export interface IManagerReportersList{
     staff_no: string,
     role: number
 }
+
+export interface IHolidayList{
+    holiday_date
+    : 
+    string
+    holiday_name
+    : 
+    string
+    holiday_year
+    : 
+    number
+    location_name
+    : 
+    string
+}
+
+export interface IHolidayDetails{
+    id:number,
+    name:string,
+}
+
+export interface IPolicyList{
+    id: number,
+    policy_name: string,
+    display_name: string,
+    file_name: string,
+    enable_for: string,
+    enable_on: string,
+    expire_on: string,
+    created: string,
+    updated: string,
+    status: number,
+    policy_type: number,
+    is_policy_accepted: boolean,
+    upload_status: boolean,
+    upload_policy_document: null
+}

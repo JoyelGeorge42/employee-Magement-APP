@@ -32,19 +32,6 @@
     overflow: auto;
 }
 
-.leave-btn {
-    padding: 1.3rem 2.3rem;
-    background: transparent;
-    border: 2px solid #034003;
-    color: white;
-    font-size: small;
-    font-weight: 100;
-    border-radius: 1rem;
-}
-
-.leave-btn:hover {
-    background-color:#008800;
-}
 
 .leave-btn {
     width: 10rem;
@@ -71,7 +58,7 @@
     top: 0;
     left: -3rem;
     background-image: linear-gradient(to right,#139b48, rgba(19, 155, 72, 0.1));
-    transition: .3s ease-in-out;
+    transition: .01s .2s;
     display: block;
     z-index: -1;
 }

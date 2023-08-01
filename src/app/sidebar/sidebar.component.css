@@ -41,12 +41,25 @@
 }
 
 .main-buttons{
-    border-left: 5px solid #545454;
+    position: relative;
+    background: linear-gradient(to top, #161616, #161616), linear-gradient(to top, #545454,#333232);
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;      
     color: rgb(170, 170, 170);
     border-top-left-radius: .1rem;
     border-bottom-left-radius: .1rem;
-    padding: .5rem 0 .5rem 2rem;
+    padding: 1rem 0 1rem 2rem;
     cursor: pointer;
+}
+
+.left-border{
+    background: linear-gradient(to top, #545454,#333232);
+    width: 5px;
+    height: 2.7rem;
+    position: absolute;
+    top: 4%;
+    left: 0;
+    margin: 0;
 }
 
 .sub-buttons{
@@ -59,12 +72,28 @@
     color:white;
 }
 
-ul{
-    list-style: none;
-    padding-left: 3.5rem;
-    margin: .3rem 0;
+.active{
+    border: 0;
+    background: linear-gradient(to right,#545454,#171717);
+    color: white !important;
 }
 
-li{
-    padding: .8rem 0; 
+.active .left-border{
+    visibility: hidden;
+}
+
+ul{
+    list-style: none;
+    margin: .3rem 0;
+    padding: 0;
+}
+
+li div{
+    padding: .8rem 0 .8rem 3.5rem; 
+}
+
+
+.main-buttons:nth-child(2):hover p, 
+    .main-buttons:nth-child(3):hover p{
+    display: none;
 }

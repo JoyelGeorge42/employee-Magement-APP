@@ -1,1 +1,25 @@
-<p>policy works!</p>
+<div class="policy">
+    <div class="policy-top">
+        <div class="policy-top-left">
+            <h2>Document</h2>
+        </div>
+
+    </div>
+    <div class="policy-table">
+        <table class="policy-table"  #myTestDiv>
+                <thead class="table-head">
+                    <th>Serial No.</th>
+                    <th>Policy Name</th>
+                    <th>Updated on</th>
+                    <th>View</th>
+                </thead>
+                <div class="gap"></div>
+                <tr *ngFor="let item of policyData; let i = index;">
+                    <td>{{i + 1}}</td>
+                    <td>{{item.policy_name}}</td>
+                    <td>{{item.updated | date:'yyyy-MM-dd'}}</td>
+                    <td><img src="/assets/leaveInfo.svg" style="cursor: pointer;"></td>
+                </tr>
+        </table>
+    </div>
+</div>

@@ -4,7 +4,7 @@
     "sidebar header"
     "sidebar main"
     "sidebar footer";
-    grid-template-columns: var(--sidebarWidth) calc(100vw - var(--sidebarWidth)) ;
+    grid-template-columns: var(--sidebarWidth) calc(100vw - var(--sidebarWidth));
     grid-template-rows: var(--headerHeight) auto var(--footerHeight);
     overflow: hidden;
     max-height: 100vh;
@@ -47,4 +47,21 @@ app-footer{
     grid-area: footer;
     background-color: #161616;
     height: var(--footerHeight);
+}
+
+.hide-button{
+    background: #292929;
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 10rem;
+    outline: none;
+    border: none;
+    position: fixed;
+    top: 17%;
+    border: .1px solid gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #808080;
+    cursor: pointer;
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { param } from 'jquery';
 
 @Injectable({
   providedIn: 'root',
@@ -128,5 +129,19 @@ export class ApiService {
   
   weekDataStatus():Observable<any>{
     return this.http.get(this.weekDataStatusUrl);
+  }
+
+  getHolidayUrl:string = "http://testvedika.atai.ai/api/location-holiday-cal/"
+
+  holidayParams:HttpParams = new HttpParams().set("year",2023);
+
+  getHolidayData():Observable<any>{
+    return this.http.get(this.holidayUrl);
+  }
+
+  policyUrl:string = "http://testvedika.atai.ai/api/policy/emp-policy/";
+
+  getPolicyData():Observable<any>{
+    return this.http.get(this.policyUrl)
   }
 }

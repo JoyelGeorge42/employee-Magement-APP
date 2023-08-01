@@ -1,0 +1,104 @@
+.report {
+    padding: 1rem 5.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    height: auto;
+}
+
+.report-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.report-top-left h2 {
+    margin: 0;
+    color: #139b48;
+    font-weight: normal;
+}
+
+.report-top-right {
+    display: flex;
+    gap: .5rem;
+    align-items: flex-end;
+}
+
+.report-details {
+    width: 100%;
+    color: #545454;
+    min-height: 35rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.input-head {
+    font-size: small;
+    padding-left: 2px;
+}
+
+
+.input {
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+    color: gray;
+    position: relative;
+    width: 15rem;
+    font-size: 14px;
+
+}
+
+#datehead {
+    position: absolute;
+    top: 15%;
+}
+
+input {
+    width: 13rem;
+    background-color: inherit;
+    border: 0;
+    border-bottom: 2px solid gray;
+    appearance: none;
+    box-sizing: unset;
+    color: white;
+    font-size: medium;
+    font-size: 14px;
+
+}
+
+input:focus {
+    outline: none;
+    caret-color: green;
+}
+
+::placeholder {
+    color: white;
+}
+
+::placeholder {
+    color: white;
+}
+
+.input-area {
+    position: relative;
+}
+
+.search-icon {
+    position: absolute;
+    right: 5px;
+    color: white;
+    z-index: 0;
+}
+
+.download-image {
+    height: 2rem;
+    width: 2rem;
+}
+
+#datehead{
+    position: absolute;
+    font-size: 13px;
+}
