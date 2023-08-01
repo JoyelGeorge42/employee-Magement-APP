@@ -162,13 +162,14 @@ tr td:first-child{
     .mat-mdc-option .mdc-list-item__primary-text{
         font-size: 12px;
     }
-    .cdk-overlay-pane{
-        width: 3.5rem !important;
-    }
+    // .cdk-overlay-pane{
+    //     width: 3.5rem !important;
+    // }
     .cdk-overlay-pane:not(.mat-mdc-select-panel-above) .mdc-menu-surface.mat-mdc-select-panel{
         top: 8px;
         position: absolute;
         left: -35%;
+        width: 3.5rem !important;
     }
     .mat-mdc-option:focus:not(.mdc-list-item--disabled), .mat-mdc-option.mat-mdc-option-active, .mat-mdc-option.mdc-list-item--selected:not(.mat-mdc-option-multiple):not(.mdc-list-item--disabled){
         background: linear-gradient(to right,#4d4c4c,#1b1b1b);
@@ -551,21 +552,22 @@ option{
     display: grid;
     width: 100%;
     grid-template-areas: "leftside rightside";
-    grid-template-columns: 60% 30%;
+    grid-template-columns: 60% 36%;
     gap: 2.5rem;
+    position: relative;
 }
 
 .active-projects{
     grid-area: leftside;
     display: flex;
     flex-direction: column;
-    gap: 3rem;
+    gap: 2.5rem;
 }
 
 .project1{
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.4rem;
     position: relative;
 }
 
@@ -577,7 +579,7 @@ option{
     "textarea";
     grid-template-rows: 22px 1fr;
     gap: 1rem;
-    height: 95%;
+    height: 96%;
 }
 
 .select-btn-bottom{
@@ -627,6 +629,7 @@ option{
 }
 
 .general-project{
+    position: relative;
     width: 100%;
 }
 
@@ -636,7 +639,8 @@ option{
 }
 
 .general-project textarea{
-    width: 50vh;
+    width: 100%;
+    padding-right:0;
 }
 
 .head-text{
@@ -662,7 +666,7 @@ textarea{
     background-color: #111111;
     border: none;
     border-radius: .5rem;
-    padding: 1.2rem 1rem;
+    padding: 1.1rem 1rem;
     outline: none;
     caret-color: #139b48;
     color: gray;
